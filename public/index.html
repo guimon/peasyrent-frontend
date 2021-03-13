@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>Não some!</title>
+    <style>
+      .blue-gradient {
+        background: linear-gradient(-45deg, #3d91bf, #86D0E8);
+        background-size: 200% 200%;
+        animation: gradientBG 15s ease infinite;
+      }
+
+      .whiteish-gradient {
+        background: linear-gradient(0deg, #93e0f910, #93e0f950);
+        background-size: 100% 100%;
+      }
+
+      .green-gradient {
+        background: linear-gradient(-45deg, #3dbf91, #86E8D0);
+        background-size: 200% 200%;
+        animation: gradientBG 15s ease infinite;
+        border: 1px solid #86E8D0;
+      }
+
+      .react-calendar__navigation button:enabled:hover, .react-calendar__navigation button:enabled:focus {
+        background-color: #fff !important;
+      }
+
+      * {
+        max-width: 100%;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 0%;
+        }
+        25% {
+          background-position: 50% 0%;
+        }
+        50% {
+          background-position: 50% 50%;
+        }
+        75% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 0% 0%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to use Não Some!</noscript>
+    <div id="root"></div>
+  </body>
+</html>

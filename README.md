@@ -1,1 +1,0 @@
-# peasyrent-frontend
