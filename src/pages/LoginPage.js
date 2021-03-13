@@ -39,7 +39,9 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    setEmail(store2.get('email') || '');
+    if (store2.get('email')) {
+      setEmail(store2.get('email') || '');
+    }
   }, []);
 
   return (
