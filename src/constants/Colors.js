@@ -1,5 +1,9 @@
 export const Colors = {
-  lightBlue: '#5bb8ef',
+  ataraxiaRed: '#ff2e39',
+  greenLeaf:'#00B32D',
+  grey: '#333',
+
+  lightBlue: '#00B32D',
   lightBlueDarker: '#0078c0',
   selectedGreen: '#56C35C',
   backgroundLightGray: "#f7f7f7",

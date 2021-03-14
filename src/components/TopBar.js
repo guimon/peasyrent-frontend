@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
   },
   smallLogo: {
-    height: 25,
+    height: 40,
   },
   drawerListIcon: {
     minWidth: 32,

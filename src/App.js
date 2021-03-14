@@ -45,16 +45,12 @@ const theme = createMuiTheme({
       default: '#fafafa'
     },
     primary: {
-      light: 'rgba(94, 183, 247, 1)',
-      main: 'rgba(47, 166, 230, 1)',
-      dark: 'rgba(0, 105, 162, 1)',
+      main: '#00B32D',
       contrastText: '#fff'
     },
     secondary: {
-      light: 'rgba(251, 234, 34, 1)',
-      main: 'rgba(255,253,0,1)',
-      dark: 'rgba(211, 195, 8, 1)',
-      contrastText: 'rgba(61, 61, 61, 1)'
+      main: '#ff2e39',
+      contrastText: '#fff'
     },
     error: {
       light: '#e57373',
@@ -62,27 +58,21 @@ const theme = createMuiTheme({
       dark: '#d32f2f',
       contrastText: '#fff'
     },
-    text: {
-      primary: 'rgba(0, 0, 0, 0.95)',
-      secondary: 'rgba(0, 0, 0, 0.54)',
-      disabled: 'rgba(0, 0, 0, 0.38)',
-      hint: 'rgba(0, 0, 0, 0.38)'
-    }
   },
   overrides: {
     MuiListItem: {
       button: {
         '&:hover': {
-          backgroundColor: 'rgba(251, 234, 34, 1)',
+          backgroundColor: '#00B32D',
         },
       },
       root: {
         '&$selected': {
-          backgroundColor: 'rgba(94, 183, 247, 1)',
+          backgroundColor: '#f44336',
           color: '#fff',
 
           '&:hover': {
-            backgroundColor: 'rgba(47, 166, 230, 1)',
+            backgroundColor: '#f44336',
             color: '#fff',
           },
         }

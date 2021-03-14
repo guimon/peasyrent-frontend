@@ -15,8 +15,8 @@ const styles = theme => ({
     paddingBottom: '10vh'
   },
   logo: {
-    width: 300,
     paddingBottom: 40,
+    maxWidth: '100%',
     alignSelf: 'center'
   },
   innerGrid: {

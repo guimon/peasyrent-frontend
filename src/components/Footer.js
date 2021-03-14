@@ -24,9 +24,9 @@ function Footer() {
   const classes = useStyles();
 
   return (
-      <div className={classNames(classes.footer, 'whiteish-gradient')}>
+      <div className={classNames(classes.footer)}>
         <Typography variant="body2" color="textSecondary" align="center">
-          {'Copyright © Nao Some! 2019'}
+          {'Copyright © Ataraxia Properties! 2021'}
         </Typography>
         <Typography variant="body2" color="textSecondary" align="center">
           <RouterLink to={Routes.termsAndConditions} className={classes.bottomLink}>

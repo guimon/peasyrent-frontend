@@ -47,7 +47,7 @@ function ForgotPage() {
 
   return (
     <ReducedContainer>
-      <Typography color="primary" variant={"h6"}>
+      <Typography variant={"h6"}>
         {"Type your email to request a password recovery link in your email"}
       </Typography>
       <TextField
