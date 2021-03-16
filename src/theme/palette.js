@@ -14,7 +14,7 @@ export const ataraxia = {
   "secondary": {
     "light": "#ffb74d",
     "main": "#ff2e39",
-    "dark": "#f57c00",
+    "dark": "#cf1e29",
     "contrastText": "rgba(0, 0, 0, 0.87)"
   },
   "text": {
@@ -27,6 +27,6 @@ export const ataraxia = {
     "default": "#fff",
     "level2": "#ffffff",
     "level1": "#fff",
-    "footer": "#ff2e39",
+    "footer": "#cf1e29",
   },
 };
