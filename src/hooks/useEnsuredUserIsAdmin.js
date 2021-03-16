@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import {useHistory} from "react-router-dom";
-import Routes from "../constants/Routes";
+import Routes from "../Routes";
 import UserService from "../services/UserService";
 
 export default function useEnsuredUserIsAdmin() {

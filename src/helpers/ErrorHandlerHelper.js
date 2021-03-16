@@ -1,7 +1,7 @@
 import rollbar from "./Rollbar";
 
 import BaseService from "../services/BaseService";
-import Routes from "../constants/Routes";
+import Routes from "../Routes";
 
 const errorHandler = (error, history, flashFn, errorMessage, redirectRoute) => {
   if (error.response && error.response.status === 401) {

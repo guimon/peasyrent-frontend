@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 
 import AuthService from "../services/AuthService";
 
-import Routes from "../constants/Routes";
+import Routes from "../Routes";
 
 export default function useEnsuredLoggedOutUser() {
   const history = useHistory();
