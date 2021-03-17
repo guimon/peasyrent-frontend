@@ -28,7 +28,6 @@ const Simple = ({ children, className }) => {
 Simple.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  themeMode: PropTypes.string.isRequired,
 };
 
 export default Simple;

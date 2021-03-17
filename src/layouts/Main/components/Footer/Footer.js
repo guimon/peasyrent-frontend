@@ -13,11 +13,15 @@ import { Image } from '../../../../components/atoms';
 
 const useStyles = makeStyles(theme => ({
   root: {
+    position: 'sticky',
     padding: theme.spacing(4, 0),
     [theme.breakpoints.up('md')]: {
       padding: theme.spacing(4, 0),
     },
     background: theme.palette.background.footer,
+    '@media print': {
+      display: 'none',
+    },
   },
   footerContainer: {
     maxWidth: theme.layout.contentWidth,

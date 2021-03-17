@@ -3,6 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 import validate from 'validate.js';
 import { LearnMoreLink } from '../../../../components/atoms';
+import AuthService from "../../../../services/AuthService";
+import store2 from "store2";
+import Routes from "../../../../Routes";
+import { openSnackbar } from '../../../../components/Notifier';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,9 +23,16 @@ const schema = {
       maximum: 300,
     },
   },
+  password: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      minimum: 8,
+    },
+  },
 };
 
 const Form = () => {
+  const history = useHistory();
   const classes = useStyles();
 
   const [formState, setFormState] = React.useState({
@@ -63,7 +75,13 @@ const Form = () => {
     event.preventDefault();
 
     if (formState.isValid) {
-      window.location.replace('/');
+      let { email, password } = formState.values;
+      AuthService.login(email, password).then(response => {
+        store2.set('email', email);
+        history.push('/account');
+      }).catch(error => {
+        openSnackbar({ message: 'Login failed!', variant: 'error', timeout: 3000 });
+      });
     }
 
     setFormState(formState => ({
@@ -98,6 +116,23 @@ const Form = () => {
             />
           </Grid>
           <Grid item xs={12}>
+            <TextField
+              placeholder="Password"
+              label="Password *"
+              variant="outlined"
+              size="medium"
+              name="password"
+              fullWidth
+              helperText={
+                hasError('password') ? formState.errors.password[0] : null
+              }
+              error={hasError('password')}
+              onChange={handleChange}
+              type="password"
+              value={formState.values.password || ''}
+            />
+          </Grid>
+          <Grid item xs={12}>
             <i>
               <Typography variant="subtitle2">
                 Fields that are marked with * sign are required.
@@ -121,8 +156,11 @@ const Form = () => {
               color="textSecondary"
               align="center"
             >
-              Remember your password?{' '}
-              <LearnMoreLink title="Sign in here" href="/signin-simple" />
+              Forgot your password?{' '}
+              <LearnMoreLink
+                title="Reset password"
+                href="/password-reset"
+              />
             </Typography>
           </Grid>
         </Grid>

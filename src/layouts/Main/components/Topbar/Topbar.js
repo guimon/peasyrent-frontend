@@ -21,6 +21,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    '@media print': {
+      display: 'none',
+    },
   },
   toolbar: {
     zIndex: 999,
@@ -74,6 +77,9 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     '&:hover': {
       background: 'transparent',
+    },
+    '@media print': {
+      display: 'none',
     },
   },
   expandOpen: {

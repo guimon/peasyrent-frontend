@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Form } from './components';
-import { LearnMoreLink } from '../../components/atoms';
 import { SectionHeader } from '../../components/molecules';
 import { Section } from '../../components/organisms';
 
@@ -22,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SigninSimple = () => {
+const SignupSimple = () => {
   const classes = useStyles();
 
   return (
@@ -30,17 +29,7 @@ const SigninSimple = () => {
       <Section className={classes.section}>
         <div className={classes.formContainer}>
           <SectionHeader
-            title="Sign in"
-            subtitle={
-              <span>
-                Don’t have an account?{' '}
-                <LearnMoreLink
-                  title="Sign up."
-                  href="/signup-simple"
-                  typographyProps={{ variant: 'h6' }}
-                />
-              </span>
-            }
+            title="Sign up"
             titleProps={{
               variant: 'h3',
             }}
@@ -52,4 +41,4 @@ const SigninSimple = () => {
   );
 };
 
-export default SigninSimple;
+export default SignupSimple;

@@ -7,7 +7,12 @@ import { Topbar, Footer, Sidebar } from './components';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100%',
+    display: 'flex',
+    minHeight: '100vh',
+    flexDirection: 'column',
+  },
+  autoExpandable: {
+    flex: 1,
   },
 }));
 
@@ -51,6 +56,10 @@ const Main = ({ children }) => {
               href: '/signin',
             },
             {
+              title: 'Sign up',
+              href: '/signup',
+            },
+            {
               title: 'Reset your password',
               href: '/password-reset',
             },
@@ -85,7 +94,7 @@ const Main = ({ children }) => {
         variant="temporary"
         pages={pages}
       />
-      <main>
+      <main className={classes.autoExpandable}>
         <Divider />
         {children}
       </main>

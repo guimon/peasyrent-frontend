@@ -3,7 +3,6 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import WithLayout from './WithLayout';
 import { Main, Simple } from './layouts';
 
-
 import {
   Account as AccountView,
   CompanyTerms as CompanyTermsView,

@@ -50,7 +50,6 @@ const Topbar = ({ className, ...rest }) => {
 
 Topbar.propTypes = {
   className: PropTypes.string,
-  themeMode: PropTypes.string.isRequired,
 };
 
 export default Topbar;

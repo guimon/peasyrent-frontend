@@ -5,7 +5,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 import Routes from "../Routes";
-import Notifier from "./Notifier";
+import Notifier from "../components/Notifier";
 import classNames from "classnames";
 
 const useStyles = makeStyles({

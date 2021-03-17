@@ -22,6 +22,7 @@ function loggedIn() {
 
 function login(email, password) {
   let credentials = {
+    withCredentials: true,
     user: {
       email: email,
       password: password

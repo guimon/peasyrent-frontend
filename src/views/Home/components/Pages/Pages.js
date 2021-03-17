@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Pages = ({ themeMode = 'light', data, className, ...rest }) => {
+const Pages = ({ data, className, ...rest }) => {
   const classes = useStyles();
   return (
     <div className={className} {...rest}>
@@ -44,7 +44,7 @@ const Pages = ({ themeMode = 'light', data, className, ...rest }) => {
               <CardBase withShadow liftUp className={classes.cardBase}>
                 <>
                 <Image
-                  src={themeMode === 'light' ? item.cover : item.coverDark}
+                  src={item.cover}
                   alt={item.title}
                 />
                 <div className={classes.linkContainer}>
@@ -76,10 +76,6 @@ Pages.propTypes = {
    * data to be rendered
    */
   data: PropTypes.array.isRequired,
-  /**
-   * Current theme mode
-   */
-  themeMode: PropTypes.string,
 };
 
 export default Pages;

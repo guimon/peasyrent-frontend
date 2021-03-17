@@ -9,7 +9,7 @@ import Paper from "@material-ui/core/Paper/Paper";
 import Message from "./Message";
 import StyledButton from "./StyledButton";
 import ErrorHandlerHelper from "../helpers/ErrorHandlerHelper";
-import {openSnackbar} from "./Notifier";
+import {openSnackbar} from "../components/Notifier";
 import InviteMessageService from "../services/InviteMessageService";
 import SecondarySubtitleText from "./SecondarySubtitleText";
 import {SingleInviteContext} from "../stores/SingleInviteStore";
