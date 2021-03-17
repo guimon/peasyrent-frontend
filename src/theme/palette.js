@@ -6,13 +6,13 @@ export const ataraxia = {
   "cardShadow": "rgba(23, 70, 161, .11)",
   "type": "light",
   "primary": {
-    "main": "#00B32D",
-    "light": "#00D34D",
-    "dark": "#009310",
+    "main": "#2e39ff",
+    "light": "#4851ff",
+    "dark": "#1e29cf",
     "contrastText": "#fff"
   },
   "secondary": {
-    "light": "#ffb74d",
+    "light": "#ff4851",
     "main": "#ff2e39",
     "dark": "#cf1e29",
     "contrastText": "rgba(0, 0, 0, 0.87)"
