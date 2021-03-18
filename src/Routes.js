@@ -12,6 +12,7 @@ import {
   PasswordResetSimple as PasswordResetSimpleView,
   SigninSimple as SigninSimpleView,
   SignupSimple as SignupSimpleView,
+  PasswordResetNew,
 } from './views';
 
 const Routes = () => {
@@ -63,7 +64,18 @@ const Routes = () => {
       />
       <Route
         exact
-        path="/signin"
+        path="/user/password/edit"
+        render={matchProps => (
+          <WithLayout
+            {...matchProps}
+            component={PasswordResetNew}
+            layout={Simple}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/login"
         render={matchProps => (
           <WithLayout
             {...matchProps}

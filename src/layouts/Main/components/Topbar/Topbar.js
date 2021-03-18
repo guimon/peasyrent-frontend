@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +12,9 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Image } from '../../../../components/atoms';
+import AuthService from "../../../../services/AuthService";
+import { useHistory } from "react-router-dom";
+import RouteConstants from "../../../../RouteConstants";
 
 const useStyles = makeStyles(theme => ({
   flexGrow: {
@@ -117,7 +120,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Topbar = ({ onSidebarOpen, pages, className, ...rest }) => {
+  const [loggedIn, setLoggedIn] = useState('');
   const classes = useStyles();
+  const history = useHistory();
+
+  useEffect(() => {
+    setLoggedIn(AuthService.loggedIn());
+  }, []);
+
+  const logout = () => {
+    AuthService.logout();
+    setLoggedIn(false);
+    history.push(RouteConstants.root);
+  };
 
   return (
     <Toolbar disableGutters className={classes.toolbar} {...rest}>
@@ -134,15 +149,27 @@ const Topbar = ({ onSidebarOpen, pages, className, ...rest }) => {
       <Hidden smDown>
         <List disablePadding className={classes.navigationContainer}>
           <ListItem className={clsx(classes.listItem, 'menu-item--no-dropdown')}>
-            <Button
-              variant="contained"
-              color="primary"
-              component="a"
-              href="/signin"
-              className={classes.listItemButton}
-            >
-              Login
-            </Button>
+            {!loggedIn &&
+              <Button
+                variant="contained"
+                color="primary"
+                component="a"
+                href="/login"
+                className={classes.listItemButton}
+              >
+                Login
+              </Button>
+            }
+            {loggedIn &&
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.listItemButton}
+                onClick={logout}
+              >
+                Logout
+              </Button>
+            }
           </ListItem>
         </List>
       </Hidden>

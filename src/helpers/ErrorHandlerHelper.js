@@ -1,12 +1,12 @@
 import rollbar from "./Rollbar";
 
 import BaseService from "../services/BaseService";
-import Routes from "../Routes";
+import RouteConstants from "../RouteConstants";
 
 const errorHandler = (error, history, flashFn, errorMessage, redirectRoute) => {
   if (error.response && error.response.status === 401) {
     BaseService.deleteAuthToken();
-    history.push(Routes.login);
+    history.push(RouteConstants.login);
   } else {
     window.err = error;
 

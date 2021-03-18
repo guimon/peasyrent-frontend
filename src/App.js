@@ -11,6 +11,7 @@ import 'aos/dist/aos.css';
 import './assets/css/index.css';
 
 import Routes from "./Routes";
+import Notifier from "./components/Notifier";
 
 const browserHistory = createBrowserHistory();
 
@@ -20,6 +21,7 @@ const App = () => {
       <Router history={browserHistory}>
         <FullStory org={process.env.REACT_APP_FULLSTORY_ORG}/>
         <Routes />
+        <Notifier/>
       </Router>
     </HttpsRedirect>
   );

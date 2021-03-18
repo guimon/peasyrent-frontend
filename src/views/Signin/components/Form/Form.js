@@ -5,9 +5,9 @@ import validate from 'validate.js';
 import { LearnMoreLink } from '../../../../components/atoms';
 import AuthService from "../../../../services/AuthService";
 import store2 from "store2";
-import Routes from "../../../../Routes";
 import { openSnackbar } from '../../../../components/Notifier';
 import { useHistory } from "react-router-dom";
+import RouteConstants from "../../../../RouteConstants";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,6 +43,7 @@ const Form = () => {
   });
 
   React.useEffect(() => {
+    formState.values.email = formState.values.email || store2.get('email') || '';
     const errors = validate(formState.values, schema);
 
     setFormState(formState => ({
@@ -78,7 +79,7 @@ const Form = () => {
       let { email, password } = formState.values;
       AuthService.login(email, password).then(response => {
         store2.set('email', email);
-        history.push('/account');
+        history.push(RouteConstants.account);
       }).catch(error => {
         openSnackbar({ message: 'Login failed!', variant: 'error', timeout: 3000 });
       });

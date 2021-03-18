@@ -3,14 +3,14 @@ import {useHistory} from "react-router-dom";
 
 import AuthService from "../services/AuthService";
 
-import Routes from "../Routes";
+import RouteConstants from "../RouteConstants";
 
 export default function useEnsuredLoggedOutUser() {
   const history = useHistory();
 
   useEffect(() => {
     if (AuthService.loggedIn()) {
-      history.push(Routes.invites);
+      history.push(RouteConstants.account);
     }
   });
 }

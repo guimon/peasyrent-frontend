@@ -3,12 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 import validate from 'validate.js';
 import { LearnMoreLink } from '../../../../components/atoms';
-import store2 from "store2";
 import AuthService from "../../../../services/AuthService";
 import {openSnackbar} from "../../../../components/Notifier";
 import RouteConstants from "../../../../RouteConstants";
 import ErrorHandlerHelper from "../../../../helpers/ErrorHandlerHelper";
-import { useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
+import queryString from "query-string";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,18 +17,24 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const schema = {
-  email: {
+  password: {
     presence: { allowEmpty: false, message: 'is required' },
-    email: true,
     length: {
-      maximum: 300,
+      minimum: 8,
     },
+  },
+  confirm_password: {
+    equality: {
+      attribute: "password",
+      message: " doesn't match",
+    }
   },
 };
 
 const Form = () => {
   const history = useHistory();
   const classes = useStyles();
+  const location = useLocation();
 
   const [formState, setFormState] = React.useState({
     isValid: false,
@@ -38,7 +44,6 @@ const Form = () => {
   });
 
   React.useEffect(() => {
-    formState.values.email = formState.values.email || store2.get('email') || '';
     const errors = validate(formState.values, schema);
 
     setFormState(formState => ({
@@ -71,17 +76,17 @@ const Form = () => {
     event.preventDefault();
 
     if (formState.isValid) {
-      store2.set('email', formState.values.email);
-      AuthService.resetPassword(formState.values.email).then(() => {
-        let message = "If your email address exists in our database, you will receive a password " +
-          "recovery link at your email address in a few minutes.";
-        openSnackbar({ message: message, variant: 'success', timeout: 6000});
+      const values = queryString.parse(location.search);
+
+      AuthService.saveNewPassword(formState.values.password, values.reset_password_token).then(() => {
+        openSnackbar({ message: "New password set successfully! Please login now!",
+          variant: 'success', timeout: 3000 });
 
         setTimeout(() => {
           history.push(RouteConstants.login);
-        }, 6000);
+        }, 3000);
       }).catch(error => {
-        ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!");
+        ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
       });
     }
 
@@ -103,17 +108,36 @@ const Form = () => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              placeholder="E-mail"
-              label="E-mail *"
+              placeholder="New password"
+              label="New password"
               variant="outlined"
               size="medium"
-              name="email"
+              name="password"
               fullWidth
-              helperText={hasError('email') ? formState.errors.email[0] : null}
-              error={hasError('email')}
+              helperText={
+                hasError('password') ? formState.errors.password[0] : null
+              }
+              error={hasError('password')}
               onChange={handleChange}
-              type="email"
-              value={formState.values.email || ''}
+              type="password"
+              value={formState.values.password || ''}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              placeholder="Confirm new password"
+              label="Confirm new password"
+              variant="outlined"
+              size="medium"
+              name="confirm_password"
+              fullWidth
+              helperText={
+                hasError('confirm_password') ? formState.errors.confirm_password[0] : null
+              }
+              error={hasError('confirm_password')}
+              onChange={handleChange}
+              type="password"
+              value={formState.values.confirm_password || ''}
             />
           </Grid>
           <Grid item xs={12}>

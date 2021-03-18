@@ -53,7 +53,7 @@ const Main = ({ children }) => {
           pages: [
             {
               title: 'Login',
-              href: '/signin',
+              href: '/login',
             },
             {
               title: 'Sign up',

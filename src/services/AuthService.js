@@ -37,8 +37,6 @@ function login(email, password) {
     FullStoryAPI('identify', user.id.toString(), {
       displayName: user.name,
       email: user.email,
-      timezone: user.timezone,
-      preferred_locale: user.preferred_locale,
     });
 
     return response;

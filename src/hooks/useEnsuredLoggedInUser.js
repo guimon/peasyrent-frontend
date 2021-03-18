@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import {useHistory, useLocation} from "react-router-dom";
 
 import AuthService from "../services/AuthService";
-import Routes from "../Routes";
+import RouteConstants from "../RouteConstants";
 
 export default function useEnsuredLoggedInUser() {
   const history = useHistory();
@@ -10,7 +10,7 @@ export default function useEnsuredLoggedInUser() {
 
   useEffect(() => {
     if (!AuthService.loggedIn()) {
-      history.push(Routes.login);
+      history.push(RouteConstants.login);
     } else if ([Routes.tipsForResponding, Routes.tipsForInviting, Routes.tipsForSuccess].includes(location.pathname)) {
       // let it go
     }

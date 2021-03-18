@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import {useHistory} from "react-router-dom";
-import Routes from "../Routes";
+import RouteConstants from "../RouteConstants";
 import UserService from "../services/UserService";
 
 export default function useEnsuredUserIsAdmin() {
@@ -8,7 +8,7 @@ export default function useEnsuredUserIsAdmin() {
 
   useEffect(() => {
     if (!UserService.getUser() || !UserService.getUser().is_admin) {
-      history.push(Routes.invites);
+      history.push(RouteConstants.account);
     }
   });
 }
