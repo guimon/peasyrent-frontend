@@ -75,11 +75,11 @@ const Form = () => {
       AuthService.resetPassword(formState.values.email).then(() => {
         let message = "If your email address exists in our database, you will receive a password " +
           "recovery link at your email address in a few minutes.";
-        openSnackbar({ message: message, variant: 'success', timeout: 6000});
-
+        store2.set('email', formState.values.email);
+        openSnackbar({ message: message, variant: 'success', timeout: 4000});
         setTimeout(() => {
           history.push(RouteConstants.login);
-        }, 6000);
+        }, 4000);
       }).catch(error => {
         ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!");
       });
