@@ -5,6 +5,7 @@ import { Grid, Button } from '@material-ui/core';
 import { Image } from '../../../../components/atoms';
 import { SectionHeader } from '../../../../components/molecules';
 import { Section } from '../../../../components/organisms';
+import RouteConstants from "../../../../RouteConstants";
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -34,14 +35,18 @@ const SellProperty = props => {
                   Want to Sell Property?
                 </span>
               }
-              titleVariant="h3"
               subtitle={
                 <span className={classes.textWhite}>
                   We buy multi-family residential units, even fixer uppers.
                 </span>
               }
               ctaGroup={[
-                <Button variant="contained" size="large">
+                <Button
+                  variant="contained"
+                  size="large"
+                  component="a"
+                  href={RouteConstants.contact}
+                >
                   Contact us
                 </Button>,
               ]}

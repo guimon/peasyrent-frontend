@@ -79,7 +79,16 @@ const Form = () => {
       let { email, password } = formState.values;
       AuthService.login(email, password).then(response => {
         store2.set('email', email);
-        history.push(RouteConstants.account);
+        if (response.data.data.attributes.is_admin) {
+          console.log('admin');
+          history.push(RouteConstants.account);
+        } else if (response.data.data.attributes.is_renter) {
+          console.log('renter');
+          history.push(RouteConstants.account);
+        } else {
+          console.log('owner');
+          history.push(RouteConstants.account);
+        }
       }).catch(error => {
         openSnackbar({ message: 'Login failed!', variant: 'error', timeout: 3000 });
       });

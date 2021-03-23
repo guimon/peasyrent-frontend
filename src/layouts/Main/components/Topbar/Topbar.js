@@ -154,7 +154,7 @@ const Topbar = ({ onSidebarOpen, pages, className, ...rest }) => {
                 variant="contained"
                 color="primary"
                 component="a"
-                href="/login"
+                href={RouteConstants.login}
                 className={classes.listItemButton}
               >
                 Login

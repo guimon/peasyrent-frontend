@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useMediaQuery, Divider } from '@material-ui/core';
 import { Topbar, Footer, Sidebar } from './components';
+import AuthService from "../../services/AuthService";
+import RouteConstants from "../../RouteConstants";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,55 +26,59 @@ const Main = ({ children }) => {
     defaultMatches: true,
   });
 
-  const pages = {
-    pages: {
-      title: 'Pages',
-      id: 'supported-old_pages',
-      children: {
-        company: {
-          groupTitle: 'Company',
-          pages: [
-            {
-              title: 'Terms and Conditions',
-              href: '/company-terms',
-            },
-            {
-              title: 'Contact',
-              href: '/contact',
-            },
-          ],
+  const getPages = () => {
+    return {
+      pages: {
+        title: 'Pages',
+        id: 'supported-old_pages',
+        children: {
+          company: {
+            groupTitle: 'Company',
+            pages: [
+              {
+                title: 'Terms and Conditions',
+                href: RouteConstants.terms,
+              },
+              {
+                title: 'Contact Us',
+                href: RouteConstants.contact,
+              },
+            ],
+          },
         },
       },
-    },
-    account: {
-      title: 'Account',
-      id: 'account',
-      children: {
-        account: {
-          groupTitle: 'Account',
-          pages: [
-            {
-              title: 'Login',
-              href: '/login',
-            },
-            {
-              title: 'Sign up',
-              href: '/signup',
-            },
-            {
-              title: 'Reset your password',
-              href: '/password-reset',
-            },
-          ],
+      account: {
+        title: 'Account',
+        id: 'account',
+        children: {
+          account: {
+            groupTitle: 'Account',
+            pages: [
+              {
+                title: AuthService.loggedIn() ? 'Logout' : 'Login',
+                href: AuthService.loggedIn() ? RouteConstants.logout : RouteConstants.login,
+              },
+              {
+                title: 'Sign up',
+                href: RouteConstants.signup,
+              },
+              {
+                title: 'Reset your password',
+                href: RouteConstants.resetPassword,
+              },
+            ],
+          },
         },
       },
-    },
+    };
   };
 
   const [openSidebar, setOpenSidebar] = useState(false);
+  const [pages, setPages] = useState(getPages());
 
   const handleSidebarOpen = () => {
     setOpenSidebar(true);
+    setPages(getPages());
   };
 
   const handleSidebarClose = () => {
