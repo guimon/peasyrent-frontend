@@ -12,6 +12,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     minHeight: '100vh',
     flexDirection: 'column',
+    backgroundColor: theme.palette.alternate.main,
   },
   autoExpandable: {
     flex: 1,
@@ -100,8 +101,8 @@ const Main = ({ children }) => {
         variant="temporary"
         pages={pages}
       />
+      <Divider />
       <main className={classes.autoExpandable}>
-        <Divider />
         {children}
       </main>
       <Footer pages={pages} />

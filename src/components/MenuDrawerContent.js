@@ -9,7 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 
-import Routes from "../Routes";
+import RouteConstants from "../RouteConstants";
 
 const useStyles = makeStyles({
   drawerListIcon: {
@@ -54,8 +54,8 @@ function MenuDrawerContent(){
 
   return (
       <List>
-        {buildListItem(Routes.dashboard, <DashboardIcon />, 'Dashboard')}
-        {buildListItem(Routes.logout, <ExitToAppIcon />, 'Logout')}
+        {buildListItem(RouteConstants.dashboard, <DashboardIcon />, 'Dashboard')}
+        {buildListItem(RouteConstants.logout, <ExitToAppIcon />, 'Logout')}
       </List>
   )
 }

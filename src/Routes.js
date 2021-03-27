@@ -13,14 +13,16 @@ import {
   SigninSimple as SigninSimpleView,
   SignupSimple as SignupSimpleView,
   PasswordResetNew,
+  Dashboard,
 } from './views';
+import RouteConstants from "./RouteConstants";
 
 const Routes = () => {
   return (
     <Switch>
       <Route
         exact
-        path="/"
+        path={RouteConstants.root}
         render={matchProps => (
           <WithLayout
             {...matchProps}
@@ -31,7 +33,7 @@ const Routes = () => {
       />
       <Route
         exact
-        path="/company-terms"
+        path={RouteConstants.terms}
         render={matchProps => (
           <WithLayout
             {...matchProps}
@@ -42,7 +44,7 @@ const Routes = () => {
       />
       <Route
         exact
-        path="/contact"
+        path={RouteConstants.contact}
         render={matchProps => (
           <WithLayout
             {...matchProps}
@@ -53,7 +55,7 @@ const Routes = () => {
       />
       <Route
         exact
-        path="/password-reset"
+        path={RouteConstants.resetPassword}
         render={matchProps => (
           <WithLayout
             {...matchProps}
@@ -64,7 +66,7 @@ const Routes = () => {
       />
       <Route
         exact
-        path="/user/password/edit"
+        path={RouteConstants.resetPasswordNew}
         render={matchProps => (
           <WithLayout
             {...matchProps}
@@ -75,7 +77,7 @@ const Routes = () => {
       />
       <Route
         exact
-        path="/login"
+        path={RouteConstants.login}
         render={matchProps => (
           <WithLayout
             {...matchProps}
@@ -86,7 +88,7 @@ const Routes = () => {
       />
       <Route
         exact
-        path="/signup"
+        path={RouteConstants.signup}
         render={matchProps => (
           <WithLayout
             {...matchProps}
@@ -97,7 +99,7 @@ const Routes = () => {
       />
       <Route
         exact
-        path="/account"
+        path={RouteConstants.account}
         render={matchProps => (
           <WithLayout
             {...matchProps}
@@ -108,7 +110,18 @@ const Routes = () => {
       />
       <Route
         exact
-        path="/not-found"
+        path={RouteConstants.dashboard}
+        render={matchProps => (
+          <WithLayout
+            {...matchProps}
+            component={Dashboard}
+            layout={Main}
+          />
+        )}
+      />
+      <Route
+        exact
+        path={RouteConstants.notFound}
         render={matchProps => (
           <WithLayout
             {...matchProps}
@@ -117,7 +130,7 @@ const Routes = () => {
           />
         )}
       />
-      <Redirect to="/not-found" />
+      <Redirect to={RouteConstants.notFound} />
     </Switch>
   );
 };

@@ -10,7 +10,7 @@ export default function useEnsuredLoggedOutUser() {
 
   useEffect(() => {
     if (AuthService.loggedIn()) {
-      history.push(RouteConstants.account);
+      history.push(RouteConstants.dashboard);
     }
   });
 }

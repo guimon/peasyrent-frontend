@@ -6,7 +6,7 @@ import {Hidden, Typography, useTheme} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 
 import MainContainer from "./MainContainer";
-import MenuDrawerContent from "./MenuDrawerContent";
+import MenuDrawerContent from "../components/MenuDrawerContent";
 
 const useStyles = makeStyles(theme => ({
   innerGrid: {

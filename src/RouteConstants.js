@@ -9,6 +9,8 @@ export const RouteConstants = {
   account: '/account',
   admin: '/admin',
   notFound: '/not-found',
+  dashboard: '/dashboard',
+  logout: '/logout',
 };
 
 export default RouteConstants;

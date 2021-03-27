@@ -1,6 +1,6 @@
 export const ataraxia = {
   "alternate": {
-    "main": "rgb(247, 249, 250)",
+    "main": "#f7f9fa",
     "dark": "#e8eaf6",
   },
   "cardShadow": "rgba(23, 70, 161, .11)",

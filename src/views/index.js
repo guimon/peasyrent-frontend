@@ -5,5 +5,6 @@ export { default as PasswordResetSimple } from './PasswordReset';
 export { default as SigninSimple } from './Signin';
 export { default as SignupSimple } from './Signup';
 export { default as Account } from './Account';
+export { default as Dashboard } from './Dashboard';
 export { default as NotFound } from './NotFound';
 export { default as PasswordResetNew } from './PasswordResetNew';
