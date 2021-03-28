@@ -5,7 +5,7 @@ const getTheme = () => responsiveFontSizes(
   createMuiTheme({
     palette: ataraxia,
     layout: {
-      contentWidth: 1236,
+      contentWidth: 1600,
     },
     typography: {
       fontFamily: 'Lato',

@@ -7,8 +7,8 @@ export const ataraxia = {
   "type": "light",
   "primary": {
     "main": "#2e39ff",
-    "light": "#4851ff",
-    "dark": "#1e29cf",
+    "light": "#3269ff",
+    "dark": "#1a25e0",
     "contrastText": "#fff"
   },
   "secondary": {

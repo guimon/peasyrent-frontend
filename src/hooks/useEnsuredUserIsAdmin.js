@@ -8,7 +8,7 @@ export default function useEnsuredUserIsAdmin() {
 
   useEffect(() => {
     if (!UserService.getUser() || !UserService.getUser().is_admin) {
-      history.push(RouteConstants.account);
+      history.push(RouteConstants.dashboard);
     }
   });
 }

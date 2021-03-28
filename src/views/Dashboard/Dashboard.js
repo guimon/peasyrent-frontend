@@ -2,10 +2,11 @@ import React from 'react';
 import clsx from 'clsx';
 import { parse } from 'query-string';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, List, ListItem, Grid, Typography, TextField } from '@material-ui/core';
+import { Box, List, ListItem, Grid, Typography } from '@material-ui/core';
 import { SectionAlternate, CardBase } from '../../components/organisms';
-import { Hero, General, Security, Notifications, Billing } from './components';
+import { Hero, Properties } from './components';
 import Uploader from "../../components/Uploader";
+import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,14 +63,24 @@ const useStyles = makeStyles(theme => ({
 
 const subPages = [
   {
-    id: 'Main',
+    id: 'dashboard',
     href: '/dashboard',
-    title: 'Main',
+    title: 'Dashboard',
   },
   {
     id: 'properties',
     href: '/dashboard/?pid=properties',
     title: 'Properties',
+  },
+  {
+    id: 'maintenance',
+    href: '/dashboard/?pid=maintenance',
+    title: 'Maintenance',
+  },
+  {
+    id: 'billing',
+    href: '/dashboard/?pid=billing',
+    title: 'Billing',
   },
   {
     id: 'leases',
@@ -83,10 +94,6 @@ const subPages = [
   },
 ];
 
-const handleUpload = (e) => {
-  let file = e.target.files[0];
-}
-
 const TabPanel = props => {
   const { children, value, index, ...other } = props;
 
@@ -98,8 +105,9 @@ const TabPanel = props => {
 };
 
 const Dashboard = (props = {}) => {
+  useEnsuredLoggedInUser();
   const classes = useStyles();
-  let pageId = parse(window.location.search).pid || 'main';
+  let pageId = parse(window.location.search).pid || 'dashboard';
 
   return (
     <div className={classes.root}>
@@ -135,11 +143,22 @@ const Dashboard = (props = {}) => {
           </Grid>
           <Grid item xs={12} md={9}>
             <CardBase withShadow align="left">
-              <TabPanel value={pageId} index={'main'}>
-               <Uploader/>
+              <TabPanel value={pageId} index={'dashboard'}>
+                Open maintenance requests...
+                <br/>
+                Late payments...
+                <br/>
+                Ending leases...
+                <Uploader/>
               </TabPanel>
               <TabPanel value={pageId} index={'properties'}>
-                "properties"
+                <Properties />
+              </TabPanel>
+              <TabPanel value={pageId} index={'maintenance'}>
+                "maintenance"
+              </TabPanel>
+              <TabPanel value={pageId} index={'billing'}>
+                "billing"
               </TabPanel>
               <TabPanel value={pageId} index={'leases'}>
                 "leases"

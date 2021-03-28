@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const General = props => {
+const PropertiesForm = props => {
   const { className, ...rest } = props;
   const classes = useStyles();
 
@@ -31,7 +31,7 @@ const General = props => {
       <Grid container spacing={isMd ? 4 : 2}>
         <Grid item xs={12}>
           <Typography variant="h6" color="textPrimary">
-            Basic Information
+            Properties
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -157,11 +157,11 @@ const General = props => {
   );
 };
 
-General.propTypes = {
+PropertiesForm.propTypes = {
   /**
    * External classes
    */
   className: PropTypes.string,
 };
 
-export default General;
+export default PropertiesForm;

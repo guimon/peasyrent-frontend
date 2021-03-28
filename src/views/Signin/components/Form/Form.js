@@ -81,13 +81,13 @@ const Form = () => {
         store2.set('email', email);
         if (response.data.data.attributes.is_admin) {
           console.log('admin');
-          history.push(RouteConstants.account);
+          history.push(RouteConstants.dashboard);
         } else if (response.data.data.attributes.is_renter) {
           console.log('renter');
-          history.push(RouteConstants.account);
+          history.push(RouteConstants.dashboard);
         } else {
           console.log('owner');
-          history.push(RouteConstants.account);
+          history.push(RouteConstants.dashboard);
         }
       }).catch(error => {
         openSnackbar({ message: 'Login failed!', variant: 'error', timeout: 3000 });
