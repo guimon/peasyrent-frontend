@@ -149,7 +149,6 @@ const Dashboard = (props = {}) => {
                 Late payments...
                 <br/>
                 Ending leases...
-                <Uploader/>
               </TabPanel>
               <TabPanel value={pageId} index={'properties'}>
                 <Properties />
