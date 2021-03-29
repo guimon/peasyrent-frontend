@@ -130,7 +130,7 @@ const FeaturedProperties = props => {
                         <ListItemIcon className={classes.listItemIcon}>
                           <NoSsr><i className="fas fa-home"/></NoSsr>
                         </ListItemIcon>
-                        <ListItemText primary={item.size}/>
+                        <ListItemText primary={`${item.square_footage} sq ft`}/>
                       </ListItem>
                     </List>
                   </Grid>
