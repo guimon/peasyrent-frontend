@@ -5,8 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, List, ListItem, Grid, Typography } from '@material-ui/core';
 import { SectionAlternate, CardBase } from '../../components/organisms';
 import { Hero, Properties } from './components';
-import Uploader from "../../components/Uploader";
 import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
+import PropertyStore from "../../stores/PropertyStore";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -151,7 +151,9 @@ const Dashboard = (props = {}) => {
                 Ending leases...
               </TabPanel>
               <TabPanel value={pageId} index={'properties'}>
-                <Properties />
+                <PropertyStore vacant_only={false}>
+                  <Properties />
+                </PropertyStore>
               </TabPanel>
               <TabPanel value={pageId} index={'maintenance'}>
                 "maintenance"

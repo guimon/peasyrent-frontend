@@ -7,8 +7,6 @@ export const PropertyService = {
 
 export default PropertyService;
 
-function index() {
-  return axios.get(Base.apiLocation() + "/properties", Base.getFullHeaders());
+function index(vacant_only) {
+  return axios.get(Base.apiLocation() + "/properties?vacant_only=" + vacant_only, Base.getFullHeaders());
 }
-
-

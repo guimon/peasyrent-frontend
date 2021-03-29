@@ -1,17 +1,17 @@
 import React from 'react';
-import { Divider } from '@material-ui/core';
-import { SectionAlternate } from '../../components/organisms';
+import { Divider, Box } from '@material-ui/core';
 import { Hero, FeaturedProperties, SellProperty } from './components';
-import {featuredProperties} from "./data";
+import PropertyStore from "../../stores/PropertyStore";
 
 const Home = () => {
   return (
     <div>
       <Hero />
+      <Box m={4} />
       <Divider />
-      <SectionAlternate>
-        <FeaturedProperties data={featuredProperties} />
-      </SectionAlternate>
+      <PropertyStore vacant_only={true}>
+        <FeaturedProperties />
+      </PropertyStore>
       <SellProperty />
     </div>
   );

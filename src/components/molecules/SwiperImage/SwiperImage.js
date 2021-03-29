@@ -97,8 +97,8 @@ const SwiperImage = props => {
             key={index}
           >
             <Image
-              src={item.src}
-              alt={item.alt}
+              src={item.src || item.url}
+              alt={item.alt || item.description}
               srcSet={item.srcSet}
               lazyProps={{ width: '100%', height: '100%' }}
               className={clsx(

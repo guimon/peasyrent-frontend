@@ -18,11 +18,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SellProperty = props => {
-  const { className, ...rest } = props;
+  const { ...rest } = props;
   const classes = useStyles();
 
   return (
-    <div className={className} {...rest}>
+    <div {...rest}>
       <Grid container className={classes.grid}>
         <Grid item xs={12} md={6} data-aos="fade-up">
           <Image src="/building3.png" lazy={false} />

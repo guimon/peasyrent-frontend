@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import {
@@ -14,7 +14,7 @@ import {
   Paper,
 } from '@material-ui/core';
 import WidthFixer from "../../../../components/WidthFixer";
-import PropertyService from "../../../../services/PropertyService";
+import {PropertyContext} from "../../../../stores/PropertyStore";
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -40,19 +40,9 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, address, status, leasedUntil) {
-  return { name, address, status, leasedUntil };
-}
-
-const rows = [
-  createData('100 W Spring', '100 W Spring st, Marietta, OH', 'Leased', '05/01/21'),
-  createData('50 E Spring', '50 E Spring, Marietta, OH', 'Leased', '12/01/21'),
-  createData('75 S Main', '75 S Main, Williamstown, WV', 'Vacant', '-'),
-];
-
 const Properties = props => {
-  const [image, setImage] = useState();
-  PropertyService.index().then(response => { setImage(response.data.data[0].attributes.images[0].url); });
+  const { properties } = useContext(PropertyContext);
+
   const { className, ...rest } = props;
   const classes = useStyles();
 
@@ -81,14 +71,14 @@ const Properties = props => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
+                {properties.map((row) => (
+                  <StyledTableRow key={row.id}>
                     <StyledTableCell component="th" scope="row">
                       {row.name}
                     </StyledTableCell>
                     <StyledTableCell>{row.address}</StyledTableCell>
                     <StyledTableCell>{row.status}</StyledTableCell>
-                    <StyledTableCell>{row.leasedUntil}</StyledTableCell>
+                    <StyledTableCell>{row.leased_until}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

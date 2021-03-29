@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -15,7 +15,8 @@ import {
   List,
 } from '@material-ui/core';
 import { SectionHeader, SwiperImage } from '../../../../components/molecules';
-import { CardProduct } from '../../../../components/organisms';
+import {CardProduct, SectionAlternate} from '../../../../components/organisms';
+import {PropertyContext} from "../../../../stores/PropertyStore";
 
 const useStyles = makeStyles(theme => ({
   swiperNavButton: {
@@ -62,7 +63,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const FeaturedProperties = props => {
-  const { data, className, ...rest } = props;
+  const { ...rest } = props;
+  const { properties } = useContext(PropertyContext);
+
   const classes = useStyles();
 
   const theme = useTheme();
@@ -70,101 +73,110 @@ const FeaturedProperties = props => {
     defaultMatches: true,
   });
 
-  return (
-    <div className={className} {...rest}>
-      <SectionHeader
-        title="Available properties"
-        subtitle="Contact us to schedule a showing. We'll be happy to walk you through our properties."
-        data-aos="fade-up"
-      />
-      <Grid container spacing={isMd ? 4 : 2}>
-        {data.map((item, index) => (
-          <Grid key={index} item xs={12} sm={12} md={4} data-aos="fade-up">
-            <CardProduct
-              withShadow
-              liftUp
-              mediaContent={
-                <>
-                  <SwiperImage
-                    navigationButtonStyle={classes.swiperNavButton}
-                    items={item.images}
-                    imageClassName={classes.image}
-                  />
-                  <div className={classes.locationCardPrice}>
-                    <Typography
-                      variant="body1"
-                      color="primary"
-                      className={classes.fontWeight700}
-                    >
-                      {item.price}
-                    </Typography>
-                  </div>
-                </>
-              }
-              cardContent={
-                <Grid container spacing={1}>
-                  <List disablePadding>
-                    <ListItem disableGutters>
-                      <ListItemIcon className={classes.listItemIcon}>
-                        <NoSsr>
-                          <i
-                            className={clsx('fas fa-map-marker-alt', classes.pin)}
-                          />
-                        </NoSsr>
-                      </ListItemIcon>
-                      <ListItemText primary={item.location} />
-                    </ListItem>
-                  </List>
+  const renderProperties = () => (
+    <Grid container spacing={isMd ? 4 : 2}>
+      {properties.map((item) => (
+        <Grid key={item.id} item xs={12} sm={12} md={4} data-aos="fade-up">
+          <CardProduct
+            withShadow
+            liftUp
+            mediaContent={
+              <>
+                <SwiperImage
+                  navigationButtonStyle={classes.swiperNavButton}
+                  items={item.images}
+                  imageClassName={classes.image}
+                />
+                <div className={classes.locationCardPrice}>
                   <Typography
-                    color="textPrimary"
-                    variant="subtitle1"
-                    className={classes.fontWeight500}
+                    variant="body1"
+                    color="primary"
+                    className={classes.fontWeight700}
                   >
-                    {item.address}
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(item.price / 100.0)}
                   </Typography>
-                  <Divider className={classes.divider} />
-                  <Grid container>
-                    <Grid item xs={6}>
-                      <List disablePadding>
-                        <ListItem disableGutters className={classes.listItem}>
-                          <ListItemIcon className={classes.listItemIcon}>
-                            <NoSsr><i className="fas fa-home" /></NoSsr>
-                          </ListItemIcon>
-                          <ListItemText primary={item.size} />
-                        </ListItem>
-                      </List>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <List disablePadding className={classes.propertyList}>
-                        <ListItem disableGutters className={classes.listItem}>
-                          <ListItemIcon className={classes.listItemIcon}>
-                            <NoSsr><i className="fas fa-parking" /></NoSsr>
-                          </ListItemIcon>
-                          <ListItemText primary={item.garages} />
-                        </ListItem>
-                        <ListItem disableGutters className={classes.listItem}>
-                          <ListItemIcon className={classes.listItemIcon}>
-                            <NoSsr><i className="fas fa-bath" /></NoSsr>
-                          </ListItemIcon>
-                          <ListItemText primary={item.baths} />
-                        </ListItem>
-                        <ListItem disableGutters className={classes.listItem}>
-                          <ListItemIcon className={classes.listItemIcon}>
-                            <NoSsr><i className="fas fa-door-open" /></NoSsr>
-                          </ListItemIcon>
-                          <ListItemText primary={item.rooms} />
-                        </ListItem>
-                      </List>
-                    </Grid>
+                </div>
+              </>
+            }
+            cardContent={
+              <Grid container spacing={1}>
+                <List disablePadding>
+                  <ListItem disableGutters>
+                    <ListItemIcon className={classes.listItemIcon}>
+                      <NoSsr>
+                        <i
+                          className={clsx('fas fa-map-marker-alt', classes.pin)}
+                        />
+                      </NoSsr>
+                    </ListItemIcon>
+                    <ListItemText primary={item.location}/>
+                  </ListItem>
+                </List>
+                <Typography
+                  color="textPrimary"
+                  variant="subtitle1"
+                  className={classes.fontWeight500}
+                >
+                  {item.address}
+                </Typography>
+                <Divider className={classes.divider}/>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <List disablePadding>
+                      <ListItem disableGutters className={classes.listItem}>
+                        <ListItemIcon className={classes.listItemIcon}>
+                          <NoSsr><i className="fas fa-home"/></NoSsr>
+                        </ListItemIcon>
+                        <ListItemText primary={item.size}/>
+                      </ListItem>
+                    </List>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <List disablePadding className={classes.propertyList}>
+                      <ListItem disableGutters className={classes.listItem}>
+                        <ListItemIcon className={classes.listItemIcon}>
+                          <NoSsr><i className="fas fa-parking"/></NoSsr>
+                        </ListItemIcon>
+                        <ListItemText primary={item.parking_spots}/>
+                      </ListItem>
+                      <ListItem disableGutters className={classes.listItem}>
+                        <ListItemIcon className={classes.listItemIcon}>
+                          <NoSsr><i className="fas fa-bath"/></NoSsr>
+                        </ListItemIcon>
+                        <ListItemText primary={item.baths}/>
+                      </ListItem>
+                      <ListItem disableGutters className={classes.listItem}>
+                        <ListItemIcon className={classes.listItemIcon}>
+                          <NoSsr><i className="fas fa-door-open"/></NoSsr>
+                        </ListItemIcon>
+                        <ListItemText primary={item.beds}/>
+                      </ListItem>
+                    </List>
                   </Grid>
                 </Grid>
-              }
-            />
-          </Grid>
-        ))}
-      </Grid>
-    </div>
+              </Grid>
+            }
+          />
+        </Grid>
+      ))}
+    </Grid>
   );
+
+  return properties.length > 0 ?
+      <SectionAlternate>
+        <div {...rest}>
+          <SectionHeader
+            title="Available properties"
+            subtitle="Contact us to schedule a showing. We'll be happy to walk you through our properties."
+            data-aos="fade-up"
+          />
+          {renderProperties()}
+        </div>
+      </SectionAlternate>
+    : null ;
 };
 
 FeaturedProperties.propTypes = {
@@ -172,10 +184,6 @@ FeaturedProperties.propTypes = {
    * External classes
    */
   className: PropTypes.string,
-  /**
-   * data to be rendered
-   */
-  data: PropTypes.array.isRequired,
 };
 
 export default FeaturedProperties;
