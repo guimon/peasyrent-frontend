@@ -7,6 +7,9 @@ import { SectionAlternate, CardBase } from '../../components/organisms';
 import { Hero, Properties } from './components';
 import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
 import PropertyStore from "../../stores/PropertyStore";
+import RouteConstants from "../../RouteConstants";
+import AuthService from "../../services/AuthService";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -64,32 +67,33 @@ const useStyles = makeStyles(theme => ({
 const subPages = [
   {
     id: 'dashboard',
-    href: '/dashboard',
+    group: 'dashboard',
+    href: RouteConstants.dashboard,
     title: 'Dashboard',
   },
   {
     id: 'properties',
-    href: '/dashboard/?pid=properties',
+    href: RouteConstants.properties,
     title: 'Properties',
   },
   {
     id: 'maintenance',
-    href: '/dashboard/?pid=maintenance',
+    href: RouteConstants.maintenance,
     title: 'Maintenance',
   },
   {
     id: 'billing',
-    href: '/dashboard/?pid=billing',
+    href: RouteConstants.billing,
     title: 'Billing',
   },
   {
     id: 'leases',
-    href: '/dashboard/?pid=leases',
+    href: RouteConstants.leases,
     title: 'Leases',
   },
   {
     id: 'renters',
-    href: '/dashboard/?pid=renters',
+    href: RouteConstants.renters,
     title: 'Renters',
   },
 ];
@@ -104,10 +108,18 @@ const TabPanel = props => {
   );
 };
 
+
 const Dashboard = (props = {}) => {
   useEnsuredLoggedInUser();
   const classes = useStyles();
+  const history = useHistory();
   let pageId = parse(window.location.search).pid || 'dashboard';
+  let groupId = parse(window.location.search).gid || pageId;
+
+  const logout = () => {
+    AuthService.logout();
+    history.push(RouteConstants.root);
+  };
 
   return (
     <div className={classes.root}>
@@ -119,12 +131,13 @@ const Dashboard = (props = {}) => {
               <List disablePadding className={classes.list}>
                 {subPages.map((item, index) => (
                   <ListItem
+                    button
                     key={index}
                     component={'a'}
                     href={item.href}
                     className={clsx(
                       classes.listItem,
-                      pageId === item.id ? classes.listItemActive : {},
+                      groupId === item.id ? classes.listItemActive : {},
                     )}
                     disableGutters
                   >
@@ -138,6 +151,24 @@ const Dashboard = (props = {}) => {
                     </Typography>
                   </ListItem>
                 ))}
+                <ListItem
+                  key={"logout"}
+                  className={clsx(
+                    classes.listItem
+                  )}
+                  button
+                  onClick={logout}
+                  disableGutters
+                >
+                  <Typography
+                    variant="subtitle1"
+                    noWrap
+                    color="textSecondary"
+                    className="menu__item"
+                  >
+                    Logout
+                  </Typography>
+                </ListItem>
               </List>
             </CardBase>
           </Grid>
@@ -153,6 +184,11 @@ const Dashboard = (props = {}) => {
               <TabPanel value={pageId} index={'properties'}>
                 <PropertyStore vacant_only={false}>
                   <Properties />
+                </PropertyStore>
+              </TabPanel>
+              <TabPanel value={pageId} index={'add_property'}>
+                <PropertyStore vacant_only={false}>
+                  Add property!
                 </PropertyStore>
               </TabPanel>
               <TabPanel value={pageId} index={'maintenance'}>

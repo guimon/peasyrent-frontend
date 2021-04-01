@@ -12,9 +12,12 @@ import {
   TableCell,
   TableBody,
   Paper,
+  Button,
+  Box,
 } from '@material-ui/core';
 import WidthFixer from "../../../../components/WidthFixer";
 import {PropertyContext} from "../../../../stores/PropertyStore";
+import RouteConstants from "../../../../RouteConstants";
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -84,6 +87,17 @@ const Properties = props => {
               </TableBody>
             </Table>
           </TableContainer>
+
+          <Box marginTop={4}>
+            <Button
+              variant="contained"
+              color="primary"
+              component="a"
+              href={RouteConstants.addProperty}
+            >
+              Add property
+            </Button>
+          </Box>
         </Grid>
       </Grid>
     </div>

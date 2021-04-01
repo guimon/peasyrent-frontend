@@ -10,6 +10,12 @@ export const RouteConstants = {
   admin: '/admin',
   notFound: '/not-found',
   dashboard: '/dashboard',
+  properties: '/dashboard/?pid=properties',
+  addProperty: '/dashboard/?pid=add_property&gid=properties',
+  maintenance: '/dashboard/?pid=maintenance',
+  billing: '/dashboard/?pid=billing',
+  leases: '/dashboard/?pid=leases',
+  renters: '/dashboard/?pid=renters',
   logout: '/logout',
 };
 

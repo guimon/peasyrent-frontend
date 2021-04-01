@@ -13,7 +13,6 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import { Image } from '../../../../components/atoms';
 import AuthService from "../../../../services/AuthService";
-import { useHistory } from "react-router-dom";
 import RouteConstants from "../../../../RouteConstants";
 
 const useStyles = makeStyles(theme => ({
@@ -122,17 +121,10 @@ const useStyles = makeStyles(theme => ({
 const Topbar = ({ onSidebarOpen, pages, className, ...rest }) => {
   const [loggedIn, setLoggedIn] = useState('');
   const classes = useStyles();
-  const history = useHistory();
 
   useEffect(() => {
     setLoggedIn(AuthService.loggedIn());
   }, []);
-
-  const logout = () => {
-    AuthService.logout();
-    setLoggedIn(false);
-    history.push(RouteConstants.root);
-  };
 
   return (
     <Toolbar disableGutters className={classes.toolbar} {...rest}>
@@ -158,16 +150,6 @@ const Topbar = ({ onSidebarOpen, pages, className, ...rest }) => {
                 className={classes.listItemButton}
               >
                 Login
-              </Button>
-            }
-            {loggedIn &&
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.listItemButton}
-                onClick={logout}
-              >
-                Logout
               </Button>
             }
           </ListItem>
