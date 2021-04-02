@@ -13,6 +13,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import { Image } from '../../../../components/atoms';
 import AuthService from "../../../../services/AuthService";
+import { useHistory, useLocation } from "react-router-dom";
 import RouteConstants from "../../../../RouteConstants";
 
 const useStyles = makeStyles(theme => ({
@@ -121,6 +122,8 @@ const useStyles = makeStyles(theme => ({
 const Topbar = ({ onSidebarOpen, pages, className, ...rest }) => {
   const [loggedIn, setLoggedIn] = useState('');
   const classes = useStyles();
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     setLoggedIn(AuthService.loggedIn());
@@ -150,6 +153,16 @@ const Topbar = ({ onSidebarOpen, pages, className, ...rest }) => {
                 className={classes.listItemButton}
               >
                 Login
+              </Button>
+            }
+            {loggedIn && location.pathname === RouteConstants.root &&
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.listItemButton}
+                onClick={() => history.push(RouteConstants.dashboard)}
+              >
+                Dashboard
               </Button>
             }
           </ListItem>

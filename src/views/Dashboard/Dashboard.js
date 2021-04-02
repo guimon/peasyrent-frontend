@@ -4,12 +4,12 @@ import { parse } from 'query-string';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, List, ListItem, Grid, Typography } from '@material-ui/core';
 import { SectionAlternate, CardBase } from '../../components/organisms';
-import { Hero, Properties } from './components';
+import { Hero, Properties, PropertiesForm } from './components';
 import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
 import PropertyStore from "../../stores/PropertyStore";
 import RouteConstants from "../../RouteConstants";
 import AuthService from "../../services/AuthService";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -132,9 +132,8 @@ const Dashboard = (props = {}) => {
                 {subPages.map((item, index) => (
                   <ListItem
                     button
+                    onClick={() => history.push(item.href)}
                     key={index}
-                    component={'a'}
-                    href={item.href}
                     className={clsx(
                       classes.listItem,
                       groupId === item.id ? classes.listItemActive : {},
@@ -153,9 +152,7 @@ const Dashboard = (props = {}) => {
                 ))}
                 <ListItem
                   key={"logout"}
-                  className={clsx(
-                    classes.listItem
-                  )}
+                  className={classes.listItem}
                   button
                   onClick={logout}
                   disableGutters
@@ -188,7 +185,12 @@ const Dashboard = (props = {}) => {
               </TabPanel>
               <TabPanel value={pageId} index={'add_property'}>
                 <PropertyStore vacant_only={false}>
-                  Add property!
+                 <PropertiesForm/>
+                </PropertyStore>
+              </TabPanel>
+              <TabPanel value={pageId} index={'edit_property'}>
+                <PropertyStore vacant_only={false}>
+                  <PropertiesForm/>
                 </PropertyStore>
               </TabPanel>
               <TabPanel value={pageId} index={'maintenance'}>

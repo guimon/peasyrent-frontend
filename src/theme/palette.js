@@ -17,12 +17,6 @@ export const ataraxia = {
     "dark": "#cf1e29",
     "contrastText": "rgba(0, 0, 0, 0.87)"
   },
-  "tertiary": {
-    "light": "#ff4851",
-    "main": "#ffcb3e",
-    "dark": "#cf1e29",
-    "contrastText": "rgba(0, 0, 0, 0.87)"
-  },
   "text": {
     "primary": "#2d3748",
     "secondary": "#718096",

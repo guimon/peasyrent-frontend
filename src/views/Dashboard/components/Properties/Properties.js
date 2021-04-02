@@ -18,6 +18,7 @@ import {
 import WidthFixer from "../../../../components/WidthFixer";
 import {PropertyContext} from "../../../../stores/PropertyStore";
 import RouteConstants from "../../../../RouteConstants";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -45,6 +46,7 @@ const StyledTableRow = withStyles((theme) => ({
 
 const Properties = props => {
   const { properties } = useContext(PropertyContext);
+  const history = useHistory();
 
   const { className, ...rest } = props;
   const classes = useStyles();
@@ -66,7 +68,7 @@ const Properties = props => {
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
-                <TableRow>
+                <TableRow >
                   <StyledTableCell>Name</StyledTableCell>
                   <StyledTableCell>Address</StyledTableCell>
                   <StyledTableCell>Status</StyledTableCell>
@@ -75,7 +77,7 @@ const Properties = props => {
               </TableHead>
               <TableBody>
                 {properties.map((row) => (
-                  <StyledTableRow key={row.id}>
+                  <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editProperty, {property: row})}>
                     <StyledTableCell component="th" scope="row">
                       {row.name}
                     </StyledTableCell>
@@ -92,8 +94,7 @@ const Properties = props => {
             <Button
               variant="contained"
               color="primary"
-              component="a"
-              href={RouteConstants.addProperty}
+              onClick={() => history.push(RouteConstants.addProperty)}
             >
               Add property
             </Button>
