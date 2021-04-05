@@ -17,7 +17,17 @@ export default function PropertyStore(props) {
     }).catch(error => { ErrorHandlerHelper(error, history) });
   }, [vacant_only, history]);
 
-  const store = { properties };
+  const deleteProperty = (id, openSnackbar) => {
+    PropertyService.deleteProperty(id).then(response => {
+      let index = properties.findIndex(p => p.id === id);
+      setProperties(state => state.splice(index, 1));
+      openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
+    }).catch(error => {
+      ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
+    });
+  };
+
+  const store = { properties, deleteProperty };
 
   return <PropertyContext.Provider value={store}>{properties && children}</PropertyContext.Provider>
 }

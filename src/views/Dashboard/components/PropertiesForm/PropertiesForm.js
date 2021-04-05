@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
   useMediaQuery,
   Grid,
   Typography,
-  TextField,
   Button,
   Divider,
   Box,
@@ -14,8 +13,12 @@ import {
   Select,
   InputAdornment
 } from '@material-ui/core';
-import {useLocation, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import RouteConstants from "../../../../RouteConstants";
+import FieldLabel from "../../../../components/FieldLabel";
+import FieldText from "../../../../components/FieldText";
+import {SinglePropertyContext} from "../../../../stores/SinglePropertyStore";
+import {openSnackbar} from "../../../../components/Notifier";
 
 const useStyles = makeStyles(theme => ({
   inputTitle: {
@@ -30,15 +33,51 @@ const useStyles = makeStyles(theme => ({
 const PropertiesForm = props => {
   const { className, ...rest } = props;
   const classes = useStyles();
-  const location = useLocation();
-  const property = location.state ? location.state.property : null;
-  console.log(property);
+  const { property, saveProperty, updateProperty } = useContext(SinglePropertyContext);
+
+  const [name, setName] = useState(property.name || '');
+  const [streetAddress, setStreetAddress] = useState(property.street_address || '');
+  const [addressComplement, setAddressComplement] = useState(property.address_complement || '');
+  const [city, setCity] = useState(property.city || '');
+  const [state, setState] = useState(property.state || '');
+  const [zipCode, setZipCode] = useState(property.zip_code || '');
+  const [beds, setBeds] = useState(property.beds || 0);
+  const [baths, setBaths] = useState(property.baths || 0);
+  const [squareFootage, setSquareFootage] = useState(property.square_footage || 0);
+  const [parkingSpots, setParkingSpots] = useState(property.parking_spots || 0);
+  const [price, setPrice] = useState(property.price || 0);
+  const [description, setDescription] = useState(property.description || '');
+
   const history = useHistory();
 
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up('md'), {
     defaultMatches: true,
   });
+
+  const updatePropertyWithState = () => {
+    property.name = name;
+    property.street_address = streetAddress;
+    property.address_complement = addressComplement;
+    property.city = city;
+    property.state = state;
+    property.zip_code = zipCode;
+    property.beds = beds;
+    property.baths = baths;
+    property.square_footage = squareFootage;
+    property.parking_spots = parkingSpots;
+    property.price = price;
+    property.description = description;
+  };
+
+  const save = () => {
+    updatePropertyWithState();
+    if (property.id) {
+      updateProperty(property, openSnackbar);
+    } else {
+      saveProperty(property, openSnackbar);
+    }
+  };
 
   return (
     <div className={className} {...rest}>
@@ -50,85 +89,55 @@ const PropertiesForm = props => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Typography
-            variant="subtitle1"
-            color="textPrimary"
-            className={classes.inputTitle}
-          >
-            Name
-          </Typography>
-          <TextField
+          <FieldLabel label={"Name"}/>
+          <FieldText
             placeholder="Nickname for this property"
-            variant="outlined"
-            size="medium"
             name="name"
-            fullWidth
             type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </Grid>
         <Grid item xs={12}>
           <Divider />
         </Grid>
         <Grid item xs={12} sm={9}>
-          <Typography
-            variant="subtitle1"
-            color="textPrimary"
-            className={classes.inputTitle}
-          >
-            Street address
-          </Typography>
-          <TextField
+          <FieldLabel label={"Street address"}/>
+          <FieldText
             placeholder="Street address"
-            variant="outlined"
-            size="medium"
-            name="address"
-            fullWidth
+            name="street_address"
             type="text"
+            value={streetAddress}
+            onChange={(e) => setStreetAddress(e.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={3}>
-          <Typography
-            variant="subtitle1"
-            color="textPrimary"
-            className={classes.inputTitle}
-          >
-            Complement
-          </Typography>
-          <TextField
+          <FieldLabel label={"Complement"}/>
+          <FieldText
             placeholder="Complement"
-            variant="outlined"
-            size="medium"
             name="address_complement"
-            fullWidth
+            value={addressComplement}
+            onChange={(e) => setAddressComplement(e.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={5}>
-          <Typography
-            variant="subtitle1"
-            color="textPrimary"
-            className={classes.inputTitle}
-          >
-            City
-          </Typography>
-          <TextField
-            variant="outlined"
+          <FieldLabel label={"City"}/>
+          <FieldText
             placeholder="City"
-            size="medium"
             name="city"
-            fullWidth
             type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Typography
-            variant="subtitle1"
-            color="textPrimary"
-            className={classes.inputTitle}
-          >
-            State
-          </Typography>
+          <FieldLabel label={"State"}/>
           <FormControl variant="outlined" className={classes.formControl} >
-            <Select value={""}  placeholder="State">
+            <Select
+              placeholder="State"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+            >
               <MenuItem value="AL">Alabama</MenuItem>
               <MenuItem value="AK">Alaska</MenuItem>
               <MenuItem value="AZ">Arizona</MenuItem>
@@ -184,111 +193,83 @@ const PropertiesForm = props => {
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={3}>
-          <Typography
-            variant="subtitle1"
-            color="textPrimary"
-            className={classes.inputTitle}
-          >
-            Zip code
-          </Typography>
-          <TextField
+          <FieldLabel label={"Zip Code"}/>
+          <FieldText
             placeholder="Zip code"
-            variant="outlined"
-            size="medium"
             name="zip_code"
-            fullWidth
             type="text"
+            value={zipCode}
+            onChange={(e) => setZipCode(e.target.value)}
           />
         </Grid>
         <Grid item xs={12}>
           <Divider />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Typography
-            variant="subtitle1"
-            color="textPrimary"
-            className={classes.inputTitle}
-          >
-            Beds
-          </Typography>
-          <TextField
+          <FieldLabel label={"Beds"}/>
+          <FieldText
             placeholder="# of beds"
-            variant="outlined"
-            size="medium"
             name="beds"
-            fullWidth
             type="number"
+            value={beds}
+            onChange={(e) => setBeds(e.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Typography
-            variant="subtitle1"
-            color="textPrimary"
-            className={classes.inputTitle}
-          >
-            Baths
-          </Typography>
-          <TextField
+          <FieldLabel label={"Baths"}/>
+          <FieldText
             placeholder="# of baths"
-            variant="outlined"
-            size="medium"
             name="baths"
-            fullWidth
             type="number"
+            value={baths}
+            onChange={(e) => setBaths(e.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Typography
-            variant="subtitle1"
-            color="textPrimary"
-            className={classes.inputTitle}
-          >
-            Parking spots
-          </Typography>
-          <TextField
+          <FieldLabel label={"Parking spots"}/>
+          <FieldText
             placeholder="# of parking spots"
-            variant="outlined"
-            size="medium"
             name="parking_spots"
-            fullWidth
             type="number"
+            value={parkingSpots}
+            onChange={(e) => setParkingSpots(e.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Typography
-            variant="subtitle1"
-            color="textPrimary"
-            className={classes.inputTitle}
-          >
-            Square feet
-          </Typography>
-          <TextField
+          <FieldLabel label={"Square feet"}/>
+          <FieldText
             placeholder="634"
-            variant="outlined"
-            size="medium"
-            name="parking_spots"
-            fullWidth
+            name="square_footage"
             type="number"
+            value={squareFootage}
+            onChange={(e) => setSquareFootage(e.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Typography
-            variant="subtitle1"
-            color="textPrimary"
-            className={classes.inputTitle}
-          >
-            Price / month
-          </Typography>
-          <TextField
-            placeholder="$800"
-            variant="outlined"
-            size="medium"
+          <FieldLabel label={"Price / Month"}/>
+          <FieldText
+            placeholder="800"
             name="price"
-            fullWidth
-            type="number"
+            value={price/100.0}
+            onChange={(e) => setPrice(e.target.value*100)}
             InputProps={{
               startAdornment: <InputAdornment position="start">$</InputAdornment>,
             }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Divider />
+        </Grid>
+        <Grid item xs={12}>
+          <FieldLabel label={"Description"}/>
+          <FieldText
+            placeholder="Describe the property"
+            name="description"
+            type="text"
+            rows={4}
+            multiline={true}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </Grid>
         <Grid item container justify="flex-start" xs={12}>
@@ -309,6 +290,7 @@ const PropertiesForm = props => {
               type="submit"
               color="primary"
               size="large"
+              onClick={() => save()}
             >
               save
             </Button>

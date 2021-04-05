@@ -77,7 +77,7 @@ const Properties = props => {
               </TableHead>
               <TableBody>
                 {properties.map((row) => (
-                  <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editProperty, {property: row})}>
+                  <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editProperty + row.id)}>
                     <StyledTableCell component="th" scope="row">
                       {row.name}
                     </StyledTableCell>

@@ -10,6 +10,7 @@ import PropertyStore from "../../stores/PropertyStore";
 import RouteConstants from "../../RouteConstants";
 import AuthService from "../../services/AuthService";
 import {useHistory} from "react-router-dom";
+import SinglePropertyStore from "../../stores/SinglePropertyStore";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -115,6 +116,7 @@ const Dashboard = (props = {}) => {
   const history = useHistory();
   let pageId = parse(window.location.search).pid || 'dashboard';
   let groupId = parse(window.location.search).gid || pageId;
+  let objectId = parse(window.location.search).id;
 
   const logout = () => {
     AuthService.logout();
@@ -184,14 +186,14 @@ const Dashboard = (props = {}) => {
                 </PropertyStore>
               </TabPanel>
               <TabPanel value={pageId} index={'add_property'}>
-                <PropertyStore vacant_only={false}>
+                <SinglePropertyStore>
                  <PropertiesForm/>
-                </PropertyStore>
+                </SinglePropertyStore>
               </TabPanel>
               <TabPanel value={pageId} index={'edit_property'}>
-                <PropertyStore vacant_only={false}>
+                <SinglePropertyStore id={objectId}>
                   <PropertiesForm/>
-                </PropertyStore>
+                </SinglePropertyStore>
               </TabPanel>
               <TabPanel value={pageId} index={'maintenance'}>
                 "maintenance"

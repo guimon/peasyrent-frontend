@@ -12,7 +12,7 @@ export const RouteConstants = {
   dashboard: '/dashboard',
   properties: '/dashboard/?pid=properties',
   addProperty: '/dashboard/?pid=add_property&gid=properties',
-  editProperty: '/dashboard/?pid=edit_property&gid=properties',
+  editProperty: '/dashboard/?pid=edit_property&gid=properties&id=',
   maintenance: '/dashboard/?pid=maintenance',
   billing: '/dashboard/?pid=billing',
   leases: '/dashboard/?pid=leases',
