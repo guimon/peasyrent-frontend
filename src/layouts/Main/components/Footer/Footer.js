@@ -98,16 +98,14 @@ const Footer = props => {
 
   const classes = useStyles();
 
-  const accountPages = pages.account;
-  const publicPages = pages.pages;
-
   const MenuGroup = props => {
     const { item } = props;
+    console.log(item);
     return (
       <List disablePadding className={classes.menuItem}>
         <ListItem disableGutters className={classes.menuGroupItem}>
           <Typography variant="body2" className={classes.menuGroupTitle}>
-            {item.groupTitle}
+            {item.title}
           </Typography>
         </ListItem>
         {item.pages.map((page, i) => (
@@ -125,29 +123,6 @@ const Footer = props => {
       </List>
     );
   };
-
-  const PublicPages = () => {
-    const { company } = publicPages.children;
-    return (
-      <div className={classes.menu}>
-        <div>
-          <MenuGroup item={company} />
-        </div>
-      </div>
-    );
-  };
-
-  const AccountPages = () => {
-    const { account } = accountPages.children;
-    return (
-      <div className={classes.menu}>
-        <div>
-          <MenuGroup item={account} />
-        </div>
-      </div>
-    );
-  };
-
 
   return (
     <div {...rest} className={clsx(classes.root, className)}>
@@ -171,12 +146,15 @@ const Footer = props => {
           </Grid>
           <Grid item xs={12} md={10} className={classes.menuListContainer}>
             <Grid container spacing={0}>
-              <Grid item>
-                <PublicPages />
-              </Grid>
-              <Grid item>
-                <AccountPages />
-              </Grid>
+              {pages.map((page, i) => (
+                <Grid item key={`pagegroup${i}`}>
+                  <div className={classes.menu}>
+                    <div>
+                      <MenuGroup item={page} />
+                    </div>
+                  </div>
+                </Grid>
+              ))}
             </Grid>
           </Grid>
         </Grid>
@@ -187,7 +165,7 @@ const Footer = props => {
 
 Footer.propTypes = {
   className: PropTypes.string,
-  pages: PropTypes.object.isRequired,
+  pages: PropTypes.array.isRequired,
 };
 
 export default Footer;

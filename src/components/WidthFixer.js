@@ -1,5 +1,5 @@
 import React from 'react'
-import {makeStyles} from "@material-ui/core";
+import {Hidden, makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   noSelect: {
@@ -10,9 +10,11 @@ const useStyles = makeStyles(theme => ({
 function WidthFixer(){
   const classes = useStyles();
   return (
+    <Hidden smDown>
       <span className={classes.noSelect}>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </span>
+    </Hidden>
   )
 }
 

@@ -56,9 +56,6 @@ const SidebarNav = props => {
   const { pages, onClose, className, ...rest } = props;
   const classes = useStyles();
 
-  const accountPages = pages.account;
-  const publicPages = pages.pages;
-
   const MenuGroup = props => {
     const { item } = props;
     return (
@@ -69,7 +66,7 @@ const SidebarNav = props => {
             color="primary"
             className={classes.menuGroupTitle}
           >
-            {item.groupTitle}
+            {item.title}
           </Typography>
         </ListItem>
         {item.pages.map((page, i) => (
@@ -90,28 +87,6 @@ const SidebarNav = props => {
     );
   };
 
-  const PublicPages = () => {
-    const { company } = publicPages.children;
-    return (
-      <div className={classes.menu}>
-        <div>
-          <MenuGroup item={company} />
-        </div>
-      </div>
-    );
-  };
-
-  const AccountPages = () => {
-    const { account } = accountPages.children;
-    return (
-      <div className={classes.menu}>
-        <div>
-          <MenuGroup item={account} />
-        </div>
-      </div>
-    );
-  };
-
   return (
     <List {...rest} className={clsx(classes.root, className)}>
       <ListItem className={classes.closeIcon} onClick={() => onClose()}>
@@ -119,22 +94,27 @@ const SidebarNav = props => {
           <CloseIcon fontSize="small" />
         </ListItemIcon>
       </ListItem>
-      <ListItem className={classes.listItem}>
-        <PublicPages />
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <Divider className={classes.divider} />
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <AccountPages />
-      </ListItem>
+      { pages.map((page) => (
+        <>
+        <ListItem className={classes.listItem}>
+          <div className={classes.menu}>
+            <div>
+              <MenuGroup item={page} />
+            </div>
+          </div>
+        </ListItem>
+        <ListItem className={classes.listItem}>
+          <Divider className={classes.divider} />
+        </ListItem>
+      </>
+      ))}
     </List>
   );
 };
 
 SidebarNav.propTypes = {
   className: PropTypes.string,
-  pages: PropTypes.object.isRequired,
+  pages: PropTypes.array.isRequired,
   onClose: PropTypes.func,
 };
 

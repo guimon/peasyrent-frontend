@@ -119,7 +119,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Topbar = ({ onSidebarOpen, pages, className, ...rest }) => {
+const Topbar = ({ onSidebarOpen, className, ...rest }) => {
   const [loggedIn, setLoggedIn] = useState('');
   const classes = useStyles();
   const history = useHistory();
@@ -184,7 +184,6 @@ const Topbar = ({ onSidebarOpen, pages, className, ...rest }) => {
 Topbar.propTypes = {
   className: PropTypes.string,
   onSidebarOpen: PropTypes.func,
-  pages: PropTypes.object.isRequired,
 };
 
 export default Topbar;

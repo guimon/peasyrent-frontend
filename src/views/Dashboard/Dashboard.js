@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { parse } from 'query-string';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, List, ListItem, Grid, Typography } from '@material-ui/core';
+import {Box, List, ListItem, Grid, Typography, Hidden} from '@material-ui/core';
 import { SectionAlternate, CardBase } from '../../components/organisms';
 import { Hero, Properties, PropertiesForm } from './components';
 import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const subPages = [
+export const subPages = [
   {
     id: 'dashboard',
     group: 'dashboard',
@@ -128,18 +128,36 @@ const Dashboard = (props = {}) => {
       <Hero />
       <SectionAlternate className={classes.section}>
         <Grid container spacing={4}>
-          <Grid item xs={12} md={3}>
-            <CardBase withShadow align="left" className={classes.menu}>
-              <List disablePadding className={classes.list}>
-                {subPages.map((item, index) => (
+          <Hidden smDown>
+            <Grid item xs={12} md={3}>
+              <CardBase withShadow align="left" className={classes.menu}>
+                <List disablePadding className={classes.list}>
+                  {subPages.map((item, index) => (
+                    <ListItem
+                      button
+                      onClick={() => history.push(item.href)}
+                      key={index}
+                      className={clsx(
+                        classes.listItem,
+                        groupId === item.id ? classes.listItemActive : {},
+                      )}
+                      disableGutters
+                    >
+                      <Typography
+                        variant="subtitle1"
+                        noWrap
+                        color="textSecondary"
+                        className="menu__item"
+                      >
+                        {item.title}
+                      </Typography>
+                    </ListItem>
+                  ))}
                   <ListItem
+                    key={"logout"}
+                    className={classes.listItem}
                     button
-                    onClick={() => history.push(item.href)}
-                    key={index}
-                    className={clsx(
-                      classes.listItem,
-                      groupId === item.id ? classes.listItemActive : {},
-                    )}
+                    onClick={logout}
                     disableGutters
                   >
                     <Typography
@@ -148,29 +166,13 @@ const Dashboard = (props = {}) => {
                       color="textSecondary"
                       className="menu__item"
                     >
-                      {item.title}
+                      Logout
                     </Typography>
                   </ListItem>
-                ))}
-                <ListItem
-                  key={"logout"}
-                  className={classes.listItem}
-                  button
-                  onClick={logout}
-                  disableGutters
-                >
-                  <Typography
-                    variant="subtitle1"
-                    noWrap
-                    color="textSecondary"
-                    className="menu__item"
-                  >
-                    Logout
-                  </Typography>
-                </ListItem>
-              </List>
-            </CardBase>
-          </Grid>
+                </List>
+              </CardBase>
+            </Grid>
+          </Hidden>
           <Grid item xs={12} md={9}>
             <CardBase withShadow align="left">
               <TabPanel value={pageId} index={'dashboard'}>

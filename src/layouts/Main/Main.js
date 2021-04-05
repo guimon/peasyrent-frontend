@@ -6,6 +6,7 @@ import { useMediaQuery, Divider } from '@material-ui/core';
 import { Topbar, Footer, Sidebar } from './components';
 import AuthService from "../../services/AuthService";
 import RouteConstants from "../../RouteConstants";
+import {subPages as dasboardSubPages} from "../../views/Dashboard/Dashboard";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,50 +29,45 @@ const Main = ({ children }) => {
   });
 
   const getPages = () => {
-    return {
-      pages: {
-        title: 'Pages',
-        id: 'supported-old_pages',
-        children: {
-          company: {
-            groupTitle: 'Company',
-            pages: [
-              {
-                title: 'Terms and Conditions',
-                href: RouteConstants.terms,
-              },
-              {
-                title: 'Contact Us',
-                href: RouteConstants.contact,
-              },
-            ],
-          },
-        },
-      },
-      account: {
+    return [
+      {
         title: 'Account',
         id: 'account',
-        children: {
-          account: {
-            groupTitle: 'Account',
-            pages: [
-              {
-                title: AuthService.loggedIn() ? 'Logout' : 'Login',
-                href: AuthService.loggedIn() ? RouteConstants.logout : RouteConstants.login,
-              },
-              {
-                title: 'Sign up',
-                href: RouteConstants.signup,
-              },
-              {
-                title: 'Reset your password',
-                href: RouteConstants.resetPassword,
-              },
-            ],
+        pages: [
+          {
+            title: AuthService.loggedIn() ? 'Logout' : 'Login',
+            href: AuthService.loggedIn() ? RouteConstants.logout : RouteConstants.login,
           },
-        },
+          {
+            title: 'Sign up',
+            href: RouteConstants.signup,
+          },
+          {
+            title: 'Reset your password',
+            href: RouteConstants.resetPassword,
+          },
+        ],
       },
-    };
+      {
+        title: 'Product',
+        id: 'product',
+        pages: dasboardSubPages,
+      },
+      {
+        title: 'Company',
+        id: 'company',
+        pages: [
+          {
+            title: 'Terms and Conditions',
+            href: RouteConstants.terms,
+          },
+          {
+            title: 'Contact Us',
+            href: RouteConstants.contact,
+          },
+        ],
+      },
+    ]
   };
 
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -94,7 +90,7 @@ const Main = ({ children }) => {
         [classes.root]: true,
       })}
     >
-      <Topbar onSidebarOpen={handleSidebarOpen} pages={pages} />
+      <Topbar onSidebarOpen={handleSidebarOpen} />
       <Sidebar
         onClose={handleSidebarClose}
         open={open}

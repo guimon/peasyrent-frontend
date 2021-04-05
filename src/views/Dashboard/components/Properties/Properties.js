@@ -13,7 +13,7 @@ import {
   TableBody,
   Paper,
   Button,
-  Box,
+  Box, Hidden,
 } from '@material-ui/core';
 import WidthFixer from "../../../../components/WidthFixer";
 import {PropertyContext} from "../../../../stores/PropertyStore";
@@ -70,7 +70,9 @@ const Properties = props => {
               <TableHead>
                 <TableRow >
                   <StyledTableCell>Name</StyledTableCell>
-                  <StyledTableCell>Address</StyledTableCell>
+                  <Hidden smDown>
+                    <StyledTableCell>Address</StyledTableCell>
+                  </Hidden>
                   <StyledTableCell>Status</StyledTableCell>
                   <StyledTableCell>Leased until</StyledTableCell>
                 </TableRow>
@@ -81,7 +83,9 @@ const Properties = props => {
                     <StyledTableCell component="th" scope="row">
                       {row.name}
                     </StyledTableCell>
-                    <StyledTableCell>{row.address}</StyledTableCell>
+                    <Hidden smDown>
+                      <StyledTableCell>{row.address}</StyledTableCell>
+                    </Hidden>
                     <StyledTableCell>{row.status}</StyledTableCell>
                     <StyledTableCell>{row.leased_until}</StyledTableCell>
                   </StyledTableRow>
