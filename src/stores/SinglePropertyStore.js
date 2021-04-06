@@ -41,7 +41,25 @@ export default function SinglePropertyStore(props) {
     });
   };
 
-  const store = { property, saveProperty, updateProperty };
+  const deletePicture = (propertyId, pictureId, openSnackbar) => {
+    PropertyService.deletePicture(propertyId, pictureId).then(response => {
+      setProperty(response.data.data.attributes);
+      openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
+    }).catch(error => {
+      ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
+    });
+  };
+
+  const savePicture = (propertyId, path, openSnackbar) => {
+    PropertyService.savePicture(propertyId, path).then(response => {
+      setProperty(response.data.data.attributes);
+      openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
+    }).catch(error => {
+      ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
+    });
+  };
+
+  const store = { property, saveProperty, updateProperty, savePicture, deletePicture };
 
   return <SinglePropertyContext.Provider value={store}>{property && children}</SinglePropertyContext.Provider>
 }

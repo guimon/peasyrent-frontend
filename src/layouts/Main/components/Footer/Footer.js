@@ -100,7 +100,6 @@ const Footer = props => {
 
   const MenuGroup = props => {
     const { item } = props;
-    console.log(item);
     return (
       <List disablePadding className={classes.menuItem}>
         <ListItem disableGutters className={classes.menuGroupItem}>

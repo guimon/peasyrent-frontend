@@ -6,7 +6,9 @@ export const PropertyService = {
   loadProperty,
   saveProperty,
   updateProperty,
-  deleteProperty
+  deleteProperty,
+  savePicture,
+  deletePicture
 };
 
 export default PropertyService;
@@ -32,4 +34,13 @@ function updateProperty(property) {
 function deleteProperty(id) {
   let payload = { id: id };
   return axios.delete(Base.apiLocation() + "/properties/", { data: payload, ...Base.getFullHeaders() });
+}
+
+function savePicture(propertyId, path) {
+  let payload = { property_image: { path: path } };
+  return axios.post(Base.apiLocation() + "/properties/" + propertyId + "/property_images", payload, Base.getFullHeaders());
+}
+
+function deletePicture(propertyId, pictureId) {
+  return axios.delete(Base.apiLocation() + "/properties/" + propertyId + "/property_images/" + pictureId , { ...Base.getFullHeaders() });
 }

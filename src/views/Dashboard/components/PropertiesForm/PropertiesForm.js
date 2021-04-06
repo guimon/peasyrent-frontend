@@ -19,6 +19,7 @@ import FieldLabel from "../../../../components/FieldLabel";
 import FieldText from "../../../../components/FieldText";
 import {SinglePropertyContext} from "../../../../stores/SinglePropertyStore";
 import {openSnackbar} from "../../../../components/Notifier";
+import PropertyImages from "../PropertyImages/PropertyImages";
 
 const useStyles = makeStyles(theme => ({
   inputTitle: {
@@ -271,6 +272,16 @@ const PropertiesForm = props => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <Divider />
+        </Grid>
+        <Grid item xs={12}>
+          <FieldLabel label={"Pictures"}/>
+          <PropertyImages />
+        </Grid>
+        <Grid item xs={12}>
+          <Divider />
         </Grid>
         <Grid item container justify="flex-start" xs={12}>
           <Box marginRight={2}>

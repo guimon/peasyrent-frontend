@@ -15,7 +15,7 @@ export const ataraxia = {
     "light": "#ff4851",
     "main": "#ff2e39",
     "dark": "#cf1e29",
-    "contrastText": "rgba(0, 0, 0, 0.87)"
+    "contrastText": "rgba(255, 255, 255, 0.95)"
   },
   "text": {
     "primary": "#2d3748",
