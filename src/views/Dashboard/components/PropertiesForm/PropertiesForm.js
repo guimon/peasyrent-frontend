@@ -276,13 +276,17 @@ const PropertiesForm = props => {
         <Grid item xs={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12}>
-          <FieldLabel label={"Pictures"}/>
-          <PropertyImages />
-        </Grid>
-        <Grid item xs={12}>
-          <Divider />
-        </Grid>
+        { property.id &&
+          <>
+            <Grid item xs={12}>
+              <FieldLabel label={"Pictures"}/>
+              <PropertyImages />
+            </Grid>
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
+          </>
+        }
         <Grid item container justify="flex-start" xs={12}>
           <Box marginRight={2}>
             <Button
