@@ -7,10 +7,10 @@ import {
   CardMedia,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import UploadIcon from '@material-ui/icons/Add';
 import Fab from "@material-ui/core/Fab/Fab";
 import {SinglePropertyContext} from "../../../../stores/SinglePropertyStore";
 import {openSnackbar} from "../../../../components/Notifier";
+import Uploader from "../../../../components/Uploader";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PropertyImages = props => {
-  const { property, deletePicture, savePicture } = useContext(SinglePropertyContext);
+  const { property, deletePicture } = useContext(SinglePropertyContext);
   const classes = useStyles();
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up('md'), {
@@ -66,24 +66,7 @@ const PropertyImages = props => {
           </Card>
         </Grid>
         ))}
-      <Grid key={"add image"} item xs={12} sm={4} data-aos="fade-up">
-        <Card className={classes.card}>
-          <CardMedia
-            className={classes.cardMedia}
-          >
-            <div className={classes.deleteContainer}>
-              <Fab
-                color={"primary"}
-                size="small"
-                aria-label="add"
-                onClick={() => savePicture(property.id, "ee785510-9780-47b3-88d8-505cc3527d1d.jpg", openSnackbar)}
-                title={"Add picture"}>
-                <UploadIcon />
-              </Fab>
-            </div>
-          </CardMedia>
-        </Card>
-      </Grid>
+      <Uploader/>
     </Grid>
   );
 };

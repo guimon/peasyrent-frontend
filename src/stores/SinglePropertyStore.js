@@ -50,11 +50,13 @@ export default function SinglePropertyStore(props) {
     });
   };
 
-  const savePicture = (propertyId, path, openSnackbar) => {
+  const savePicture = (propertyId, path, openSnackbar, finishedCallback) => {
     PropertyService.savePicture(propertyId, path).then(response => {
       setProperty(response.data.data.attributes);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
+      finishedCallback();
     }).catch(error => {
+      finishedCallback();
       ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
     });
   };

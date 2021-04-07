@@ -1,69 +1,85 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, {useContext, useRef, useState} from 'react';
 import FileService from "../services/FileService";
+import {openSnackbar} from "./Notifier";
+import S3Service from "../services/S3Service";
+import UploadIcon from '@material-ui/icons/Add';
+import Fab from "@material-ui/core/Fab/Fab";
+import {SinglePropertyContext} from "../stores/SinglePropertyStore";
+import {Card, CardMedia, Grid, CircularProgress, makeStyles} from "@material-ui/core";
 
-class Uploader extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      success : false,
-      url : ""
-    }
+const useStyles = makeStyles(theme => ({
+  card: {
+    boxShadow: '0 7px 14px 0 rgba(0, 0, 0, 0.1)',
+  },
+  cardMedia: {
+    minHeight: 280,
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'flex-start',
+  },
+  addContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(1),
+    width: '100%',
   }
+}));
 
-  handleChange = (ev) => {
-    this.setState({success: false, url : ""});
-  }
-  // Perform the upload
-  handleUpload = (ev) => {
-    let file = this.uploadInput.files[0];
-    FileService.getUrl(file.name).then(response => {
-      console.log(response);
-      var url = response.data.url;
-      this.setState({url: url});
+const Uploader = props => {
+  const { property, savePicture } = useContext(SinglePropertyContext);
+  const [loading, setLoading] = useState(false);
+  const uploadInputRef = useRef(null);
+  const classes = useStyles();
 
-      let fileParts = file.name.split('.');
-      // Put the fileType in the headers for the upload
-      var options = {
-        headers: {
-          'Content-Type': fileParts[fileParts.length - 1]
-        }
-      };
-      console.log(file);
-      axios.put(url,file,options)
-      .then(result => {
-        console.log("Response from s3");
-        console.log(result);
-        this.setState({success: true});
+  const upload = (ev) => {
+    if (ev.target.files && ev.target.files.length > 0) {
+      setLoading(true);
+      let file = ev.target.files[0];
+      // gets the S3 url from the backend
+      FileService.getUrl(file.name).then(response => {
+        let filename = response.data.filename;
+        // uploads the file to S3
+        S3Service.upload(file.name, response.data.url, file).then(s3Response => {
+          //  tells the backend to save the file in the property
+          savePicture(property.id, filename, openSnackbar, () => setLoading(false));
+        })
+        .catch(error => {
+          setLoading(false);
+          openSnackbar({ message: 'Upload failed. Please try again later.', variant: 'error', timeout: 5000 });
+        })
       })
       .catch(error => {
-        console.log(error);
+        setLoading(false);
+        openSnackbar({ message: 'Upload failed. Please try again later.', variant: 'error', timeout: 5000 });
       })
-    })
-    .catch(error => {
-      console.log(error);
-    })
+    }
   };
 
-  render() {
-    const SuccessMessage = () => (
-      <div style={{padding:50}}>
-        <h3 style={{color: 'green'}}>SUCCESSFUL UPLOAD</h3>
-        <a href={this.state.url}>Access the file here</a>
-        <br/>
-      </div>
-    )
-    return (
-      <div className="App">
-        <center>
-          <h1>UPLOAD A FILE</h1>
-          {this.state.success ? <SuccessMessage/> : null}
-          <input onChange={this.handleChange} ref={(ref) => { this.uploadInput = ref; }} type="file"/>
-          <br/>
-          <button onClick={this.handleUpload}>UPLOAD</button>
-        </center>
-      </div>
-    );
-  }
+  return (
+    <Grid key={"add image"} item xs={12} sm={4} data-aos="fade-up">
+      <Card className={classes.card}>
+        <CardMedia className={classes.cardMedia}>
+
+          <div className={classes.addContainer}>
+            { loading && <CircularProgress color={"primary"}/> }
+            {!loading &&
+            <>
+              <input onChange={upload} accept="image/*" type="file" ref={uploadInputRef} hidden/>
+              <Fab
+                color={"primary"}
+                size="small"
+                aria-label="add"
+                title={"Add picture"}
+                onClick={() => uploadInputRef.current && uploadInputRef.current.click()}
+              >
+                <UploadIcon/>
+              </Fab>
+            </>
+            }
+          </div>
+        </CardMedia>
+      </Card>
+    </Grid>
+  );
 }
 export default Uploader;
