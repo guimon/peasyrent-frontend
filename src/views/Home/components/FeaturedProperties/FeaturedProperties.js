@@ -69,6 +69,13 @@ const FeaturedProperties = props => {
   const classes = useStyles();
 
   const theme = useTheme();
+
+  let maxSize = 'xs';
+  if (useMediaQuery(theme.breakpoints.up('sm'))) { maxSize = 'sm' };
+  if (useMediaQuery(theme.breakpoints.up('md'))) { maxSize = 'md' };
+  if (useMediaQuery(theme.breakpoints.up('lg'))) { maxSize = 'lg' };
+  if (useMediaQuery(theme.breakpoints.up('xl'))) { maxSize = 'xl' };
+
   const isMd = useMediaQuery(theme.breakpoints.up('md'), {
     defaultMatches: true,
   });
@@ -86,6 +93,7 @@ const FeaturedProperties = props => {
                   navigationButtonStyle={classes.swiperNavButton}
                   items={item.images}
                   imageClassName={classes.image}
+                  maxSize={maxSize}
                 />
                 <div className={classes.locationCardPrice}>
                   <Typography

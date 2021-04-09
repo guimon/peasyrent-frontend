@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Swiper from 'swiper';
 
 import { Image } from '../../atoms';
+import {Dialog} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,6 +48,9 @@ const useStyles = makeStyles(theme => ({
   image: {
     objectFit: 'cover',
   },
+  paperDialog: {
+    height: '100%'
+  }
 }));
 
 /**
@@ -60,10 +64,12 @@ const SwiperImage = props => {
     navigationButtonStyle,
     imageClassName,
     className,
+    maxSize,
     ...rest
   } = props;
 
   const classes = useStyles();
+  const [url, setUrl] = React.useState();
 
   React.useEffect(() => {
     new Swiper('.swiper-container', {
@@ -72,9 +78,9 @@ const SwiperImage = props => {
       navigation: {
         nextEl: '.swiper-container .swiper-button-next',
         prevEl: '.swiper-container .swiper-button-prev',
-      },
+      }
     });
-  });
+  }, []);
 
   return (
     <div
@@ -86,6 +92,22 @@ const SwiperImage = props => {
       )}
       {...rest}
     >
+      <Dialog
+        fullWidth={true}
+        maxWidth={maxSize}
+        open={url != null}
+        onClose={() => setUrl(null)}
+        classes={{ paper: classes.paperDialog}}
+      >
+        <div style={{
+          backgroundImage: `url('${url}')`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          width: '100%',
+          height:'100%'}}
+        ></div>
+      </Dialog>
       <div className="swiper-image__wrapper, swiper-wrapper">
         {items.map((item, index) => (
           <div
@@ -106,6 +128,7 @@ const SwiperImage = props => {
                 classes.image,
                 imageClassName ? imageClassName : {},
               )}
+              onClick={(e) => { setUrl(e.target.src) }}
             />
           </div>
         ))}
