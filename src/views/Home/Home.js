@@ -1,7 +1,7 @@
 import React from 'react';
 import { Divider, Box } from '@material-ui/core';
 import { Hero, FeaturedProperties, SellProperty } from './components';
-import PropertyStore from "../../stores/PropertyStore";
+import PropertiesStore from "../../stores/PropertiesStore";
 
 const Home = () => {
   return (
@@ -9,9 +9,9 @@ const Home = () => {
       <Hero />
       <Box m={4} />
       <Divider />
-      <PropertyStore vacant_only={true}>
+      <PropertiesStore vacant_only={true}>
         <FeaturedProperties />
-      </PropertyStore>
+      </PropertiesStore>
       <SellProperty />
     </div>
   );

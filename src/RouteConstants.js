@@ -16,6 +16,8 @@ export const RouteConstants = {
   maintenance: '/dashboard/?pid=maintenance',
   billing: '/dashboard/?pid=billing',
   leases: '/dashboard/?pid=leases',
+  addLease: '/dashboard/?pid=add_lease&gid=leases',
+  editLease: '/dashboard/?pid=edit_lease&gid=leases&id=',
   renters: '/dashboard/?pid=renters',
   logout: '/logout',
 };

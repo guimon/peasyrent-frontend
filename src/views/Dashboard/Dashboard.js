@@ -4,13 +4,15 @@ import { parse } from 'query-string';
 import { makeStyles } from '@material-ui/core/styles';
 import {Box, List, ListItem, Grid, Typography, Hidden} from '@material-ui/core';
 import { SectionAlternate, CardBase } from '../../components/organisms';
-import { Hero, Properties, PropertiesForm } from './components';
+import { Hero, Properties, PropertiesForm, Leases, LeasesForm } from './components';
 import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
-import PropertyStore from "../../stores/PropertyStore";
+import PropertiesStore from "../../stores/PropertiesStore";
+import LeasesStore from "../../stores/LeasesStore";
 import RouteConstants from "../../RouteConstants";
 import AuthService from "../../services/AuthService";
 import {useHistory} from "react-router-dom";
 import SinglePropertyStore from "../../stores/SinglePropertyStore";
+import SingleLeaseStore from "../../stores/SingleLeaseStore";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -183,9 +185,9 @@ const Dashboard = (props = {}) => {
                 Ending leases...
               </TabPanel>
               <TabPanel value={pageId} index={'properties'}>
-                <PropertyStore vacant_only={false}>
+                <PropertiesStore vacant_only={false}>
                   <Properties />
-                </PropertyStore>
+                </PropertiesStore>
               </TabPanel>
               <TabPanel value={pageId} index={'add_property'}>
                 <SinglePropertyStore>
@@ -204,7 +206,19 @@ const Dashboard = (props = {}) => {
                 "billing"
               </TabPanel>
               <TabPanel value={pageId} index={'leases'}>
-                "leases"
+                <LeasesStore vacant_only={false}>
+                  <Leases />
+                </LeasesStore>
+              </TabPanel>
+              <TabPanel value={pageId} index={'add_lease'}>
+                <SingleLeaseStore>
+                  <LeasesForm/>
+                </SingleLeaseStore>
+              </TabPanel>
+              <TabPanel value={pageId} index={'edit_lease'}>
+                <SingleLeaseStore id={objectId}>
+                  <LeasesForm/>
+                </SingleLeaseStore>
               </TabPanel>
               <TabPanel value={pageId} index={'renters'}>
                 "renters"

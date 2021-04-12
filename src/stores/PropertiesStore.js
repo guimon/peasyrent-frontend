@@ -4,7 +4,7 @@ import {useHistory} from "react-router-dom";
 import ErrorHandlerHelper from "../helpers/ErrorHandlerHelper";
 import PropertyService from "../services/PropertyService";
 
-export const PropertyContext = React.createContext(null);
+export const PropertiesContext = React.createContext(null);
 
 export default function PropertyStore(props) {
   const { children, vacant_only } = props;
@@ -29,5 +29,5 @@ export default function PropertyStore(props) {
 
   const store = { properties, deleteProperty };
 
-  return <PropertyContext.Provider value={store}>{properties && children}</PropertyContext.Provider>
+  return <PropertiesContext.Provider value={store}>{properties && children}</PropertiesContext.Provider>
 }

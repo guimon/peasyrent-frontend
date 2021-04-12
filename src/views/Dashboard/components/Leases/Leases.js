@@ -16,7 +16,7 @@ import {
   Box, Hidden,
 } from '@material-ui/core';
 import WidthFixer from "../../../../components/WidthFixer";
-import {PropertiesContext} from "../../../../stores/PropertiesStore";
+import {LeasesContext} from "../../../../stores/LeasesStore";
 import RouteConstants from "../../../../RouteConstants";
 import {useHistory} from "react-router-dom";
 
@@ -44,8 +44,8 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const Properties = props => {
-  const { properties } = useContext(PropertiesContext);
+const Leases = props => {
+  const { leases } = useContext(LeasesContext);
   const history = useHistory();
 
   const { className, ...rest } = props;
@@ -61,7 +61,7 @@ const Properties = props => {
       <Grid container spacing={isMd ? 4 : 2}>
         <Grid item xs={12}>
           <Typography variant="h5" color="textPrimary">
-            Properties <WidthFixer/>
+            Leases <WidthFixer/>
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -69,25 +69,31 @@ const Properties = props => {
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow >
-                  <StyledTableCell>Name</StyledTableCell>
+                  <StyledTableCell>Property</StyledTableCell>
                   <Hidden smDown>
-                    <StyledTableCell>Address</StyledTableCell>
+                    <StyledTableCell>Deposit</StyledTableCell>
                   </Hidden>
-                  <StyledTableCell>Status</StyledTableCell>
-                  <StyledTableCell>Leased until</StyledTableCell>
+                  <StyledTableCell>Monthly</StyledTableCell>
+                  <Hidden smDown>
+                    <StyledTableCell>Start date</StyledTableCell>
+                  </Hidden>
+                  <StyledTableCell>End date</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {properties.map((row) => (
-                  <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editProperty + row.id)}>
+                {leases.map((row) => (
+                  <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editLease + row.id)}>
                     <StyledTableCell component="th" scope="row">
-                      {row.name}
+                      {row.property.name}
                     </StyledTableCell>
                     <Hidden smDown>
-                      <StyledTableCell>{row.address}</StyledTableCell>
+                      <StyledTableCell>${row.deposit_amount/100}</StyledTableCell>
                     </Hidden>
-                    <StyledTableCell>{row.status}</StyledTableCell>
-                    <StyledTableCell>{row.leased_until}</StyledTableCell>
+                    <StyledTableCell>${row.monthly_amount/100}</StyledTableCell>
+                    <Hidden smDown>
+                      <StyledTableCell>{row.start_date}</StyledTableCell>
+                    </Hidden>
+                    <StyledTableCell>{row.end_date}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
@@ -98,9 +104,9 @@ const Properties = props => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => history.push(RouteConstants.addProperty)}
+              onClick={() => history.push(RouteConstants.addLease)}
             >
-              Add property
+              Add lease
             </Button>
           </Box>
         </Grid>
@@ -109,11 +115,11 @@ const Properties = props => {
   );
 };
 
-Properties.propTypes = {
+Leases.propTypes = {
   /**
    * External classes
    */
   className: PropTypes.string,
 };
 
-export default Properties;
+export default Leases;

@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import { SectionHeader, SwiperImage } from '../../../../components/molecules';
 import {CardProduct, SectionAlternate} from '../../../../components/organisms';
-import {PropertyContext} from "../../../../stores/PropertyStore";
+import {PropertiesContext} from "../../../../stores/PropertiesStore";
 
 const useStyles = makeStyles(theme => ({
   swiperNavButton: {
@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
 
 const FeaturedProperties = props => {
   const { ...rest } = props;
-  const { properties } = useContext(PropertyContext);
+  const { properties } = useContext(PropertiesContext);
 
   const classes = useStyles();
 
