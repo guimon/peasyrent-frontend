@@ -4,7 +4,7 @@ import BaseService from "../services/BaseService";
 import RouteConstants from "../RouteConstants";
 
 const errorHandler = (error, history, flashFn, errorMessage, redirectRoute) => {
-  if (error.response && error.response.status === 401) {
+  if (history && error.response && error.response.status === 401) {
     BaseService.deleteAuthToken();
     history.push(RouteConstants.login);
   } else {
@@ -13,7 +13,7 @@ const errorHandler = (error, history, flashFn, errorMessage, redirectRoute) => {
     if (error.config) {
       rollbar.error("Failure on: " + error.config.url, error);
     } else {
-      rollbar.error("Client failure on: " + history.location, error);
+      rollbar.error("Client failure: " + (history ? history.location : ''), error);
     }
 
     if (flashFn && errorMessage) {
@@ -25,7 +25,7 @@ const errorHandler = (error, history, flashFn, errorMessage, redirectRoute) => {
       });
     }
 
-    if (redirectRoute) { history.push(redirectRoute) }
+    if (history && redirectRoute) { history.push(redirectRoute) }
   }
 }
 

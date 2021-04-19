@@ -10,6 +10,7 @@ import {
   Box,
   FormControl,
   MenuItem,
+  FormHelperText,
   Select,
   InputAdornment
 } from '@material-ui/core';
@@ -37,6 +38,7 @@ const LeasesForm = props => {
   const classes = useStyles();
   const { lease, saveLease, updateLease, deleteLease } = useContext(SingleLeaseContext);
   const [properties, setProperties] = useState([]);
+  const [errors, setErrors] = useState({});
 
   const [propertyId, setPropertyId] = useState(lease.property_id || '');
   const [startDate, setStartDate] = useState(lease.start_date || '');
@@ -54,8 +56,8 @@ const LeasesForm = props => {
   useEffect(() => {
     PropertyService.index(false).then().then(response => {
       setProperties(response.data.data.map((hash) => {return hash.attributes}));
-    }).catch(error => { ErrorHandlerHelper(error, history) });
-  }, [properties, history]);
+    }).catch(error => { ErrorHandlerHelper(error) });
+  }, []);
 
   const updateLeaseWithState = () => {
     lease.property_id = propertyId;
@@ -65,12 +67,26 @@ const LeasesForm = props => {
     lease.monthly_amount = monthlyAmount;
   };
 
+  const validate = () => {
+    let newErrors = {};
+
+    if (!startDate) { newErrors.startDate = 'Start date is required'; }
+    if (!propertyId) { newErrors.propertyId = 'Property is required'; }
+    if (!monthlyAmount) { newErrors.monthlyAmount = 'Monthly amount is required'; }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const save = () => {
-    updateLeaseWithState();
-    if (lease.id) {
-      updateLease(lease, openSnackbar);
-    } else {
-      saveLease(lease, openSnackbar);
+    if (validate()) {
+      updateLeaseWithState();
+      if (lease.id) {
+        updateLease(lease, openSnackbar);
+      } else {
+        saveLease(lease, openSnackbar);
+      }
     }
   };
 
@@ -91,7 +107,7 @@ const LeasesForm = props => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <FieldLabel label={"Property"}/>
-          <FormControl variant="outlined" className={classes.formControl} >
+          <FormControl variant="outlined" className={classes.formControl} error={!!errors.propertyId}>
             <Select
               placeholder="Property"
               value={propertyId}
@@ -101,6 +117,7 @@ const LeasesForm = props => {
                 <MenuItem key={`property_id_${property.id}`} value={property.id}>{property.name}</MenuItem>
               ))}
             </Select>
+            <FormHelperText>{errors.propertyId}</FormHelperText>
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={4}>
@@ -109,6 +126,8 @@ const LeasesForm = props => {
             name="start_date"
             type="date"
             value={startDate}
+            error={!!errors.startDate}
+            helperText={errors.startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
         </Grid>
@@ -139,6 +158,8 @@ const LeasesForm = props => {
             placeholder="800"
             name="monthly_amount"
             value={monthlyAmount/100.0}
+            error={!!errors.monthlyAmount}
+            helperText={errors.monthlyAmount}
             onChange={(e) => setMonthlyAmount(e.target.value*100)}
             InputProps={{
               startAdornment: <InputAdornment position="start">$</InputAdornment>,

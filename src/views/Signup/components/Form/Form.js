@@ -181,7 +181,7 @@ const Form = () => {
               color="primary"
               fullWidth
             >
-              Send
+              Submit
             </Button>
           </Grid>
           <Grid item xs={12}>

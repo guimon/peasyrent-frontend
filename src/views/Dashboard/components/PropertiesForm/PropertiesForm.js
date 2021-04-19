@@ -11,7 +11,7 @@ import {
   FormControl,
   MenuItem,
   Select,
-  InputAdornment
+  InputAdornment, FormHelperText
 } from '@material-ui/core';
 import {useHistory} from "react-router-dom";
 import RouteConstants from "../../../../RouteConstants";
@@ -35,6 +35,7 @@ const PropertiesForm = props => {
   const { className, ...rest } = props;
   const classes = useStyles();
   const { property, saveProperty, updateProperty } = useContext(SinglePropertyContext);
+  const [errors, setErrors] = useState({});
 
   const [name, setName] = useState(property.name || '');
   const [streetAddress, setStreetAddress] = useState(property.street_address || '');
@@ -71,12 +72,31 @@ const PropertiesForm = props => {
     property.description = description;
   };
 
+  const validate = () => {
+    let newErrors = {};
+
+    if (!name) { newErrors.name = 'Nickname is required'; }
+    if (!streetAddress) { newErrors.streetAddress = 'Street Address is required'; }
+    if (!city) { newErrors.city = 'City is required'; }
+    if (!state) { newErrors.state = 'State is required'; }
+    if (!zipCode) { newErrors.zipCode = 'Zip code is required'; }
+    if (!beds) { newErrors.beds = '# of bedrooms is required'; }
+    if (!baths) { newErrors.baths = '# of baths is required'; }
+    if (!price) { newErrors.price = 'Price is required'; }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const save = () => {
-    updatePropertyWithState();
-    if (property.id) {
-      updateProperty(property, openSnackbar);
-    } else {
-      saveProperty(property, openSnackbar);
+    if (validate()) {
+      updatePropertyWithState();
+      if (property.id) {
+        updateProperty(property, openSnackbar);
+      } else {
+        saveProperty(property, openSnackbar);
+      }
     }
   };
 
@@ -96,6 +116,8 @@ const PropertiesForm = props => {
             name="name"
             type="text"
             value={name}
+            error={!!errors.name}
+            helperText={errors.name}
             onChange={(e) => setName(e.target.value)}
           />
         </Grid>
@@ -109,6 +131,8 @@ const PropertiesForm = props => {
             name="street_address"
             type="text"
             value={streetAddress}
+            error={!!errors.streetAddress}
+            helperText={errors.streetAddress}
             onChange={(e) => setStreetAddress(e.target.value)}
           />
         </Grid>
@@ -128,12 +152,14 @@ const PropertiesForm = props => {
             name="city"
             type="text"
             value={city}
+            error={!!errors.city}
+            helperText={errors.city}
             onChange={(e) => setCity(e.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <FieldLabel label={"State"}/>
-          <FormControl variant="outlined" className={classes.formControl} >
+          <FormControl variant="outlined" className={classes.formControl} error={!!errors.state}>
             <Select
               placeholder="State"
               value={state}
@@ -191,6 +217,7 @@ const PropertiesForm = props => {
               <MenuItem value="WI">Wisconsin</MenuItem>
               <MenuItem value="WY">Wyoming</MenuItem>
             </Select>
+            <FormHelperText>{errors.state}</FormHelperText>
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={3}>
@@ -200,6 +227,8 @@ const PropertiesForm = props => {
             name="zip_code"
             type="text"
             value={zipCode}
+            error={!!errors.zipCode}
+            helperText={errors.zipCode}
             onChange={(e) => setZipCode(e.target.value)}
           />
         </Grid>
@@ -209,10 +238,12 @@ const PropertiesForm = props => {
         <Grid item xs={12} sm={4}>
           <FieldLabel label={"Beds"}/>
           <FieldText
-            placeholder="# of beds"
+            placeholder="# of bedrooms"
             name="beds"
             type="number"
             value={beds}
+            error={!!errors.beds}
+            helperText={errors.beds}
             onChange={(e) => setBeds(e.target.value)}
           />
         </Grid>
@@ -223,6 +254,8 @@ const PropertiesForm = props => {
             name="baths"
             type="number"
             value={baths}
+            error={!!errors.baths}
+            helperText={errors.baths}
             onChange={(e) => setBaths(e.target.value)}
           />
         </Grid>
@@ -252,6 +285,8 @@ const PropertiesForm = props => {
             placeholder="800"
             name="price"
             value={price/100.0}
+            error={!!errors.price}
+            helperText={errors.price}
             onChange={(e) => setPrice(e.target.value*100)}
             InputProps={{
               startAdornment: <InputAdornment position="start">$</InputAdornment>,
