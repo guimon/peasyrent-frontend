@@ -22,6 +22,7 @@ import {SingleLeaseContext} from "../../../../stores/SingleLeaseStore";
 import {openSnackbar} from "../../../../components/Notifier";
 import PropertyService from "../../../../services/PropertyService";
 import ErrorHandlerHelper from "../../../../helpers/ErrorHandlerHelper";
+import LeaseFiles from "../LeaseFiles/LeaseFiles";
 
 const useStyles = makeStyles(theme => ({
   inputTitle: {
@@ -169,6 +170,17 @@ const LeasesForm = props => {
         <Grid item xs={12}>
           <Divider />
         </Grid>
+        { lease.id &&
+        <>
+          <Grid item xs={12}>
+            <FieldLabel label={"Files"}/>
+            <LeaseFiles />
+          </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+        </>
+        }
         <Grid item container justify="flex-start" xs={4}>
           <Box marginRight={2}>
             <Button

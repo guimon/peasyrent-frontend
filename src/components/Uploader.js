@@ -1,11 +1,9 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import FileService from "../services/FileService";
 import {openSnackbar} from "./Notifier";
 import S3Service from "../services/S3Service";
 import UploadIcon from '@material-ui/icons/Add';
-import Fab from "@material-ui/core/Fab/Fab";
-import {SinglePropertyContext} from "../stores/SinglePropertyStore";
-import {Card, CardMedia, Grid, CircularProgress, makeStyles} from "@material-ui/core";
+import {Card, CardMedia, Grid, Button, CircularProgress, makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -16,6 +14,7 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     display: 'flex',
     alignItems: 'flex-start',
+    backgroundSize: 'contain',
   },
   addContainer: {
     display: 'flex',
@@ -26,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Uploader = props => {
-  const { property, savePicture } = useContext(SinglePropertyContext);
+  const {callback, mimeType, label, displayStyle} = props;
   const [loading, setLoading] = useState(false);
   const uploadInputRef = useRef(null);
   const classes = useStyles();
@@ -40,8 +39,8 @@ const Uploader = props => {
         let filename = response.data.filename;
         // uploads the file to S3
         S3Service.upload(file.name, response.data.url, file).then(s3Response => {
-          //  tells the backend to save the file in the property
-          savePicture(property.id, filename, openSnackbar, () => setLoading(false));
+          //  tells the backend to save the reference of the file in the db
+          callback(filename, file.name, setLoading)
         })
         .catch(error => {
           setLoading(false);
@@ -55,30 +54,46 @@ const Uploader = props => {
     }
   };
 
-  return (
-    <Grid key={"add image"} item xs={12} sm={4} data-aos="fade-up">
-      <Card className={classes.card}>
-        <CardMedia className={classes.cardMedia}>
+  const renderCard = () => (
+    <Card className={classes.card}>
+      <CardMedia className={classes.cardMedia} image={"/upload.png"} onClick={() => uploadInputRef.current && uploadInputRef.current.click()}>
+        <div className={classes.addContainer}>
+          { loading && <CircularProgress color={"primary"}/> }
+          {!loading &&
+          <>
+            <input onChange={upload} accept={mimeType} type="file" ref={uploadInputRef} hidden/>
+          </>
+          }
+        </div>
+      </CardMedia>
+    </Card>
+  );
 
-          <div className={classes.addContainer}>
-            { loading && <CircularProgress color={"primary"}/> }
-            {!loading &&
-            <>
-              <input onChange={upload} accept="image/*" type="file" ref={uploadInputRef} hidden/>
-              <Fab
-                color={"primary"}
-                size="small"
-                aria-label="add"
-                title={"Add picture"}
-                onClick={() => uploadInputRef.current && uploadInputRef.current.click()}
-              >
-                <UploadIcon/>
-              </Fab>
-            </>
-            }
-          </div>
-        </CardMedia>
-      </Card>
+  const renderButton = () => (
+    <div>
+      { loading && <CircularProgress color={"primary"}/> }
+      {!loading &&
+      <>
+        <input onChange={upload} accept={mimeType} type="file" ref={uploadInputRef} hidden/>
+        <Button
+          color={"primary"}
+          variant="outlined"
+          size="small"
+          aria-label="label"
+          onClick={() => uploadInputRef.current && uploadInputRef.current.click()}
+        >
+          <UploadIcon/>
+          {label}
+        </Button>
+      </>
+      }
+    </div>
+  );
+
+  return (
+    <Grid item xs={12} sm={4} data-aos="fade-up">
+      {displayStyle === 'card' && renderCard()}
+      {displayStyle === 'button' && renderButton()}
     </Grid>
   );
 }

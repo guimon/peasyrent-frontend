@@ -80,9 +80,6 @@ const PropertiesForm = props => {
     if (!city) { newErrors.city = 'City is required'; }
     if (!state) { newErrors.state = 'State is required'; }
     if (!zipCode) { newErrors.zipCode = 'Zip code is required'; }
-    if (!beds) { newErrors.beds = '# of bedrooms is required'; }
-    if (!baths) { newErrors.baths = '# of baths is required'; }
-    if (!price) { newErrors.price = 'Price is required'; }
 
     setErrors(newErrors);
 

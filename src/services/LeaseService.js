@@ -7,6 +7,8 @@ export const LeaseService = {
   saveLease,
   updateLease,
   deleteLease,
+  saveFile,
+  deleteFile,
 };
 
 export default LeaseService;
@@ -31,4 +33,13 @@ function updateLease(lease) {
 
 function deleteLease(lease) {
   return axios.delete(Base.apiLocation() + "/leases/"+ lease.id, { ...Base.getFullHeaders() });
+}
+
+function saveFile(leaseId, path, description) {
+  let payload = { lease_file: { path, description } };
+  return axios.post(Base.apiLocation() + "/leases/" + leaseId + "/lease_files", payload, Base.getFullHeaders());
+}
+
+function deleteFile(leaseId, fileId) {
+  return axios.delete(Base.apiLocation() + "/leases/" + leaseId + "/lease_files/" + fileId , { ...Base.getFullHeaders() });
 }

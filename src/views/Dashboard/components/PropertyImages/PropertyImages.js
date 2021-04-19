@@ -36,12 +36,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PropertyImages = props => {
-  const { property, deletePicture } = useContext(SinglePropertyContext);
+  const { property, savePicture, deletePicture } = useContext(SinglePropertyContext);
   const classes = useStyles();
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up('md'), {
     defaultMatches: true,
   });
+
+  const persistImage = (filename, initialFilename, setLoading) => {
+    savePicture(property.id, filename, openSnackbar, () => setLoading(false));
+  };
 
   return (
     <Grid container spacing={isMd ? 4 : 2}>
@@ -66,7 +70,7 @@ const PropertyImages = props => {
           </Card>
         </Grid>
         ))}
-      <Uploader/>
+      <Uploader displayStyle={"card"} mimeType="image/*" label="Add picture" callback={persistImage}/>
     </Grid>
   );
 };
