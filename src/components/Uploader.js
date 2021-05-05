@@ -2,7 +2,6 @@ import React, {useRef, useState} from 'react';
 import FileService from "../services/FileService";
 import {openSnackbar} from "./Notifier";
 import S3Service from "../services/S3Service";
-import UploadIcon from '@material-ui/icons/Add';
 import {Card, CardMedia, Grid, Button, CircularProgress, makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
@@ -82,7 +81,6 @@ const Uploader = props => {
           aria-label="label"
           onClick={() => uploadInputRef.current && uploadInputRef.current.click()}
         >
-          <UploadIcon/>
           {label}
         </Button>
       </>

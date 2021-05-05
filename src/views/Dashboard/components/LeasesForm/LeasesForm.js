@@ -23,6 +23,7 @@ import {openSnackbar} from "../../../../components/Notifier";
 import PropertyService from "../../../../services/PropertyService";
 import ErrorHandlerHelper from "../../../../helpers/ErrorHandlerHelper";
 import LeaseFiles from "../LeaseFiles/LeaseFiles";
+import Renters from "../Renters/Renters";
 
 const useStyles = makeStyles(theme => ({
   inputTitle: {
@@ -173,6 +174,13 @@ const LeasesForm = props => {
         { lease.id &&
         <>
           <Grid item xs={12}>
+            <FieldLabel label={"Renters"}/>
+            <Renters/>
+          </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+          <Grid item xs={12}>
             <FieldLabel label={"Files"}/>
             <LeaseFiles />
           </Grid>
@@ -181,7 +189,7 @@ const LeasesForm = props => {
           </Grid>
         </>
         }
-        <Grid item container justify="flex-start" xs={4}>
+        <Grid item container justify="flex-start" xs={8}>
           <Box marginRight={2}>
             <Button
               variant="outlined"
@@ -193,7 +201,7 @@ const LeasesForm = props => {
               back
             </Button>
           </Box>
-          <Box marginRight={6}>
+          <Box>
             <Button
               variant="contained"
               type="submit"
@@ -205,16 +213,16 @@ const LeasesForm = props => {
             </Button>
           </Box>
         </Grid>
-        <Grid item container justify="flex-end" xs={8}>
+        <Grid item container justify="flex-end" xs={4}>
           <Box>
             <Button
               variant="outlined"
               type="submit"
               color="secondary"
-              size="large"
+              size="small"
               onClick={() => destroy()}
             >
-              delete lease
+              delete
             </Button>
           </Box>
         </Grid>

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
   useMediaQuery,
   Grid,
@@ -9,7 +9,6 @@ import {
   Table,
   TableHead,
   TableRow,
-  TableCell,
   TableBody,
   Paper,
   Button,
@@ -19,30 +18,14 @@ import WidthFixer from "../../../../components/WidthFixer";
 import {PropertiesContext} from "../../../../stores/PropertiesStore";
 import RouteConstants from "../../../../RouteConstants";
 import {useHistory} from "react-router-dom";
+import StyledTableCell from '../../../../components/StyledTableCell'
+import StyledTableRow from '../../../../components/StyledTableRow'
 
 const useStyles = makeStyles(theme => ({
   table: {
     width: '100%',
   },
 }));
-
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.primary.light,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 15,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.alternate.main,
-    },
-  },
-}))(TableRow);
 
 const Properties = props => {
   const { properties } = useContext(PropertiesContext);

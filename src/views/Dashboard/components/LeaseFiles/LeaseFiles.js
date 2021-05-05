@@ -16,7 +16,7 @@ const LeaseFiles = props => {
   return (
     <List>
       {lease && lease.files.map((file, i) => (
-          <ListItem>
+          <ListItem key={`lease-file-${file.id}`}>
             <Typography
               variant="body2"
               color="primary"
@@ -35,7 +35,7 @@ const LeaseFiles = props => {
             </Button>
           </ListItem>
         ))}
-      <Uploader displayStyle={"button"} label={"Add file"} mimeType={"application/pdf"} callback={persistFile} />
+      <Uploader displayStyle={"button"} label={"Upload file"} mimeType={"application/pdf"} callback={persistFile} />
     </List>
   );
 };

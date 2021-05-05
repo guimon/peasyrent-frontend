@@ -72,7 +72,26 @@ export default function SingleLeaseStore(props) {
     });
   };
 
-  const store = { lease, saveLease, updateLease, deleteLease, saveFile, deleteFile };
+  const deleteRenter = (leaseId, renterId, openSnackbar) => {
+    LeaseService.deleteRenter(leaseId, renterId).then(response => {
+      setLease(response.data.data.attributes);
+      openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
+    }).catch(error => {
+      ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
+    });
+  };
+
+  const saveRenter = (leaseId, renter, openSnackbar, finishedCallback) => {
+    LeaseService.saveRenter(leaseId, renter).then(response => {
+      setLease(response.data.data.attributes);
+      openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
+      finishedCallback();
+    }).catch(error => {
+      ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
+    });
+  };
+
+  const store = { lease, saveLease, updateLease, deleteLease, saveFile, deleteFile, saveRenter, deleteRenter };
 
   return <SingleLeaseContext.Provider value={store}>{lease && children}</SingleLeaseContext.Provider>
 }
