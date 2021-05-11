@@ -219,7 +219,7 @@ const LeasesForm = props => {
               variant="outlined"
               type="submit"
               color="secondary"
-              size="small"
+              size="large"
               onClick={() => destroy()}
             >
               delete

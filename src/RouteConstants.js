@@ -18,6 +18,9 @@ export const RouteConstants = {
   leases: '/dashboard/?pid=leases',
   addLease: '/dashboard/?pid=add_lease&gid=leases',
   editLease: '/dashboard/?pid=edit_lease&gid=leases&id=',
+  stripeAccounts: '/dashboard/?pid=stripe_accounts',
+  addStripeAccount: '/dashboard/?pid=add_stripe_account&gid=stripe_accounts',
+  editStripeAccount: '/dashboard/?pid=edit_stripe_account&gid=stripe_accounts&id=',
   renters: '/dashboard/?pid=renters',
   logout: '/logout',
 };

@@ -4,15 +4,17 @@ import { parse } from 'query-string';
 import { makeStyles } from '@material-ui/core/styles';
 import {Box, List, ListItem, Grid, Typography, Hidden} from '@material-ui/core';
 import { SectionAlternate, CardBase } from '../../components/organisms';
-import { Hero, Properties, PropertiesForm, Leases, LeasesForm } from './components';
+import { Hero, Properties, PropertiesForm, Leases, LeasesForm, StripeAccounts, StripeAccountsForm } from './components';
 import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
 import PropertiesStore from "../../stores/PropertiesStore";
 import LeasesStore from "../../stores/LeasesStore";
+import StripeAccountsStore from "../../stores/StripeAccountsStore";
 import RouteConstants from "../../RouteConstants";
 import AuthService from "../../services/AuthService";
 import {useHistory} from "react-router-dom";
 import SinglePropertyStore from "../../stores/SinglePropertyStore";
 import SingleLeaseStore from "../../stores/SingleLeaseStore";
+import SingleStripeAccountStore from "../../stores/SingleStripeAccountStore";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -98,6 +100,11 @@ export const subPages = [
     id: 'renters',
     href: RouteConstants.renters,
     title: 'Renters',
+  },
+  {
+    id: 'stripe_accounts',
+    href: RouteConstants.stripeAccounts,
+    title: 'Stripe Accounts',
   },
 ];
 
@@ -219,6 +226,21 @@ const Dashboard = (props = {}) => {
                 <SingleLeaseStore id={objectId}>
                   <LeasesForm/>
                 </SingleLeaseStore>
+              </TabPanel>
+              <TabPanel value={pageId} index={'stripe_accounts'}>
+                <StripeAccountsStore vacant_only={false}>
+                  <StripeAccounts />
+                </StripeAccountsStore>
+              </TabPanel>
+              <TabPanel value={pageId} index={'add_stripe_account'}>
+                <SingleStripeAccountStore>
+                  <StripeAccountsForm/>
+                </SingleStripeAccountStore>
+              </TabPanel>
+              <TabPanel value={pageId} index={'edit_stripe_account'}>
+                <SingleStripeAccountStore id={objectId}>
+                  <StripeAccountsForm/>
+                </SingleStripeAccountStore>
               </TabPanel>
               <TabPanel value={pageId} index={'renters'}>
                 "renters"

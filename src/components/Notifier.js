@@ -22,21 +22,26 @@ class Notifier extends React.Component {
     openSnackbarFn = null;
   }
 
-  openSnackbar = ({ message, variant, timeout }) => {
+  openSnackbar = ({ message, variant, timeout, callback }) => {
     this.setState({
       open: true,
       message,
       variant,
       timeout,
+      callback,
     });
   };
 
   handleSnackbarClose = () => {
+    let callback = this.state.callback;
     this.setState({
       open: false,
       message: '',
       timeout: 3000
     });
+    if (callback) {
+      callback();
+    }
   };
 
   render() {
@@ -57,8 +62,8 @@ class Notifier extends React.Component {
   }
 }
 
-export function openSnackbar({ message, variant, timeout }) {
-  openSnackbarFn({ message, variant, timeout });
+export function openSnackbar({ message, variant, timeout, callback }) {
+  openSnackbarFn({ message, variant, timeout, callback });
 }
 
 export default Notifier;

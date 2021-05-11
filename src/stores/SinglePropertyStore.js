@@ -14,7 +14,9 @@ export default function SinglePropertyStore(props) {
   useEffect(() => {
     if (id) {
       PropertyService.loadProperty(id).then(response => {
-        setProperty(response.data.data.attributes);
+        let { price } = response.data.data.attributes;
+        if (price) { price = price / 100};
+        setProperty({...response.data.data.attributes, price});
       }).catch(error => {
         ErrorHandlerHelper(error, history)
       });
@@ -24,8 +26,8 @@ export default function SinglePropertyStore(props) {
   }, [id, history]);
 
   const saveProperty = (property, openSnackbar) => {
-    PropertyService.saveProperty(property).then(response => {
-      setProperty(response.data.data.attributes);
+    PropertyService.saveProperty(serializeProperty(property)).then(response => {
+      deserializeProperty(response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
     }).catch(error => {
       ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
@@ -33,8 +35,8 @@ export default function SinglePropertyStore(props) {
   };
 
   const updateProperty = (property, openSnackbar) => {
-    PropertyService.updateProperty(property).then(response => {
-      setProperty(response.data.data.attributes);
+    PropertyService.updateProperty(serializeProperty(property)).then(response => {
+      deserializeProperty(response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
     }).catch(error => {
       ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
@@ -43,7 +45,7 @@ export default function SinglePropertyStore(props) {
 
   const deletePicture = (propertyId, pictureId, openSnackbar) => {
     PropertyService.deletePicture(propertyId, pictureId).then(response => {
-      setProperty(response.data.data.attributes);
+      deserializeProperty(response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
     }).catch(error => {
       ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
@@ -52,7 +54,7 @@ export default function SinglePropertyStore(props) {
 
   const savePicture = (propertyId, path, openSnackbar, finishedCallback) => {
     PropertyService.savePicture(propertyId, path).then(response => {
-      setProperty(response.data.data.attributes);
+      deserializeProperty(response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
       finishedCallback();
     }).catch(error => {
@@ -60,6 +62,23 @@ export default function SinglePropertyStore(props) {
       ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
     });
   };
+
+  const deserializeProperty = (response) => {
+    let { price } = response.data.data.attributes || undefined;
+    if (price) { price = price / 100};
+    setProperty({...removeEmpty(response.data.data.attributes), price});
+  };
+
+  const serializeProperty = (property) => {
+    if (property.price) {
+      return {...property, price: property.price * 100 };
+    }
+    return property;
+  };
+
+  function removeEmpty(obj) {
+    return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
+  }
 
   const store = { property, saveProperty, updateProperty, savePicture, deletePicture };
 
