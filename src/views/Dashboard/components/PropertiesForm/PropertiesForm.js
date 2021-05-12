@@ -21,6 +21,7 @@ import {SinglePropertyContext} from "../../../../stores/SinglePropertyStore";
 import {openSnackbar} from "../../../../components/Notifier";
 import PropertyImages from "../PropertyImages/PropertyImages";
 import {Controller, useForm} from "react-hook-form";
+import {StripeAccountsContext} from "../../../../stores/StripeAccountsStore";
 
 const useStyles = makeStyles(theme => ({
   inputTitle: {
@@ -35,7 +36,8 @@ const useStyles = makeStyles(theme => ({
 const PropertiesForm = props => {
   const { className, ...rest } = props;
   const classes = useStyles();
-  const { property, saveProperty, updateProperty } = useContext(SinglePropertyContext);
+  const { property, saveProperty, updateProperty, deleteProperty } = useContext(SinglePropertyContext);
+  const { stripeAccounts } = useContext(StripeAccountsContext);
   const { handleSubmit, control } = useForm({ defaultValues: property });
 
   const history = useHistory();
@@ -53,6 +55,10 @@ const PropertiesForm = props => {
     }
   };
 
+  const destroy = () => {
+    deleteProperty(property, openSnackbar, () => history.push(RouteConstants.properties));
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <div className={className} {...rest}>
@@ -68,10 +74,8 @@ const PropertiesForm = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                   placeholder="Nickname for this property"
                 />
               }
@@ -88,10 +92,8 @@ const PropertiesForm = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                   placeholder="Street address"
                 />
               }
@@ -105,10 +107,8 @@ const PropertiesForm = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                   placeholder="Complement"
                 />
               }
@@ -121,10 +121,8 @@ const PropertiesForm = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                   placeholder="City"
                 />
               }
@@ -207,10 +205,8 @@ const PropertiesForm = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                   placeholder="Zip code"
                 />
               }
@@ -227,10 +223,8 @@ const PropertiesForm = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                   type="number"
                   placeholder="# of bedrooms"
                 />
@@ -245,10 +239,8 @@ const PropertiesForm = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                   type="number"
                   placeholder="# of baths"
                 />
@@ -263,10 +255,8 @@ const PropertiesForm = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                   type="number"
                   placeholder="# of parking spots"
                 />
@@ -281,10 +271,8 @@ const PropertiesForm = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                   type="number"
                   placeholder="634"
                 />
@@ -299,10 +287,8 @@ const PropertiesForm = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                   type="number"
                   placeholder="800"
                   InputProps={{
@@ -314,6 +300,26 @@ const PropertiesForm = props => {
               control={control}
             />
           </Grid>
+          <Grid item xs={12} sm={4}>
+            <FieldLabel label={"Active"}/>
+            <Controller
+              render={({ field,  fieldState: { error } }) =>
+                <FormControl variant="outlined" className={classes.formControl} error={!!error}>
+                  <Select
+                    placeholder="Active"
+                    value={field.value}
+                    onChange={field.onChange}
+                  >
+                    <MenuItem value={"true"}>Yes</MenuItem>
+                    <MenuItem value={"false"}>No</MenuItem>
+                  </Select>
+                </FormControl>
+              }
+              name="active"
+              rules={{ required: true }}
+              control={control}
+            />
+          </Grid>
           <Grid item xs={12}>
             <Divider />
           </Grid>
@@ -322,10 +328,8 @@ const PropertiesForm = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                   type="text"
                   placeholder="Describe the property"
                   rows={4}
@@ -333,6 +337,30 @@ const PropertiesForm = props => {
                 />
               }
               name="description"
+              control={control}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <FieldLabel label={"Stripe account to receive rent"}/>
+            <Controller
+              render={({ field,  fieldState: { error } }) =>
+                <FormControl variant="outlined" className={classes.formControl} error={!!error}>
+                  <Select
+                    placeholder="Stripe account"
+                    value={field.value}
+                    onChange={field.onChange}
+                  >
+                    {stripeAccounts.map((stripeAccount) => (
+                      <MenuItem key={`stripe-account-${stripeAccount.id}`} value={stripeAccount.id}>{stripeAccount.name}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              }
+              name="stripe_account_id"
+              rules={{ required: true }}
               control={control}
             />
           </Grid>
@@ -350,7 +378,7 @@ const PropertiesForm = props => {
               </Grid>
             </>
           }
-          <Grid item container justify="flex-start" xs={12}>
+          <Grid item container justify="flex-start" xs={8}>
             <Box marginRight={2}>
               <Button
                 variant="outlined"
@@ -373,6 +401,21 @@ const PropertiesForm = props => {
               </Button>
             </Box>
           </Grid>
+          {property.id &&
+            <Grid item container justify="flex-end" xs={4}>
+              <Box>
+                <Button
+                  variant="outlined"
+                  type="button"
+                  color="secondary"
+                  size="large"
+                  onClick={() => destroy()}
+                >
+                  delete
+                </Button>
+              </Box>
+            </Grid>
+          }
         </Grid>
       </div>
     </form>

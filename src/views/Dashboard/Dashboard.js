@@ -77,9 +77,19 @@ export const subPages = [
     title: 'Dashboard',
   },
   {
+    id: 'stripe_accounts',
+    href: RouteConstants.stripeAccounts,
+    title: 'Stripe Accounts',
+  },
+  {
     id: 'properties',
     href: RouteConstants.properties,
     title: 'Properties',
+  },
+  {
+    id: 'leases',
+    href: RouteConstants.leases,
+    title: 'Leases',
   },
   {
     id: 'maintenance',
@@ -90,21 +100,6 @@ export const subPages = [
     id: 'billing',
     href: RouteConstants.billing,
     title: 'Billing',
-  },
-  {
-    id: 'leases',
-    href: RouteConstants.leases,
-    title: 'Leases',
-  },
-  {
-    id: 'renters',
-    href: RouteConstants.renters,
-    title: 'Renters',
-  },
-  {
-    id: 'stripe_accounts',
-    href: RouteConstants.stripeAccounts,
-    title: 'Stripe Accounts',
   },
 ];
 
@@ -198,12 +193,16 @@ const Dashboard = (props = {}) => {
               </TabPanel>
               <TabPanel value={pageId} index={'add_property'}>
                 <SinglePropertyStore>
-                 <PropertiesForm/>
+                  <StripeAccountsStore>
+                     <PropertiesForm/>
+                  </StripeAccountsStore>
                 </SinglePropertyStore>
               </TabPanel>
               <TabPanel value={pageId} index={'edit_property'}>
                 <SinglePropertyStore id={objectId}>
-                  <PropertiesForm/>
+                  <StripeAccountsStore>
+                    <PropertiesForm/>
+                  </StripeAccountsStore>
                 </SinglePropertyStore>
               </TabPanel>
               <TabPanel value={pageId} index={'maintenance'}>
@@ -219,16 +218,20 @@ const Dashboard = (props = {}) => {
               </TabPanel>
               <TabPanel value={pageId} index={'add_lease'}>
                 <SingleLeaseStore>
-                  <LeasesForm/>
+                  <PropertiesStore vacant_only={false}>
+                    <LeasesForm/>
+                  </PropertiesStore>
                 </SingleLeaseStore>
               </TabPanel>
               <TabPanel value={pageId} index={'edit_lease'}>
                 <SingleLeaseStore id={objectId}>
-                  <LeasesForm/>
+                  <PropertiesStore vacant_only={false}>
+                    <LeasesForm/>
+                  </PropertiesStore>
                 </SingleLeaseStore>
               </TabPanel>
               <TabPanel value={pageId} index={'stripe_accounts'}>
-                <StripeAccountsStore vacant_only={false}>
+                <StripeAccountsStore>
                   <StripeAccounts />
                 </StripeAccountsStore>
               </TabPanel>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {useHistory} from "react-router-dom";
 
 import ErrorHandlerHelper from "../helpers/ErrorHandlerHelper";
@@ -11,19 +11,37 @@ export default function SinglePropertyStore(props) {
   const history = useHistory();
   const [property, setProperty] = useState();
 
+  function removeEmpty(obj) {
+    return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
+  }
+
+  const deserializeProperty = useCallback((response) => {
+    if (response) {
+      let {price} = response.data.data.attributes || undefined;
+      if (price) {
+        price = price / 100
+      }
+      setProperty({...removeEmpty(response.data.data.attributes), price});
+    }
+  }, []);
+
+  const serializeProperty = (property) => {
+    let { price } = property;
+    if (price) { price = price * 100 }
+    return {...property, price };
+  };
+
   useEffect(() => {
     if (id) {
       PropertyService.loadProperty(id).then(response => {
-        let { price } = response.data.data.attributes;
-        if (price) { price = price / 100};
-        setProperty({...response.data.data.attributes, price});
+        deserializeProperty(response);
       }).catch(error => {
         ErrorHandlerHelper(error, history)
       });
     } else {
       setProperty({});
     }
-  }, [id, history]);
+  }, [id, history, deserializeProperty]);
 
   const saveProperty = (property, openSnackbar) => {
     PropertyService.saveProperty(serializeProperty(property)).then(response => {
@@ -40,6 +58,18 @@ export default function SinglePropertyStore(props) {
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
     }).catch(error => {
       ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
+    });
+  };
+
+  const deleteProperty = (property, openSnackbar, callback) => {
+    PropertyService.deleteProperty(property).then(response => {
+      openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
+      if (callback) {
+        callback();
+      }
+    }).catch(error => {
+      let errorMessage = error.response.data.error || "Request failed, please try again later!";
+      ErrorHandlerHelper(error, history, openSnackbar, errorMessage)
     });
   };
 
@@ -63,24 +93,7 @@ export default function SinglePropertyStore(props) {
     });
   };
 
-  const deserializeProperty = (response) => {
-    let { price } = response.data.data.attributes || undefined;
-    if (price) { price = price / 100};
-    setProperty({...removeEmpty(response.data.data.attributes), price});
-  };
-
-  const serializeProperty = (property) => {
-    if (property.price) {
-      return {...property, price: property.price * 100 };
-    }
-    return property;
-  };
-
-  function removeEmpty(obj) {
-    return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
-  }
-
-  const store = { property, saveProperty, updateProperty, savePicture, deletePicture };
+  const store = { property, saveProperty, updateProperty, deleteProperty, savePicture, deletePicture };
 
   return <SinglePropertyContext.Provider value={store}>{property && children}</SinglePropertyContext.Provider>
 }

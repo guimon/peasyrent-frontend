@@ -53,10 +53,8 @@ const StripeAccountsForm = props => {
           <Controller
             render={({ field,  fieldState: { error } }) =>
               <FieldText
-                value={field.value}
-                onChange={field.onChange}
-                inputRef={field.ref}
-                error={!!error}
+                field={field}
+                errorState={error}
               />
             }
             name="name"
@@ -69,10 +67,8 @@ const StripeAccountsForm = props => {
           <Controller
             render={({ field,  fieldState: { error } }) =>
               <FieldText
-                value={field.value}
-                onChange={field.onChange}
-                inputRef={field.ref}
-                error={!!error}
+                field={field}
+                errorState={error}
               />
             }
             name="publishable_prod_api_key"
@@ -85,10 +81,8 @@ const StripeAccountsForm = props => {
           <Controller
             render={({ field,  fieldState: { error } }) =>
               <FieldText
-                value={field.value}
-                onChange={field.onChange}
-                inputRef={field.ref}
-                error={!!error}
+                field={field}
+                errorState={error}
               />
             }
             name="prod_api_key"
@@ -101,10 +95,8 @@ const StripeAccountsForm = props => {
           <Controller
             render={({ field,  fieldState: { error } }) =>
               <FieldText
-                value={field.value}
-                onChange={field.onChange}
-                inputRef={field.ref}
-                error={!!error}
+                field={field}
+                errorState={error}
               />
             }
             name="publishable_test_api_key"
@@ -117,10 +109,8 @@ const StripeAccountsForm = props => {
           <Controller
             render={({ field,  fieldState: { error } }) =>
               <FieldText
-                value={field.value}
-                onChange={field.onChange}
-                inputRef={field.ref}
-                error={!!error}
+                field={field}
+                errorState={error}
               />
             }
             name="test_api_key"

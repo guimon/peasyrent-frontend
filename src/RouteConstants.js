@@ -21,7 +21,6 @@ export const RouteConstants = {
   stripeAccounts: '/dashboard/?pid=stripe_accounts',
   addStripeAccount: '/dashboard/?pid=add_stripe_account&gid=stripe_accounts',
   editStripeAccount: '/dashboard/?pid=edit_stripe_account&gid=stripe_accounts&id=',
-  renters: '/dashboard/?pid=renters',
   logout: '/logout',
 };
 

@@ -31,9 +31,8 @@ function updateProperty(property) {
   return axios.patch(Base.apiLocation() + "/properties/" + property.id, payload, Base.getFullHeaders());
 }
 
-function deleteProperty(id) {
-  let payload = { id: id };
-  return axios.delete(Base.apiLocation() + "/properties/", { data: payload, ...Base.getFullHeaders() });
+function deleteProperty(property) {
+  return axios.delete(Base.apiLocation() + "/properties/" + property.id, { ...Base.getFullHeaders() });
 }
 
 function savePicture(propertyId, path) {

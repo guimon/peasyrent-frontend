@@ -56,7 +56,7 @@ const Properties = props => {
                   <Hidden smDown>
                     <StyledTableCell>Address</StyledTableCell>
                   </Hidden>
-                  <StyledTableCell>Status</StyledTableCell>
+                  <StyledTableCell>Active</StyledTableCell>
                   <StyledTableCell>Leased until</StyledTableCell>
                 </TableRow>
               </TableHead>
@@ -69,8 +69,8 @@ const Properties = props => {
                     <Hidden smDown>
                       <StyledTableCell>{row.address}</StyledTableCell>
                     </Hidden>
-                    <StyledTableCell>{row.status}</StyledTableCell>
-                    <StyledTableCell>{row.leased_until}</StyledTableCell>
+                    <StyledTableCell>{row.active ? "Yes" : "No"}</StyledTableCell>
+                    <StyledTableCell>{row.leased_until || 'Vacant'}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

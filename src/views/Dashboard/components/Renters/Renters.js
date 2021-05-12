@@ -3,7 +3,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useForm, Controller } from "react-hook-form";
 import {
   useMediaQuery,
-  Grid, Box, Button, Divider, Hidden
+  Grid, Box, Button, Divider, Hidden, TextField
 } from '@material-ui/core';
 import {SingleLeaseContext} from "../../../../stores/SingleLeaseStore";
 import FieldText from "../../../../components/FieldText";
@@ -45,14 +45,20 @@ const Renters = props => {
         {lease && lease.renters.map((renter, i) => (
           <React.Fragment key={`renter-${renter.id}`}>
             <Grid item xs={12} md={4}>
-              <FieldText
+              <TextField
+                variant="outlined"
+                size="medium"
+                fullWidth
                 placeholder="Name"
                 value={renter.user.name}
                 disabled
               />
             </Grid>
             <Grid item xs={12} md={4}>
-              <FieldText
+              <TextField
+                variant="outlined"
+                size="medium"
+                fullWidth
                 placeholder="E-mail"
                 value={renter.user.email}
                 disabled
@@ -87,10 +93,8 @@ const Renters = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                 />
               }
               name="name"
@@ -102,10 +106,8 @@ const Renters = props => {
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FieldText
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  error={!!error}
+                  field={field}
+                  errorState={error}
                 />
               }
               name="email"

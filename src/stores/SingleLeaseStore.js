@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {useHistory} from "react-router-dom";
 
 import ErrorHandlerHelper from "../helpers/ErrorHandlerHelper";
@@ -11,21 +11,39 @@ export default function SingleLeaseStore(props) {
   const history = useHistory();
   const [lease, setLease] = useState();
 
+  function removeEmpty(obj) {
+    return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
+  }
+  const deserializeLease = useCallback((response) => {
+    let { monthly_amount, deposit_amount } = response.data.data.attributes;
+    if (monthly_amount) { monthly_amount = monthly_amount / 100 }
+    if (deposit_amount) { deposit_amount = deposit_amount / 100 }
+    setLease({...removeEmpty(response.data.data.attributes), monthly_amount, deposit_amount});
+  }, []);
+
+  const serializeLease = (lease) => {
+    let { monthly_amount, deposit_amount } = lease;
+    if (monthly_amount) { monthly_amount = monthly_amount * 100 }
+    if (deposit_amount) { deposit_amount = deposit_amount * 100 }
+
+    return {...lease, monthly_amount, deposit_amount };
+  };
+
   useEffect(() => {
     if (id) {
       LeaseService.loadLease(id).then(response => {
-        setLease(response.data.data.attributes);
+        deserializeLease(response);
       }).catch(error => {
         ErrorHandlerHelper(error, history)
       });
     } else {
       setLease({});
     }
-  }, [id, history]);
+  }, [id, history, deserializeLease]);
 
   const saveLease = (lease, openSnackbar) => {
-    LeaseService.saveLease(lease).then(response => {
-      setLease(response.data.data.attributes);
+    LeaseService.saveLease(serializeLease(lease)).then(response => {
+      deserializeLease(response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
     }).catch(error => {
       ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
@@ -33,8 +51,8 @@ export default function SingleLeaseStore(props) {
   };
 
   const updateLease = (lease, openSnackbar) => {
-    LeaseService.updateLease(lease).then(response => {
-      setLease(response.data.data.attributes);
+    LeaseService.updateLease(serializeLease(lease)).then(response => {
+      deserializeLease(response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
     }).catch(error => {
       ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
@@ -48,13 +66,14 @@ export default function SingleLeaseStore(props) {
         callback();
       }
     }).catch(error => {
-      ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
+      let errorMessage = error.response.data.error || "Request failed, please try again later!";
+      ErrorHandlerHelper(error, history, openSnackbar, errorMessage)
     });
   };
 
   const deleteFile = (leaseId, fileId, openSnackbar) => {
     LeaseService.deleteFile(leaseId, fileId).then(response => {
-      setLease(response.data.data.attributes);
+      deserializeLease(response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
     }).catch(error => {
       ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
@@ -63,7 +82,7 @@ export default function SingleLeaseStore(props) {
 
   const saveFile = (leaseId, path, initialFilename, openSnackbar, finishedCallback) => {
     LeaseService.saveFile(leaseId, path, initialFilename).then(response => {
-      setLease(response.data.data.attributes);
+      deserializeLease(response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
       finishedCallback();
     }).catch(error => {
@@ -74,7 +93,7 @@ export default function SingleLeaseStore(props) {
 
   const deleteRenter = (leaseId, renterId, openSnackbar) => {
     LeaseService.deleteRenter(leaseId, renterId).then(response => {
-      setLease(response.data.data.attributes);
+      deserializeLease(response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
     }).catch(error => {
       ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
@@ -83,7 +102,7 @@ export default function SingleLeaseStore(props) {
 
   const saveRenter = (leaseId, renter, openSnackbar, finishedCallback) => {
     LeaseService.saveRenter(leaseId, renter).then(response => {
-      setLease(response.data.data.attributes);
+      deserializeLease(response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
       finishedCallback();
     }).catch(error => {

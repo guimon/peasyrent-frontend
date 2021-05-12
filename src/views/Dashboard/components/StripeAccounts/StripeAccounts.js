@@ -62,7 +62,8 @@ const StripeAccounts = props => {
                     <StyledTableCell component="th" scope="row">
                       {row.name}
                     </StyledTableCell>
-                    <StyledTableCell>{row.property_names}</StyledTableCell>
+                    <StyledTableCell>{row.property_names.join(' , ')}
+                    </StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
