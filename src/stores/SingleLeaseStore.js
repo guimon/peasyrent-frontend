@@ -37,7 +37,7 @@ export default function SingleLeaseStore(props) {
         ErrorHandlerHelper(error, history)
       });
     } else {
-      setLease({});
+      setLease({ property_id: '' });
     }
   }, [id, history, deserializeLease]);
 

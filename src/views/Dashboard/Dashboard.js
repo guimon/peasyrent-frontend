@@ -4,7 +4,7 @@ import { parse } from 'query-string';
 import { makeStyles } from '@material-ui/core/styles';
 import {Box, List, ListItem, Grid, Typography, Hidden} from '@material-ui/core';
 import { SectionAlternate, CardBase } from '../../components/organisms';
-import { Hero, Properties, PropertiesForm, Leases, LeasesForm, StripeAccounts, StripeAccountsForm } from './components';
+import { Hero, Properties, PropertyForm, Leases, LeaseForm, StripeAccounts, StripeAccountForm } from './components';
 import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
 import PropertiesStore from "../../stores/PropertiesStore";
 import LeasesStore from "../../stores/LeasesStore";
@@ -187,21 +187,21 @@ const Dashboard = (props = {}) => {
                 Ending leases...
               </TabPanel>
               <TabPanel value={pageId} index={'properties'}>
-                <PropertiesStore vacant_only={false}>
+                <PropertiesStore>
                   <Properties />
                 </PropertiesStore>
               </TabPanel>
               <TabPanel value={pageId} index={'add_property'}>
                 <SinglePropertyStore>
                   <StripeAccountsStore>
-                     <PropertiesForm/>
+                     <PropertyForm/>
                   </StripeAccountsStore>
                 </SinglePropertyStore>
               </TabPanel>
               <TabPanel value={pageId} index={'edit_property'}>
                 <SinglePropertyStore id={objectId}>
                   <StripeAccountsStore>
-                    <PropertiesForm/>
+                    <PropertyForm/>
                   </StripeAccountsStore>
                 </SinglePropertyStore>
               </TabPanel>
@@ -212,21 +212,21 @@ const Dashboard = (props = {}) => {
                 "billing"
               </TabPanel>
               <TabPanel value={pageId} index={'leases'}>
-                <LeasesStore vacant_only={false}>
+                <LeasesStore>
                   <Leases />
                 </LeasesStore>
               </TabPanel>
               <TabPanel value={pageId} index={'add_lease'}>
                 <SingleLeaseStore>
-                  <PropertiesStore vacant_only={false}>
-                    <LeasesForm/>
+                  <PropertiesStore>
+                    <LeaseForm/>
                   </PropertiesStore>
                 </SingleLeaseStore>
               </TabPanel>
               <TabPanel value={pageId} index={'edit_lease'}>
                 <SingleLeaseStore id={objectId}>
-                  <PropertiesStore vacant_only={false}>
-                    <LeasesForm/>
+                  <PropertiesStore>
+                    <LeaseForm/>
                   </PropertiesStore>
                 </SingleLeaseStore>
               </TabPanel>
@@ -237,12 +237,12 @@ const Dashboard = (props = {}) => {
               </TabPanel>
               <TabPanel value={pageId} index={'add_stripe_account'}>
                 <SingleStripeAccountStore>
-                  <StripeAccountsForm/>
+                  <StripeAccountForm/>
                 </SingleStripeAccountStore>
               </TabPanel>
               <TabPanel value={pageId} index={'edit_stripe_account'}>
                 <SingleStripeAccountStore id={objectId}>
-                  <StripeAccountsForm/>
+                  <StripeAccountForm/>
                 </SingleStripeAccountStore>
               </TabPanel>
               <TabPanel value={pageId} index={'renters'}>

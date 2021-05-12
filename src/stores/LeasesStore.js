@@ -7,7 +7,7 @@ import LeaseService from "../services/LeaseService";
 export const LeasesContext = React.createContext(null);
 
 export default function LeasesStore(props) {
-  const { children, vacant_only } = props;
+  const { children } = props;
   const history = useHistory();
   const [leases, setLeases] = useState();
 
@@ -15,7 +15,7 @@ export default function LeasesStore(props) {
     LeaseService.index().then(response => {
       setLeases(response.data.data.map((hash) => {return hash.attributes}));
     }).catch(error => { ErrorHandlerHelper(error, history) });
-  }, [vacant_only, history]);
+  }, [history]);
 
   const deleteLease = (id, openSnackbar) => {
     LeaseService.deleteLease(id).then(response => {

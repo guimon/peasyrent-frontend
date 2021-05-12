@@ -7,7 +7,7 @@ import StripeAccountService from "../services/StripeAccountService";
 export const StripeAccountsContext = React.createContext(null);
 
 export default function StripeAccountsStore(props) {
-  const { children, vacant_only } = props;
+  const { children } = props;
   const history = useHistory();
   const [stripeAccounts, setStripeAccounts] = useState();
 
@@ -15,7 +15,7 @@ export default function StripeAccountsStore(props) {
     StripeAccountService.index().then(response => {
       setStripeAccounts(response.data.data.map((hash) => {return hash.attributes}));
     }).catch(error => { ErrorHandlerHelper(error, history) });
-  }, [vacant_only, history]);
+  }, [history]);
 
   const deleteStripeAccount = (id, openSnackbar) => {
     StripeAccountService.deleteStripeAccount(id).then(response => {

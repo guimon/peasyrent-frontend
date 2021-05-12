@@ -74,9 +74,9 @@ const Leases = props => {
                     </Hidden>
                     <StyledTableCell>${row.monthly_amount/100}</StyledTableCell>
                     <Hidden smDown>
-                      <StyledTableCell>{row.start_date}</StyledTableCell>
+                      <StyledTableCell>{row.start_date ?  new Date(row.start_date).toDateString() : '-'}</StyledTableCell>
                     </Hidden>
-                    <StyledTableCell>{row.end_date}</StyledTableCell>
+                    <StyledTableCell>{row.end_date ?  new Date(row.end_date).toDateString() : '-'}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

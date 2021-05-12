@@ -13,8 +13,8 @@ export const PropertyService = {
 
 export default PropertyService;
 
-function index(vacant_only) {
-  return axios.get(Base.apiLocation() + "/properties?vacant_only=" + vacant_only, Base.getFullHeaders());
+function index(advertised_only) {
+  return axios.get(Base.apiLocation() + "/properties?advertised_only=" + advertised_only, Base.getFullHeaders());
 }
 
 function loadProperty(id) {

@@ -7,15 +7,15 @@ import PropertyService from "../services/PropertyService";
 export const PropertiesContext = React.createContext(null);
 
 export default function PropertyStore(props) {
-  const { children, vacant_only } = props;
+  const { children, advertised_only } = props;
   const history = useHistory();
   const [properties, setProperties] = useState();
 
   useEffect(() => {
-    PropertyService.index(vacant_only).then(response => {
+    PropertyService.index(advertised_only || false).then(response => {
       setProperties(response.data.data.map((hash) => {return hash.attributes}));
     }).catch(error => { ErrorHandlerHelper(error, history) });
-  }, [vacant_only, history]);
+  }, [advertised_only, history]);
 
   const store = { properties };
 

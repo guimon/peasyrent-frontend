@@ -69,8 +69,8 @@ const Properties = props => {
                     <Hidden smDown>
                       <StyledTableCell>{row.address}</StyledTableCell>
                     </Hidden>
-                    <StyledTableCell>{row.active ? "Yes" : "No"}</StyledTableCell>
-                    <StyledTableCell>{row.leased_until || 'Vacant'}</StyledTableCell>
+                    <StyledTableCell>{row.advertised ? "Yes" : "No"}</StyledTableCell>
+                    <StyledTableCell>{row.leased_until ?  new Date(row.leased_until).toDateString() : 'Vacant'}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

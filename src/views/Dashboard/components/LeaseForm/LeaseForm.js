@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LeasesForm = props => {
+const LeaseForm = props => {
   const { className, ...rest } = props;
   const classes = useStyles();
   const { lease, saveLease, updateLease, deleteLease } = useContext(SingleLeaseContext);
@@ -228,11 +228,11 @@ const LeasesForm = props => {
   );
 };
 
-LeasesForm.propTypes = {
+LeaseForm.propTypes = {
   /**
    * External classes
    */
   className: PropTypes.string,
 };
 
-export default LeasesForm;
+export default LeaseForm;

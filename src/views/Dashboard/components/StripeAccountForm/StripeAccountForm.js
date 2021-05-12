@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const StripeAccountsForm = props => {
+const StripeAccountForm = props => {
   const { stripeAccount, saveStripeAccount, updateStripeAccount, deleteStripeAccount } = useContext(SingleStripeAccountContext);
   const { handleSubmit, control } = useForm({ defaultValues: stripeAccount });
   const classes = useStyles();
@@ -159,11 +159,11 @@ const StripeAccountsForm = props => {
   );
 };
 
-StripeAccountsForm.propTypes = {
+StripeAccountForm.propTypes = {
   /**
    * External classes
    */
   className: PropTypes.string,
 };
 
-export default StripeAccountsForm;
+export default StripeAccountForm;

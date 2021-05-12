@@ -1,11 +1,20 @@
-import {TableRow, withStyles} from "@material-ui/core";
+import {makeStyles, TableRow} from "@material-ui/core";
+import React from "react";
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
+const useStyles = makeStyles(theme => ({
+  root: props => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.alternate.main,
     },
-  },
-}))(TableRow);
+    cursor: props.onClick ? 'pointer' : 'default'
+  }),
+}));
+
+const StyledTableRow = props => {
+  const { children, ...rest } = props;
+  const classes = useStyles(props);
+
+  return (<TableRow classes={{root: classes.root}} {...rest}>{children}</TableRow>);
+};
 
 export default StyledTableRow;

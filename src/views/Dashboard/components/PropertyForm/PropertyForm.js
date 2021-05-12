@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PropertiesForm = props => {
+const PropertyForm = props => {
   const { className, ...rest } = props;
   const classes = useStyles();
   const { property, saveProperty, updateProperty, deleteProperty } = useContext(SinglePropertyContext);
@@ -301,7 +301,7 @@ const PropertiesForm = props => {
             />
           </Grid>
           <Grid item xs={12} sm={4}>
-            <FieldLabel label={"Active"}/>
+            <FieldLabel label={"Advertised"}/>
             <Controller
               render={({ field,  fieldState: { error } }) =>
                 <FormControl variant="outlined" className={classes.formControl} error={!!error}>
@@ -315,7 +315,7 @@ const PropertiesForm = props => {
                   </Select>
                 </FormControl>
               }
-              name="active"
+              name="advertised"
               rules={{ required: true }}
               control={control}
             />
@@ -422,11 +422,11 @@ const PropertiesForm = props => {
   );
 };
 
-PropertiesForm.propTypes = {
+PropertyForm.propTypes = {
   /**
    * External classes
    */
   className: PropTypes.string,
 };
 
-export default PropertiesForm;
+export default PropertyForm;

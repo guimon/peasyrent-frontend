@@ -9,7 +9,7 @@ const Home = () => {
       <Hero />
       <Box m={4} />
       <Divider />
-      <PropertiesStore vacant_only={true}>
+      <PropertiesStore advertised_only={true}>
         <FeaturedProperties />
       </PropertiesStore>
       <SellProperty />
