@@ -67,8 +67,7 @@ const LeaseForm = props => {
           <Grid container spacing={isMd ? 4 : 2}>
             <Grid item xs={12}>
               <Typography variant="h5" color="textPrimary">
-                { !lease && "Add new lease"}
-                { lease && lease.property?.name}
+                { lease.property?.name || "Add new lease"}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -80,6 +79,7 @@ const LeaseForm = props => {
                       placeholder="Property"
                       value={field.value}
                       onChange={field.onChange}
+                      name="property_id"
                     >
                       {properties.map((property) => (
                         <MenuItem key={`property_id_${property.id}`} value={property.id}>{property.name}</MenuItem>
@@ -100,6 +100,7 @@ const LeaseForm = props => {
                     field={field}
                     errorState={error}
                     type="date"
+                    name="start_date"
                   />
                 }
                 name="start_date"
@@ -115,6 +116,7 @@ const LeaseForm = props => {
                     field={field}
                     errorState={error}
                     type="date"
+                    name="end_date"
                   />
                 }
                 name="end_date"
@@ -130,6 +132,7 @@ const LeaseForm = props => {
                     errorState={error}
                     type="number"
                     placeholder="800"
+                    name="deposit_amount"
                     InputProps={{
                       startAdornment: <InputAdornment position="start">$</InputAdornment>,
                     }}
@@ -149,6 +152,7 @@ const LeaseForm = props => {
                     errorState={error}
                     type="number"
                     placeholder="800"
+                    name="monthly_amount"
                     InputProps={{
                       startAdornment: <InputAdornment position="start">$</InputAdornment>,
                     }}
@@ -191,6 +195,7 @@ const LeaseForm = props => {
               type="button"
               color="primary"
               size="large"
+              name="back"
               onClick={() => history.push(RouteConstants.leases)}
             >
               back
@@ -202,6 +207,7 @@ const LeaseForm = props => {
               type="submit"
               color="primary"
               size="large"
+              name="save"
               form={"leases-form"}
             >
               save

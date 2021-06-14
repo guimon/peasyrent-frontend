@@ -20,6 +20,7 @@ import RouteConstants from "../../../../RouteConstants";
 import {useHistory} from "react-router-dom";
 import StyledTableCell from '../../../../components/StyledTableCell'
 import StyledTableRow from '../../../../components/StyledTableRow'
+import moment from "moment";
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -70,7 +71,7 @@ const Properties = props => {
                       <StyledTableCell>{row.address}</StyledTableCell>
                     </Hidden>
                     <StyledTableCell>{row.advertised ? "Yes" : "No"}</StyledTableCell>
-                    <StyledTableCell>{row.leased_until ?  new Date(row.leased_until).toDateString() : 'Vacant'}</StyledTableCell>
+                    <StyledTableCell>{row.leased_until ?  moment(row.leased_until, "YYYY-MM-DD").format("ddd MMM DD YYYY") : 'Vacant'}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

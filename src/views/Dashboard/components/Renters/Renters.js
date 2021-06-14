@@ -39,6 +39,7 @@ const Renters = props => {
                 fullWidth
                 placeholder="Name"
                 value={renter.user.name}
+                name={`renter-${renter.id}-name`}
                 disabled
               />
             </Grid>
@@ -49,6 +50,7 @@ const Renters = props => {
                 fullWidth
                 placeholder="E-mail"
                 value={renter.user.email}
+                name={`renter-${renter.id}-email`}
                 disabled
               />
             </Grid>
@@ -59,6 +61,7 @@ const Renters = props => {
                   type="submit"
                   color="secondary"
                   size="small"
+                  name={`delete-renter-${renter.id}`}
                   onClick={() => deleteRenter(lease.id, renter.id)}
                 >
                   delete renter

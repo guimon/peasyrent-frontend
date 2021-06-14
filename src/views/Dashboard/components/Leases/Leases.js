@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
   useMediaQuery,
@@ -74,9 +75,9 @@ const Leases = props => {
                     </Hidden>
                     <StyledTableCell>${row.monthly_amount/100}</StyledTableCell>
                     <Hidden smDown>
-                      <StyledTableCell>{row.start_date ?  new Date(row.start_date).toDateString() : '-'}</StyledTableCell>
+                      <StyledTableCell>{row.start_date ? moment(row.start_date, "YYYY-MM-DD").format("ddd MMM DD YYYY") : '-'}</StyledTableCell>
                     </Hidden>
-                    <StyledTableCell>{row.end_date ?  new Date(row.end_date).toDateString() : '-'}</StyledTableCell>
+                    <StyledTableCell>{row.end_date ? moment(row.end_date, "YYYY-MM-DD").format("ddd MMM DD YYYY") : '-'}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

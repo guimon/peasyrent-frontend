@@ -43,6 +43,7 @@ const RenterForm = props => {
               <FieldText
                 field={field}
                 errorState={error}
+                name="name"
               />
             }
             name="name"
@@ -56,6 +57,7 @@ const RenterForm = props => {
               <FieldText
                 field={field}
                 errorState={error}
+                name="email"
               />
             }
             name="email"
