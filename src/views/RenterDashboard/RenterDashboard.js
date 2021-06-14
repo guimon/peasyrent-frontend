@@ -2,9 +2,13 @@ import React from 'react';
 import clsx from 'clsx';
 import { parse } from 'query-string';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, List, ListItem, Grid, Typography } from '@material-ui/core';
+import {Box, List, ListItem, Grid, Typography, Hidden} from '@material-ui/core';
 import { SectionAlternate, CardBase } from '../../components/organisms';
-import { Hero, General, Security, Notifications, Billing } from './components';
+import Hero from './Hero';
+import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
+import RouteConstants from "../../RouteConstants";
+import AuthService from "../../services/AuthService";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -59,26 +63,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const subPages = [
+export const subPages = [
   {
-    id: 'general',
-    href: '/account/?pid=general',
-    title: 'General',
-  },
-  {
-    id: 'security',
-    href: '/account/?pid=security',
-    title: 'Security',
-  },
-  {
-    id: 'notifications',
-    href: '/account/?pid=notifications',
-    title: 'Notifications',
-  },
-  {
-    id: 'billing',
-    href: '/account/?pid=billing',
-    title: 'Billing Information',
+    id: 'dashboard',
+    group: 'dashboard',
+    href: RouteConstants.renterDashboard,
+    title: 'Dashboard',
   },
 ];
 
@@ -92,27 +82,54 @@ const TabPanel = props => {
   );
 };
 
-const Account = (props = {}) => {
+
+const RenterDashboard = (props = {}) => {
+  useEnsuredLoggedInUser();
   const classes = useStyles();
-  let pageId = parse(window.location.search).pid || 'general';
+  const history = useHistory();
+  let pageId = parse(window.location.search).pid || 'dashboard';
+  let groupId = parse(window.location.search).gid || pageId;
+
+  const logout = () => {
+    AuthService.logout();
+    history.push(RouteConstants.root);
+  };
 
   return (
     <div className={classes.root}>
       <Hero />
       <SectionAlternate className={classes.section}>
         <Grid container spacing={4}>
-          <Grid item xs={12} md={3}>
-            <CardBase withShadow align="left" className={classes.menu}>
-              <List disablePadding className={classes.list}>
-                {subPages.map((item, index) => (
+          <Hidden smDown>
+            <Grid item xs={12} md={3}>
+              <CardBase withShadow align="left" className={classes.menu}>
+                <List disablePadding className={classes.list}>
+                  {subPages.map((item, index) => (
+                    <ListItem
+                      button
+                      onClick={() => history.push(item.href)}
+                      key={index}
+                      className={clsx(
+                        classes.listItem,
+                        groupId === item.id ? classes.listItemActive : {},
+                      )}
+                      disableGutters
+                    >
+                      <Typography
+                        variant="subtitle1"
+                        noWrap
+                        color="textSecondary"
+                        className="menu__item"
+                      >
+                        {item.title}
+                      </Typography>
+                    </ListItem>
+                  ))}
                   <ListItem
-                    key={index}
-                    component={'a'}
-                    href={item.href}
-                    className={clsx(
-                      classes.listItem,
-                      pageId === item.id ? classes.listItemActive : {},
-                    )}
+                    key={"logout"}
+                    className={classes.listItem}
+                    button
+                    onClick={logout}
                     disableGutters
                   >
                     <Typography
@@ -121,26 +138,17 @@ const Account = (props = {}) => {
                       color="textSecondary"
                       className="menu__item"
                     >
-                      {item.title}
+                      Logout
                     </Typography>
                   </ListItem>
-                ))}
-              </List>
-            </CardBase>
-          </Grid>
+                </List>
+              </CardBase>
+            </Grid>
+          </Hidden>
           <Grid item xs={12} md={9}>
             <CardBase withShadow align="left">
-              <TabPanel value={pageId} index={'general'}>
-                <General />
-              </TabPanel>
-              <TabPanel value={pageId} index={'security'}>
-                <Security />
-              </TabPanel>
-              <TabPanel value={pageId} index={'notifications'}>
-                <Notifications />
-              </TabPanel>
-              <TabPanel value={pageId} index={'billing'}>
-                <Billing />
+              <TabPanel value={pageId} index={'dashboard'}>
+               Renter dashboard
               </TabPanel>
             </CardBase>
           </Grid>
@@ -150,4 +158,4 @@ const Account = (props = {}) => {
   );
 };
 
-export default Account;
+export default RenterDashboard;

@@ -22,6 +22,8 @@ export const RouteConstants = {
   addStripeAccount: '/dashboard/?pid=add_stripe_account&gid=stripe_accounts',
   editStripeAccount: '/dashboard/?pid=edit_stripe_account&gid=stripe_accounts&id=',
   logout: '/logout',
+  renterDashboard: '/renter',
+  adminDashboard: '/admin',
 };
 
 export default RouteConstants;

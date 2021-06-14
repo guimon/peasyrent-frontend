@@ -15,6 +15,8 @@ import {
   PasswordResetNew,
   Dashboard,
 } from './views';
+import RenterDashboard from './views/RenterDashboard/RenterDashboard'
+import AdminDashboard from './views/AdminDashboard/AdminDashboard'
 import RouteConstants from "./RouteConstants";
 
 const Routes = () => {
@@ -115,6 +117,28 @@ const Routes = () => {
           <WithLayout
             {...matchProps}
             component={Dashboard}
+            layout={Main}
+          />
+        )}
+      />
+      <Route
+        exact
+        path={RouteConstants.renterDashboard}
+        render={matchProps => (
+          <WithLayout
+            {...matchProps}
+            component={RenterDashboard}
+            layout={Main}
+          />
+        )}
+      />
+      <Route
+        exact
+        path={RouteConstants.adminDashboard}
+        render={matchProps => (
+          <WithLayout
+            {...matchProps}
+            component={AdminDashboard}
             layout={Main}
           />
         )}

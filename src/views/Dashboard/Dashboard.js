@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
   list: {
     display: 'inline-flex',
-    overflow: 'auto',
+    overflow: 'hidden',
     flexWrap: 'nowrap',
     width: '100%',
     [theme.breakpoints.up('md')]: {

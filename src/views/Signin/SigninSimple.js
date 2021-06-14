@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Form } from './components';
+import Form from './components/Form';
 import { LearnMoreLink } from '../../components/atoms';
 import { SectionHeader } from '../../components/molecules';
 import { Section } from '../../components/organisms';

@@ -2,12 +2,12 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 import validate from 'validate.js';
-import { LearnMoreLink } from '../../../../components/atoms';
-import AuthService from "../../../../services/AuthService";
+import { LearnMoreLink } from '../../../components/atoms/index';
+import AuthService from "../../../services/AuthService";
 import store2 from "store2";
-import { openSnackbar } from '../../../../components/Notifier';
+import { openSnackbar } from '../../../components/Notifier';
 import { useHistory } from "react-router-dom";
-import RouteConstants from "../../../../RouteConstants";
+import RouteConstants from "../../../RouteConstants";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -81,10 +81,11 @@ const Form = () => {
         store2.set('email', email);
         if (response.data.data.attributes.is_admin) {
           console.log('admin');
-          history.push(RouteConstants.dashboard);
+          history.push(RouteConstants.adminDashboard);
         } else if (response.data.data.attributes.is_renter) {
           console.log('renter');
-          history.push(RouteConstants.dashboard);
+          console.log(RouteConstants.renterDashboard);
+          history.push(RouteConstants.renterDashboard);
         } else {
           console.log('owner');
           history.push(RouteConstants.dashboard);

@@ -65,8 +65,7 @@ const PropertyForm = props => {
         <Grid container spacing={isMd ? 4 : 2}>
           <Grid item xs={12}>
             <Typography variant="h5" color="textPrimary">
-              { !property && "Add new property"}
-              { property && property.name}
+              { property.name || "Add new property"}
             </Typography>
           </Grid>
           <Grid item xs={12}>
@@ -76,6 +75,7 @@ const PropertyForm = props => {
                 <FieldText
                   field={field}
                   errorState={error}
+                  name="name"
                   placeholder="Nickname for this property"
                 />
               }
@@ -94,6 +94,7 @@ const PropertyForm = props => {
                 <FieldText
                   field={field}
                   errorState={error}
+                  name="street_address"
                   placeholder="Street address"
                 />
               }
@@ -109,6 +110,7 @@ const PropertyForm = props => {
                 <FieldText
                   field={field}
                   errorState={error}
+                  name="address_complement"
                   placeholder="Complement"
                 />
               }
@@ -123,6 +125,7 @@ const PropertyForm = props => {
                 <FieldText
                   field={field}
                   errorState={error}
+                  name="city"
                   placeholder="City"
                 />
               }
@@ -138,6 +141,7 @@ const PropertyForm = props => {
                 <FormControl variant="outlined" className={classes.formControl} error={!!error}>
                   <Select
                       placeholder="State"
+                      name="state"
                       value={field.value}
                       onChange={field.onChange}
                     >
@@ -208,6 +212,7 @@ const PropertyForm = props => {
                   field={field}
                   errorState={error}
                   placeholder="Zip code"
+                  name="zip_code"
                 />
               }
               name="zip_code"
@@ -227,6 +232,7 @@ const PropertyForm = props => {
                   errorState={error}
                   type="number"
                   placeholder="# of bedrooms"
+                  name="beds"
                 />
               }
               name="beds"
@@ -243,6 +249,7 @@ const PropertyForm = props => {
                   errorState={error}
                   type="number"
                   placeholder="# of baths"
+                  name="baths"
                 />
               }
               name="baths"
@@ -259,6 +266,7 @@ const PropertyForm = props => {
                   errorState={error}
                   type="number"
                   placeholder="# of parking spots"
+                  name="parking_spots"
                 />
               }
               name="parking_spots"
@@ -275,6 +283,7 @@ const PropertyForm = props => {
                   errorState={error}
                   type="number"
                   placeholder="634"
+                  name="square_footage"
                 />
               }
               name="square_footage"
@@ -291,6 +300,7 @@ const PropertyForm = props => {
                   errorState={error}
                   type="number"
                   placeholder="800"
+                  name="price"
                   InputProps={{
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                   }}
@@ -309,6 +319,7 @@ const PropertyForm = props => {
                     placeholder="Active"
                     value={field.value}
                     onChange={field.onChange}
+                    name="advertised"
                   >
                     <MenuItem value={"true"}>Yes</MenuItem>
                     <MenuItem value={"false"}>No</MenuItem>
@@ -330,8 +341,8 @@ const PropertyForm = props => {
                 <FieldText
                   field={field}
                   errorState={error}
-                  type="text"
                   placeholder="Describe the property"
+                  name="description"
                   rows={4}
                   multiline={true}
                 />
@@ -350,6 +361,7 @@ const PropertyForm = props => {
                 <FormControl variant="outlined" className={classes.formControl} error={!!error}>
                   <Select
                     placeholder="Stripe account"
+                    name="stripe_account_id"
                     value={field.value}
                     onChange={field.onChange}
                   >
@@ -385,6 +397,7 @@ const PropertyForm = props => {
                 type="button"
                 color="primary"
                 size="large"
+                name="back"
                 onClick={() => history.push(RouteConstants.properties)}
               >
                 back
@@ -396,6 +409,7 @@ const PropertyForm = props => {
                 type="submit"
                 color="primary"
                 size="large"
+                name="save"
               >
                 save
               </Button>

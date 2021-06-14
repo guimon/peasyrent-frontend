@@ -39,7 +39,7 @@ export default function SinglePropertyStore(props) {
         ErrorHandlerHelper(error, history)
       });
     } else {
-      setProperty({ state: '', stripe_account_id: '', active: ''});
+      setProperty({});
     }
   }, [id, history, deserializeProperty]);
 
