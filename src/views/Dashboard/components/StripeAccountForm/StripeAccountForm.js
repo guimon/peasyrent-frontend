@@ -55,6 +55,7 @@ const StripeAccountForm = props => {
               <FieldText
                 field={field}
                 errorState={error}
+                name="name"
               />
             }
             name="name"
@@ -69,6 +70,7 @@ const StripeAccountForm = props => {
               <FieldText
                 field={field}
                 errorState={error}
+                name="publishable_prod_api_key"
               />
             }
             name="publishable_prod_api_key"
@@ -83,6 +85,7 @@ const StripeAccountForm = props => {
               <FieldText
                 field={field}
                 errorState={error}
+                name="prod_api_key"
               />
             }
             name="prod_api_key"
@@ -97,6 +100,7 @@ const StripeAccountForm = props => {
               <FieldText
                 field={field}
                 errorState={error}
+                name="publishable_test_api_key"
               />
             }
             name="publishable_test_api_key"
@@ -111,6 +115,7 @@ const StripeAccountForm = props => {
               <FieldText
                 field={field}
                 errorState={error}
+                name="test_api_key"
               />
             }
             name="test_api_key"
@@ -126,6 +131,7 @@ const StripeAccountForm = props => {
               color="primary"
               size="large"
               onClick={() => history.push(RouteConstants.stripeAccounts)}
+              name="back"
             >
               back
             </Button>
@@ -136,6 +142,7 @@ const StripeAccountForm = props => {
               type="submit"
               color="primary"
               size="large"
+              name="save"
             >
               save
             </Button>
