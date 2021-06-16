@@ -90,6 +90,7 @@ const useStyles = makeStyles(theme => ({
   },
   navLink: {
     color: 'rgba(255,255,255,.6)',
+    cursor: 'pointer'
   },
 }));
 
@@ -112,7 +113,8 @@ const Footer = props => {
             <Typography
               variant="body2"
               component={'a'}
-              href={page.href}
+              href={page.href || undefined}
+              onClick={page.onClick || undefined}
               className={clsx(classes.navLink, 'submenu-item')}
             >
               {page.title}

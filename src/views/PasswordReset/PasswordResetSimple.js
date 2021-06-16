@@ -29,7 +29,7 @@ const PasswordResetSimple = () => {
       <Section className={classes.section}>
         <div className={classes.formContainer}>
           <SectionHeader
-            title="Password reset"
+            title="Set your new password"
             subtitle="Enter your email to reset your password."
             titleProps={{
               variant: 'h3',

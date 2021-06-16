@@ -6,6 +6,7 @@ import { useMediaQuery, Divider } from '@material-ui/core';
 import { Topbar, Footer, Sidebar } from './components';
 import AuthService from "../../services/AuthService";
 import RouteConstants from "../../RouteConstants";
+import {useHistory} from "react-router-dom";
 import {subPages as dasboardSubPages} from "../../views/Dashboard/Dashboard";
 
 const useStyles = makeStyles(theme => ({
@@ -22,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 const Main = ({ children }) => {
   const classes = useStyles();
+  const history = useHistory();
 
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up('md'), {
@@ -36,7 +38,8 @@ const Main = ({ children }) => {
         pages: [
           {
             title: AuthService.loggedIn() ? 'Logout' : 'Login',
-            href: AuthService.loggedIn() ? RouteConstants.logout : RouteConstants.login,
+            href: AuthService.loggedIn() ? undefined : RouteConstants.login,
+            onClick: AuthService.loggedIn() ? () => { AuthService.logout(); history.push(RouteConstants.root); } : undefined,
           },
           {
             title: 'Sign up',
