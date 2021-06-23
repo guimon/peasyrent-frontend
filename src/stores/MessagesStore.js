@@ -36,6 +36,9 @@ export default function MessagesStore(props) {
         loadingCallback(false);
       }
     }).catch(error => {
+      if (loadingCallback) {
+        loadingCallback(false);
+      }
       ErrorHandlerHelper(error, history, openSnackbar, 'Error loading data, please try again later!');
     });
   };

@@ -11,7 +11,7 @@ import ErrorHandlerHelper from "../../../helpers/ErrorHandlerHelper";
 import {MessagesContext} from "../../../stores/MessagesStore";
 import {openSnackbar} from "../../../components/Notifier";
 import MessageService from "../../../services/MessageService";
-import {IconButton, Typography, List, useMediaQuery} from "@material-ui/core";
+import {IconButton, Typography, List, useMediaQuery, CircularProgress} from "@material-ui/core";
 import Send from '@material-ui/icons/Send';
 import Uploader from "../../../components/Uploader";
 import FieldLabel from "../../../components/FieldLabel";
@@ -19,7 +19,10 @@ import FieldLabel from "../../../components/FieldLabel";
 const useStyles = makeStyles(theme => ({
   container: {
     padding: 10,
-    backgroundColor: '#f7f7f7'
+    backgroundColor: '#f7f7f7',
+  },
+  innerContainer: {
+    padding: 10,
   },
   sendBox: {
     display: 'flex',
@@ -38,6 +41,9 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
     marginRight: 12
   },
+  upload: {
+    marginRight: 12
+  },
 }));
 
 function MessageContainer(props){
@@ -46,6 +52,7 @@ function MessageContainer(props){
 
   const classes = useStyles();
   const [newMessage, setNewMessage] = useState("");
+  const [sendLoading, setSendLoading] = useState(false);
 
   const history = useHistory();
 
@@ -66,6 +73,12 @@ function MessageContainer(props){
     sendNewMessage(null, filename, setLoading);
   };
 
+  const postMessage = () => {
+    setSendLoading(true);
+    sendNewMessage(newMessage, null, setSendLoading);
+    setNewMessage('');
+  };
+
   return (
     <Grid container spacing={isMd ? 4 : 2}>
       <Grid item xs={12}>
@@ -84,19 +97,24 @@ function MessageContainer(props){
         }
 
         <Paper elevation={2} className={classes.container}>
-          <Grid className={classes.sendBox}>
-            <Grid item>
-              <Uploader displayStyle={"icon"} mimeType="image/*" label="Upload picture" callback={persistImage}/>
+          <Paper elevation={2} className={classes.innerContainer}>
+            <Grid className={classes.sendBox}>
+              <Grid item className={classes.upload}>
+                <Uploader displayStyle={"icon"} mimeType="image/*" label="Upload picture" callback={persistImage}/>
+              </Grid>
+              <Grid item className={classes.expandable}>
+                <TextField variant="outlined" id="new_message" multiline={true} className={classes.input} value={newMessage} onChange={(e) => setNewMessage(e.target.value)}/>
+              </Grid>
+              <Grid item>
+                { sendLoading && <CircularProgress color={"primary"}/> }
+                {!sendLoading &&
+                  <IconButton aria-label="send" component="span" onClick={postMessage} title={"Send"} id="send_button">
+                    <Send fontSize="large" color={"primary"} />
+                  </IconButton>
+                }
+              </Grid>
             </Grid>
-            <Grid item className={classes.expandable}>
-              <TextField variant="outlined" multiline={true} className={classes.input} value={newMessage} onChange={(e) => setNewMessage(e.target.value)}/>
-            </Grid>
-            <Grid item>
-              <IconButton aria-label="send" component="span" onClick={() => { sendNewMessage(newMessage); setNewMessage("") }} title={"Send"}>
-                <Send fontSize="large" color={"primary"} />
-              </IconButton>
-            </Grid>
-          </Grid>
+          </Paper>
           <List>
             {messages.map((message) => (
               <Message {...{message}} key={`message_${message.id}`}/>

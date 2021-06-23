@@ -68,9 +68,7 @@ const Uploader = props => {
         <div className={classes.addContainer}>
           { loading && <CircularProgress color={"primary"}/> }
           {!loading &&
-          <>
             <input onChange={upload} accept={mimeType} type="file" ref={uploadInputRef} hidden/>
-          </>
           }
         </div>
       </CardMedia>
@@ -107,6 +105,7 @@ const Uploader = props => {
           aria-label="upload picture"
           component="span"
           title={"Upload picture"}
+          name="upload_button"
           onClick={() => uploadInputRef.current && uploadInputRef.current.click()}
         >
           <PhotoCamera
