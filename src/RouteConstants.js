@@ -13,7 +13,6 @@ export const RouteConstants = {
   properties: '/dashboard/?pid=properties',
   addProperty: '/dashboard/?pid=add_property&gid=properties',
   editProperty: '/dashboard/?pid=edit_property&gid=properties&id=',
-  maintenance: '/dashboard/?pid=maintenance',
   billing: '/dashboard/?pid=billing',
   leases: '/dashboard/?pid=leases',
   addLease: '/dashboard/?pid=add_lease&gid=leases',
@@ -21,7 +20,11 @@ export const RouteConstants = {
   stripeAccounts: '/dashboard/?pid=stripe_accounts',
   addStripeAccount: '/dashboard/?pid=add_stripe_account&gid=stripe_accounts',
   editStripeAccount: '/dashboard/?pid=edit_stripe_account&gid=stripe_accounts&id=',
+  messages: '/dashboard/?pid=messages',
   renterDashboard: '/renter',
+  paymentMethods: '/renter/?pid=payment_methods',
+  addPaymentMethod: '/renter/?pid=add_payment_method&gid=payment_methods',
+  renterMessages: '/renter/?pid=messages',
   adminDashboard: '/admin',
 };
 

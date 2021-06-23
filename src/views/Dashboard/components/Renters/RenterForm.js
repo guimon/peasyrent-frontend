@@ -44,6 +44,7 @@ const RenterForm = props => {
                 field={field}
                 errorState={error}
                 name="name"
+                placeholder="First and Last name"
               />
             }
             name="name"
@@ -58,6 +59,7 @@ const RenterForm = props => {
                 field={field}
                 errorState={error}
                 name="email"
+                placeholder="E-mail"
               />
             }
             name="email"

@@ -2,7 +2,16 @@ import React, {useRef, useState} from 'react';
 import FileService from "../services/FileService";
 import {openSnackbar} from "./Notifier";
 import S3Service from "../services/S3Service";
-import {Card, CardMedia, Grid, Button, CircularProgress, makeStyles} from "@material-ui/core";
+import {
+  Card,
+  CardMedia,
+  Grid,
+  Button,
+  CircularProgress,
+  makeStyles,
+  IconButton
+} from "@material-ui/core";
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -88,10 +97,33 @@ const Uploader = props => {
     </div>
   );
 
+  const renderIconButton = () => (
+    <div>
+      { loading && <CircularProgress color={"primary"}/> }
+      {!loading &&
+      <>
+        <input onChange={upload} accept={mimeType} type="file" ref={uploadInputRef} hidden/>
+        <IconButton
+          aria-label="upload picture"
+          component="span"
+          title={"Upload picture"}
+          onClick={() => uploadInputRef.current && uploadInputRef.current.click()}
+        >
+          <PhotoCamera
+            fontSize="large"
+            color={"primary"}
+          />
+        </IconButton>
+      </>
+      }
+    </div>
+  );
+
   return (
     <Grid item xs={12} sm={4} data-aos="fade-up">
       {displayStyle === 'card' && renderCard()}
       {displayStyle === 'button' && renderButton()}
+      {displayStyle === 'icon' && renderIconButton()}
     </Grid>
   );
 }

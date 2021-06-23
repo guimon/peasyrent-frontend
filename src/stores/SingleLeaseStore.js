@@ -110,7 +110,7 @@ export default function SingleLeaseStore(props) {
     });
   };
 
-  const store = { lease, saveLease, updateLease, deleteLease, saveFile, deleteFile, saveRenter, deleteRenter };
+  const store = { lease, deserializeLease, saveLease, updateLease, deleteLease, saveFile, deleteFile, saveRenter, deleteRenter };
 
   return <SingleLeaseContext.Provider value={store}>{lease && children}</SingleLeaseContext.Provider>
 }

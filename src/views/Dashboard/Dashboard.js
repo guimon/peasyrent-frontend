@@ -15,6 +15,7 @@ import {useHistory} from "react-router-dom";
 import SinglePropertyStore from "../../stores/SinglePropertyStore";
 import SingleLeaseStore from "../../stores/SingleLeaseStore";
 import SingleStripeAccountStore from "../../stores/SingleStripeAccountStore";
+import MessageLeasePicker from "../RenterDashboard/components/MessageLeasePicker";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -92,9 +93,9 @@ export const subPages = [
     title: 'Leases',
   },
   {
-    id: 'maintenance',
-    href: RouteConstants.maintenance,
-    title: 'Maintenance',
+    id: 'messages',
+    href: RouteConstants.messages,
+    title: 'Tenant Messages',
   },
   {
     id: 'billing',
@@ -180,7 +181,7 @@ const Dashboard = (props = {}) => {
           <Grid item xs={12} md={9}>
             <CardBase withShadow align="left">
               <TabPanel value={pageId} index={'dashboard'}>
-                Open maintenance requests...
+                New tenant messages...
                 <br/>
                 Late payments...
                 <br/>
@@ -205,8 +206,10 @@ const Dashboard = (props = {}) => {
                   </StripeAccountsStore>
                 </SinglePropertyStore>
               </TabPanel>
-              <TabPanel value={pageId} index={'maintenance'}>
-                "maintenance"
+              <TabPanel value={pageId} index={'messages'}>
+                <LeasesStore for_messages={true}>
+                  <MessageLeasePicker />
+                </LeasesStore>
               </TabPanel>
               <TabPanel value={pageId} index={'billing'}>
                 "billing"

@@ -173,7 +173,7 @@ const LeaseForm = props => {
         { lease.id &&
         <>
           <Grid item xs={12}>
-            <FieldLabel label={"Renters"}/>
+            <FieldLabel label={"Tenants"}/>
             <Renters/>
           </Grid>
           <Grid item xs={12}>

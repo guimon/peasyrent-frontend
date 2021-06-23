@@ -21,7 +21,7 @@ const LeaseFiles = props => {
               variant="body2"
               color="primary"
             >
-              <Link href={file.url} target="_blank">
+              <Link href={file.url} target="_blank" rel="noreferrer">
                 {file.description}
               </Link>
             </Typography>

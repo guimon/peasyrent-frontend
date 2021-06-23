@@ -9,6 +9,8 @@ import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
 import RouteConstants from "../../RouteConstants";
 import AuthService from "../../services/AuthService";
 import {useHistory} from "react-router-dom";
+import MessageLeasePicker from "./components/MessageLeasePicker"
+import LeasesStore from "../../stores/LeasesStore";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -69,6 +71,18 @@ export const subPages = [
     group: 'dashboard',
     href: RouteConstants.renterDashboard,
     title: 'Dashboard',
+  },
+  {
+    id: 'payment-methods',
+    group: 'payment-methods',
+    href: RouteConstants.paymentMethods,
+    title: 'Payment methods',
+  },
+  {
+    id: 'messages',
+    group: 'messages',
+    href: RouteConstants.renterMessages,
+    title: 'Messages',
   },
 ];
 
@@ -150,6 +164,15 @@ const RenterDashboard = (props = {}) => {
               <TabPanel value={pageId} index={'dashboard'}>
                Renter dashboard
               </TabPanel>
+              <TabPanel value={pageId} index={'messages'}>
+                <LeasesStore>
+                  <MessageLeasePicker />
+                </LeasesStore>
+              </TabPanel>
+              <TabPanel value={pageId} index={'payment_methods'}>
+                Payment methods
+              </TabPanel>
+
             </CardBase>
           </Grid>
         </Grid>
