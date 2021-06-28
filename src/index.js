@@ -1,7 +1,7 @@
 import React from 'react';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import './helpers/Rollbar'
+import './helpers/Sentry'
 import ReactDOM from 'react-dom';
 
 ReactDOM.render(<App />, document.getElementById('root'));

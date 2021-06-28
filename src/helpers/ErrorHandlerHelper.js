@@ -1,5 +1,3 @@
-import rollbar from "./Rollbar";
-
 import BaseService from "../services/BaseService";
 import RouteConstants from "../RouteConstants";
 
@@ -10,11 +8,11 @@ const errorHandler = (error, history, flashFn, errorMessage, redirectRoute) => {
   } else {
     window.err = error;
 
-    if (error.config) {
-      rollbar.error("Failure on: " + error.config.url, error);
-    } else {
-      rollbar.error("Client failure: " + (history ? history.location : ''), error);
-    }
+    // if (error.config) {
+    //   rollbar.error("Failure on: " + error.config.url, error);
+    // } else {
+    //   rollbar.error("Client failure: " + (history ? history.location : ''), error);
+    // }
 
     if (flashFn && errorMessage) {
       window.fff = flashFn;
