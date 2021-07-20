@@ -7,7 +7,8 @@ function FieldText(props){
   let value;
 
   if (!field) {
-    console.log(props);
+    console.error("Missing field");
+    console.error(props);
   }
   // removing null from field.value
   if (field.value) {
@@ -19,7 +20,7 @@ function FieldText(props){
       variant="outlined"
       size="medium"
       fullWidth
-      value={value}
+      value={value || ''}
       onChange={field.onChange}
       inputRef={field.ref}
       error={!!errorState}

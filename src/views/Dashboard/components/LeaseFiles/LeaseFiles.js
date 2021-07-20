@@ -1,42 +1,81 @@
 import React, {useContext} from 'react';
 import {
-  Button, ListItem, Typography, List, Link,
+  Button,
+  Grid,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableBody, Box, makeStyles,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
 import {SingleLeaseContext} from "../../../../stores/SingleLeaseStore";
 import {openSnackbar} from "../../../../components/Notifier";
 import Uploader from "../../../../components/Uploader";
+import StyledTableCell from "../../../../components/StyledTableCell";
+import StyledTableRow from "../../../../components/StyledTableRow";
+
+const useStyles = makeStyles(theme => ({
+  actionButton: {
+    paddingTop: 12
+  },
+  marginTop: {
+    marginTop: 16
+  }
+}));
 
 const LeaseFiles = props => {
   const { lease, saveFile, deleteFile } = useContext(SingleLeaseContext);
+  const classes = useStyles();
   const persistFile = (filename, initialFilename, setLoading) => {
     saveFile(lease.id, filename, initialFilename, openSnackbar, () => setLoading(false));
   };
 
   return (
-    <List>
-      {lease && lease.files.map((file, i) => (
-          <ListItem key={`lease-file-${file.id}`}>
-            <Typography
-              variant="body2"
-              color="primary"
-            >
-              <Link href={file.url} target="_blank" rel="noreferrer">
-                {file.description}
-              </Link>
-            </Typography>
-            <Button
-              color={"secondary"}
-              size="small"
-              aria-label="delete"
-              onClick={() => deleteFile(lease.id, file.id, openSnackbar)}
-              title={"Delete file"}>
-              <DeleteIcon fontSize="small" />
-            </Button>
-          </ListItem>
-        ))}
-      <Uploader displayStyle={"button"} label={"Upload file"} mimeType={"application/pdf"} callback={persistFile} />
-    </List>
+    <Grid container>
+      <Grid item xs={12}>
+        <TableContainer component={Paper} className={classes.marginTop}>
+          <Table>
+            <TableHead>
+              <TableRow >
+                <StyledTableCell>File</StyledTableCell>
+                <StyledTableCell></StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+            {lease && lease.files.map((file, i) => (
+              <StyledTableRow key={`lease-file-${file.id}`}>
+                <StyledTableCell component="th" scope="row">
+                  {file.description}
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Box className={classes.actionButton}>
+                    <Button
+                      variant="outlined"
+                      type="submit"
+                      color="secondary"
+                      size="small"
+                      name={`delete-renter-${file.id}`}
+                      onClick={() => deleteFile(lease.id, file.id, openSnackbar)}
+                    >
+                      delete file
+                    </Button>
+                  </Box>
+                </StyledTableCell>
+              </StyledTableRow>
+              ))}
+              <StyledTableRow key={`new-lease-file`}>
+                <StyledTableCell component="th" scope="row">
+                  <Uploader displayStyle={"button"} label={"Upload file"} mimeType={"application/pdf"} callback={persistFile} />
+                </StyledTableCell>
+                <StyledTableCell>
+                </StyledTableCell>
+              </StyledTableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Grid>
+    </Grid>
   );
 };
 

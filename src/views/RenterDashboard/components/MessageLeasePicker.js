@@ -9,6 +9,7 @@ import {LeasesContext} from "../../../stores/LeasesStore";
 import MessageContainer from "./MessageContainer";
 import MessagesStore from "../../../stores/MessagesStore";
 import FieldLabel from "../../../components/FieldLabel";
+import {CardBase} from "../../../components/organisms";
 
 function MessageLeasePicker(props){
   const { leases } = useContext(LeasesContext);
@@ -29,44 +30,46 @@ function MessageLeasePicker(props){
   };
 
   return (
-    <Grid container spacing={isMd ? 4 : 2}>
-      <Grid item xs={12}>
-        <Typography variant="h5" color="textPrimary">
-          Tenant messages <WidthFixer/>
-        </Typography>
-      </Grid>
-      {leases &&
+    <CardBase withShadow align="left">
+      <Grid container spacing={isMd ? 4 : 2}>
+        <Grid item xs={12}>
+          <Typography variant="h5" color="textPrimary">
+            Tenant messages <WidthFixer/>
+          </Typography>
+        </Grid>
+        {leases &&
         <Grid item xs={12}>
           {leases.length === 1 &&
-            <MessagesStore lease_id={leases[0].id}>
-              <MessageContainer propertyName={leases[0].property.name}/>
-            </MessagesStore>
+          <MessagesStore lease_id={leases[0].id}>
+            <MessageContainer propertyName={leases[0].property.name}/>
+          </MessagesStore>
           }
           {leases.length > 1 &&
-            <>
-              <FieldLabel label={"Lease"}/>
-              <FormControl variant="outlined" fullWidth>
-                <Select
-                  name="lease"
-                  value={leaseId}
-                  onChange={(e) => setLeaseId(e.target.value)}
-                >
-                  {leases.map((lease) => (
-                    <MenuItem value={lease.id} key={`key-${lease.id}`}>{formatLeaseLabel(lease)}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+          <>
+            <FieldLabel label={"Lease"}/>
+            <FormControl variant="outlined" fullWidth>
+              <Select
+                name="lease"
+                value={leaseId}
+                onChange={(e) => setLeaseId(e.target.value)}
+              >
+                {leases.map((lease) => (
+                  <MenuItem value={lease.id} key={`key-${lease.id}`}>{formatLeaseLabel(lease)}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-             {leaseId &&
-               <MessagesStore lease_id={leaseId}>
-                 <MessageContainer/>
-               </MessagesStore>
-             }
-            </>
+            {leaseId &&
+            <MessagesStore lease_id={leaseId}>
+              <MessageContainer/>
+            </MessagesStore>
+            }
+          </>
           }
         </Grid>
-      }
-    </Grid>
+        }
+      </Grid>
+    </CardBase>
   )
 }
 

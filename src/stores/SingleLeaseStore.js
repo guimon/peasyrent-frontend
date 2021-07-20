@@ -18,7 +18,8 @@ export default function SingleLeaseStore(props) {
     let { monthly_amount, deposit_amount } = response.data.data.attributes;
     if (monthly_amount) { monthly_amount = monthly_amount / 100 }
     if (deposit_amount) { deposit_amount = deposit_amount / 100 }
-    setLease({...removeEmpty(response.data.data.attributes), monthly_amount, deposit_amount});
+    let updatedLease = {...removeEmpty(response.data.data.attributes), monthly_amount, deposit_amount};
+    setLease(updatedLease);
   }, []);
 
   const serializeLease = (lease) => {
@@ -91,10 +92,11 @@ export default function SingleLeaseStore(props) {
     });
   };
 
-  const deleteRenter = (leaseId, renterId, openSnackbar) => {
+  const deleteRenter = (leaseId, renterId, openSnackbar, finishedCallback) => {
     LeaseService.deleteRenter(leaseId, renterId).then(response => {
       deserializeLease(response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
+      finishedCallback();
     }).catch(error => {
       ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
     });

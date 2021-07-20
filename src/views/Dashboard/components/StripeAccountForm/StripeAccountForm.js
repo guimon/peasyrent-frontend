@@ -14,6 +14,7 @@ import {SingleStripeAccountContext} from "../../../../stores/SingleStripeAccount
 import {openSnackbar} from "../../../../components/Notifier";
 
 import {Controller, useForm} from "react-hook-form";
+import {CardBase} from "../../../../components/organisms";
 
 const useStyles = makeStyles(theme => ({
   inputTitle: {
@@ -46,123 +47,125 @@ const StripeAccountForm = props => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-      <Grid container spacing={4}>
-        <Grid item xs={12} md={12}>
-          <FieldLabel label={"Stripe Account name"}/>
-          <Controller
-            render={({ field,  fieldState: { error } }) =>
-              <FieldText
-                field={field}
-                errorState={error}
-                name="name"
-              />
-            }
-            name="name"
-            rules={{ required: true }}
-            control={control}
-          />
+    <CardBase withShadow align="left">
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={12}>
+            <FieldLabel label={"Stripe Account name"}/>
+            <Controller
+              render={({ field,  fieldState: { error } }) =>
+                <FieldText
+                  field={field}
+                  errorState={error}
+                  name="name"
+                />
+              }
+              name="name"
+              rules={{ required: true }}
+              control={control}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FieldLabel label={"Publishable key"}/>
+            <Controller
+              render={({ field,  fieldState: { error } }) =>
+                <FieldText
+                  field={field}
+                  errorState={error}
+                  name="publishable_prod_api_key"
+                />
+              }
+              name="publishable_prod_api_key"
+              rules={{ required: true }}
+              control={control}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FieldLabel label={"Secret key"}/>
+            <Controller
+              render={({ field,  fieldState: { error } }) =>
+                <FieldText
+                  field={field}
+                  errorState={error}
+                  name="prod_api_key"
+                />
+              }
+              name="prod_api_key"
+              rules={{ required: true }}
+              control={control}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FieldLabel label={"Test Publishable key"}/>
+            <Controller
+              render={({ field,  fieldState: { error } }) =>
+                <FieldText
+                  field={field}
+                  errorState={error}
+                  name="publishable_test_api_key"
+                />
+              }
+              name="publishable_test_api_key"
+              rules={{ required: true }}
+              control={control}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FieldLabel label={"Test Secret key"}/>
+            <Controller
+              render={({ field,  fieldState: { error } }) =>
+                <FieldText
+                  field={field}
+                  errorState={error}
+                  name="test_api_key"
+                />
+              }
+              name="test_api_key"
+              rules={{ required: true }}
+              control={control}
+            />
+          </Grid>
+          <Grid item container justifyContent="flex-start" xs={8}>
+            <Box marginRight={2}>
+              <Button
+                variant="outlined"
+                type="submit"
+                color="primary"
+                size="large"
+                onClick={() => history.push(RouteConstants.stripeAccounts)}
+                name="back"
+              >
+                back
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                variant="contained"
+                type="submit"
+                color="primary"
+                size="large"
+                name="save"
+              >
+                save
+              </Button>
+            </Box>
+          </Grid>
+          <Grid item container justifyContent="flex-end" xs={4}>
+            <Box>
+              <Button
+                variant="outlined"
+                type="button"
+                color="secondary"
+                size="large"
+                onClick={() => destroy()}
+              >
+                delete
+              </Button>
+            </Box>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <FieldLabel label={"Publishable key"}/>
-          <Controller
-            render={({ field,  fieldState: { error } }) =>
-              <FieldText
-                field={field}
-                errorState={error}
-                name="publishable_prod_api_key"
-              />
-            }
-            name="publishable_prod_api_key"
-            rules={{ required: true }}
-            control={control}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FieldLabel label={"Secret key"}/>
-          <Controller
-            render={({ field,  fieldState: { error } }) =>
-              <FieldText
-                field={field}
-                errorState={error}
-                name="prod_api_key"
-              />
-            }
-            name="prod_api_key"
-            rules={{ required: true }}
-            control={control}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FieldLabel label={"Test Publishable key"}/>
-          <Controller
-            render={({ field,  fieldState: { error } }) =>
-              <FieldText
-                field={field}
-                errorState={error}
-                name="publishable_test_api_key"
-              />
-            }
-            name="publishable_test_api_key"
-            rules={{ required: true }}
-            control={control}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FieldLabel label={"Test Secret key"}/>
-          <Controller
-            render={({ field,  fieldState: { error } }) =>
-              <FieldText
-                field={field}
-                errorState={error}
-                name="test_api_key"
-              />
-            }
-            name="test_api_key"
-            rules={{ required: true }}
-            control={control}
-          />
-        </Grid>
-        <Grid item container justify="flex-start" xs={8}>
-          <Box marginRight={2}>
-            <Button
-              variant="outlined"
-              type="submit"
-              color="primary"
-              size="large"
-              onClick={() => history.push(RouteConstants.stripeAccounts)}
-              name="back"
-            >
-              back
-            </Button>
-          </Box>
-          <Box>
-            <Button
-              variant="contained"
-              type="submit"
-              color="primary"
-              size="large"
-              name="save"
-            >
-              save
-            </Button>
-          </Box>
-        </Grid>
-        <Grid item container justify="flex-end" xs={4}>
-          <Box>
-            <Button
-              variant="outlined"
-              type="button"
-              color="secondary"
-              size="large"
-              onClick={() => destroy()}
-            >
-              delete
-            </Button>
-          </Box>
-        </Grid>
-      </Grid>
-    </form>
+      </form>
+    </CardBase>
   );
 };
 

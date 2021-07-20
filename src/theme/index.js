@@ -1,8 +1,8 @@
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core';
+import { createTheme, responsiveFontSizes } from '@material-ui/core';
 import { ataraxia } from './palette';
 
 const getTheme = () => responsiveFontSizes(
-  createMuiTheme({
+  createTheme({
     palette: ataraxia,
     layout: {
       contentWidth: 1600,

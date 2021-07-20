@@ -32,7 +32,7 @@ function PrivacyPolicyPage() {
   }, []);
 
   return (
-    <Grid container direction="column" justify="center" alignItems="stretch">
+    <Grid container direction="column" justifyContent="center" alignItems="stretch">
       <TopBar loggedIn={AuthService.loggedIn()}/>
       <ReactMarkdown source={text} className={classes.legalContainer}/>
       <Footer />

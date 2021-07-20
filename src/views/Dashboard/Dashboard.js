@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Box, List, ListItem, Grid, Typography, Hidden} from '@material-ui/core';
 import { SectionAlternate, CardBase } from '../../components/organisms';
 import { Hero, Properties, PropertyForm, Leases, LeaseForm, StripeAccounts, StripeAccountForm } from './components';
+import Pending from "./components/Pending";
 import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
 import PropertiesStore from "../../stores/PropertiesStore";
 import LeasesStore from "../../stores/LeasesStore";
@@ -15,7 +16,6 @@ import {useHistory} from "react-router-dom";
 import SinglePropertyStore from "../../stores/SinglePropertyStore";
 import SingleLeaseStore from "../../stores/SingleLeaseStore";
 import SingleStripeAccountStore from "../../stores/SingleStripeAccountStore";
-import MessageLeasePicker from "../RenterDashboard/components/MessageLeasePicker";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,7 +62,8 @@ const useStyles = makeStyles(theme => ({
   },
   listItemActive: {
     [theme.breakpoints.up('md')]: {
-      borderLeft: `2px solid ${theme.palette.primary.dark}`,
+      borderLeft: `2px solid ${theme.palette.secondary.main}`,
+      backgroundColor: `${theme.palette.secondary.main}22`,
     },
     '& .menu__item': {
       color: theme.palette.text.primary,
@@ -78,11 +79,6 @@ export const subPages = [
     title: 'Dashboard',
   },
   {
-    id: 'stripe_accounts',
-    href: RouteConstants.stripeAccounts,
-    title: 'Stripe Accounts',
-  },
-  {
     id: 'properties',
     href: RouteConstants.properties,
     title: 'Properties',
@@ -93,14 +89,9 @@ export const subPages = [
     title: 'Leases',
   },
   {
-    id: 'messages',
-    href: RouteConstants.messages,
-    title: 'Tenant Messages',
-  },
-  {
-    id: 'billing',
-    href: RouteConstants.billing,
-    title: 'Billing',
+    id: 'stripe_accounts',
+    href: RouteConstants.stripeAccounts,
+    title: 'Stripe Accounts',
   },
 ];
 
@@ -179,79 +170,67 @@ const Dashboard = (props = {}) => {
             </Grid>
           </Hidden>
           <Grid item xs={12} md={9}>
-            <CardBase withShadow align="left">
-              <TabPanel value={pageId} index={'dashboard'}>
-                New tenant messages...
-                <br/>
-                Late payments...
-                <br/>
-                Ending leases...
-              </TabPanel>
-              <TabPanel value={pageId} index={'properties'}>
-                <PropertiesStore>
-                  <Properties />
-                </PropertiesStore>
-              </TabPanel>
-              <TabPanel value={pageId} index={'add_property'}>
-                <SinglePropertyStore>
-                  <StripeAccountsStore>
-                     <PropertyForm/>
-                  </StripeAccountsStore>
-                </SinglePropertyStore>
-              </TabPanel>
-              <TabPanel value={pageId} index={'edit_property'}>
-                <SinglePropertyStore id={objectId}>
-                  <StripeAccountsStore>
-                    <PropertyForm/>
-                  </StripeAccountsStore>
-                </SinglePropertyStore>
-              </TabPanel>
-              <TabPanel value={pageId} index={'messages'}>
-                <LeasesStore for_messages={true}>
-                  <MessageLeasePicker />
-                </LeasesStore>
-              </TabPanel>
-              <TabPanel value={pageId} index={'billing'}>
-                "billing"
-              </TabPanel>
-              <TabPanel value={pageId} index={'leases'}>
-                <LeasesStore>
-                  <Leases />
-                </LeasesStore>
-              </TabPanel>
-              <TabPanel value={pageId} index={'add_lease'}>
-                <SingleLeaseStore>
-                  <PropertiesStore>
-                    <LeaseForm/>
-                  </PropertiesStore>
-                </SingleLeaseStore>
-              </TabPanel>
-              <TabPanel value={pageId} index={'edit_lease'}>
-                <SingleLeaseStore id={objectId}>
-                  <PropertiesStore>
-                    <LeaseForm/>
-                  </PropertiesStore>
-                </SingleLeaseStore>
-              </TabPanel>
-              <TabPanel value={pageId} index={'stripe_accounts'}>
+            <TabPanel value={pageId} index={'dashboard'}>
+              <LeasesStore requires_attention="true">
+                <Pending />
+              </LeasesStore>
+            </TabPanel>
+            <TabPanel value={pageId} index={'properties'}>
+              <PropertiesStore>
+                <Properties />
+              </PropertiesStore>
+            </TabPanel>
+            <TabPanel value={pageId} index={'add_property'}>
+              <SinglePropertyStore>
                 <StripeAccountsStore>
-                  <StripeAccounts />
+                  <PropertyForm/>
                 </StripeAccountsStore>
-              </TabPanel>
-              <TabPanel value={pageId} index={'add_stripe_account'}>
-                <SingleStripeAccountStore>
-                  <StripeAccountForm/>
-                </SingleStripeAccountStore>
-              </TabPanel>
-              <TabPanel value={pageId} index={'edit_stripe_account'}>
-                <SingleStripeAccountStore id={objectId}>
-                  <StripeAccountForm/>
-                </SingleStripeAccountStore>
-              </TabPanel>
-              <TabPanel value={pageId} index={'renters'}>
-                "renters"
-              </TabPanel>
-            </CardBase>
+              </SinglePropertyStore>
+            </TabPanel>
+            <TabPanel value={pageId} index={'edit_property'}>
+              <SinglePropertyStore id={objectId}>
+                <StripeAccountsStore>
+                  <PropertyForm/>
+                </StripeAccountsStore>
+              </SinglePropertyStore>
+            </TabPanel>
+            <TabPanel value={pageId} index={'leases'}>
+              <LeasesStore>
+                <Leases />
+              </LeasesStore>
+            </TabPanel>
+            <TabPanel value={pageId} index={'add_lease'}>
+              <SingleLeaseStore>
+                <PropertiesStore>
+                  <LeaseForm/>
+                </PropertiesStore>
+              </SingleLeaseStore>
+            </TabPanel>
+            <TabPanel value={pageId} index={'edit_lease'}>
+              <SingleLeaseStore id={objectId}>
+                <PropertiesStore>
+                  <LeaseForm/>
+                </PropertiesStore>
+              </SingleLeaseStore>
+            </TabPanel>
+            <TabPanel value={pageId} index={'stripe_accounts'}>
+              <StripeAccountsStore>
+                <StripeAccounts />
+              </StripeAccountsStore>
+            </TabPanel>
+            <TabPanel value={pageId} index={'add_stripe_account'}>
+              <SingleStripeAccountStore>
+                <StripeAccountForm/>
+              </SingleStripeAccountStore>
+            </TabPanel>
+            <TabPanel value={pageId} index={'edit_stripe_account'}>
+              <SingleStripeAccountStore id={objectId}>
+                <StripeAccountForm/>
+              </SingleStripeAccountStore>
+            </TabPanel>
+            <TabPanel value={pageId} index={'renters'}>
+              "renters"
+            </TabPanel>
           </Grid>
         </Grid>
       </SectionAlternate>

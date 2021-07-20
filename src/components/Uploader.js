@@ -119,7 +119,7 @@ const Uploader = props => {
   );
 
   return (
-    <Grid item xs={12} sm={4} data-aos="fade-up">
+    <Grid item xs={12} sm={4}>
       {displayStyle === 'card' && renderCard()}
       {displayStyle === 'button' && renderButton()}
       {displayStyle === 'icon' && renderIconButton()}

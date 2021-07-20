@@ -38,7 +38,7 @@ class ReducedContainer extends Component {
 
     return (
         <>
-        <Grid container className={classes.root} justify="space-evenly"
+        <Grid container className={classes.root} justifyContent="space-evenly"
               direction="column" alignItems="center">
           <Grid item xs={10} sm={6} md={4} lg={3} className={classes.innerGrid}>
             {showLogo && <img className={classes.logo} src="/logo-text.png" alt={"logo"}/>}

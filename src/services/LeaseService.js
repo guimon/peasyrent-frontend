@@ -15,8 +15,8 @@ export const LeaseService = {
 
 export default LeaseService;
 
-function index(for_messages) {
-  return axios.get(Base.apiLocation() + "/leases?for_messages=" + for_messages, Base.getFullHeaders());
+function index(for_messages, requires_attention) {
+  return axios.get(Base.apiLocation() + "/leases?for_messages=" + for_messages + "&requires_attention=" + requires_attention, Base.getFullHeaders());
 }
 
 function loadLease(id) {

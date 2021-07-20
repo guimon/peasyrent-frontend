@@ -20,6 +20,7 @@ import RouteConstants from "../../../../RouteConstants";
 import {useHistory} from "react-router-dom";
 import StyledTableCell from '../../../../components/StyledTableCell'
 import StyledTableRow from '../../../../components/StyledTableRow'
+import {CardBase} from "../../../../components/organisms";
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -40,48 +41,50 @@ const StripeAccounts = props => {
   });
 
   return (
-    <div className={className} {...rest}>
-      <Grid container spacing={isMd ? 4 : 2}>
-        <Grid item xs={12}>
-          <Typography variant="h5" color="textPrimary">
-            Stripe Accounts <WidthFixer/>
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-              <TableHead>
-                <TableRow >
-                  <StyledTableCell>Name</StyledTableCell>
-                  <StyledTableCell>Properties using it</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {stripeAccounts.map((row) => (
-                  <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editStripeAccount + row.id)}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell>{row.property_names.join(' , ')}
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+    <CardBase withShadow align="left">
+      <div className={className} {...rest}>
+        <Grid container spacing={isMd ? 4 : 2}>
+          <Grid item xs={12}>
+            <Typography variant="h5" color="textPrimary">
+              Stripe Accounts <WidthFixer/>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow >
+                    <StyledTableCell>Name</StyledTableCell>
+                    <StyledTableCell>Properties using it</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {stripeAccounts.map((row) => (
+                    <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editStripeAccount + row.id)}>
+                      <StyledTableCell component="th" scope="row">
+                        {row.name}
+                      </StyledTableCell>
+                      <StyledTableCell>{row.property_names.join(' , ')}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-          <Box marginTop={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => history.push(RouteConstants.addStripeAccount)}
-            >
-              Add Stripe Account
-            </Button>
-          </Box>
+            <Box marginTop={4}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push(RouteConstants.addStripeAccount)}
+              >
+                Add Stripe Account
+              </Button>
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
+      </div>
+    </CardBase>
   );
 };
 

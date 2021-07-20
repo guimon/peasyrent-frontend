@@ -149,7 +149,7 @@ const ContactPageCover = () => {
                     rows={4}
                   />
                 </Grid>
-                <Grid item container justify="center" xs={12}>
+                <Grid item container justifyContent="center" xs={12}>
                   <Button
                     variant="contained"
                     type="submit"

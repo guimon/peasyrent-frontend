@@ -12,28 +12,25 @@ import {
   TableRow,
   TableBody,
   Paper,
-  Button,
-  Box, Hidden,
+  Box,
 } from '@material-ui/core';
-import WidthFixer from "../../../../components/WidthFixer";
-import {LeasesContext} from "../../../../stores/LeasesStore";
-import RouteConstants from "../../../../RouteConstants";
+import {LeasesContext} from "../../../stores/LeasesStore";
+import RouteConstants from "../../../RouteConstants";
 import {useHistory} from "react-router-dom";
-import StyledTableCell from '../../../../components/StyledTableCell'
-import StyledTableRow from '../../../../components/StyledTableRow'
-import {CardBase} from "../../../../components/organisms";
+import StyledTableCell from '../../../components/StyledTableCell'
+import StyledTableRow from '../../../components/StyledTableRow'
+import {CardBase} from "../../../components/organisms";
 
 const useStyles = makeStyles(theme => ({
-  table: {
+  wide: {
     width: '100%',
   },
 }));
 
-const Leases = props => {
+const Pending = props => {
   const { leases } = useContext(LeasesContext);
   const history = useHistory();
 
-  const { className, ...rest } = props;
   const classes = useStyles();
 
   const theme = useTheme();
@@ -43,27 +40,37 @@ const Leases = props => {
 
   return (
     <CardBase withShadow align="left">
-      <div className={className} {...rest}>
+      <div  className={classes.wide}>
         <Grid container spacing={isMd ? 4 : 2}>
           <Grid item xs={12}>
             <Typography variant="h5" color="textPrimary">
-              Leases <WidthFixer/>
+              Dashboard
             </Typography>
           </Grid>
+          {leases.length === 0 &&
           <Grid item xs={12}>
+            <Box mb={1}>
+              <Typography variant="h6" color="textPrimary">
+                Good news! Everything is taken care of and nothing requires immediate attention.
+              </Typography>
+            </Box>
+          </Grid>
+          }
+          {leases.length > 0 &&
+          <Grid item xs={12}>
+            <Box mb={1}>
+              <Typography variant="h6" color="textPrimary">
+                Leases requiring attention
+              </Typography>
+            </Box>
             <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
+              <Table className={classes.wide}>
                 <TableHead>
                   <TableRow >
                     <StyledTableCell>Property</StyledTableCell>
-                    <Hidden smDown>
-                      <StyledTableCell>Deposit</StyledTableCell>
-                    </Hidden>
-                    <StyledTableCell>Monthly</StyledTableCell>
-                    <Hidden smDown>
-                      <StyledTableCell>Start date</StyledTableCell>
-                    </Hidden>
+                    <StyledTableCell>Renters</StyledTableCell>
                     <StyledTableCell>End date</StyledTableCell>
+                    <StyledTableCell>Reason</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -72,41 +79,31 @@ const Leases = props => {
                       <StyledTableCell component="th" scope="row">
                         {row.property.name}
                       </StyledTableCell>
-                      <Hidden smDown>
-                        <StyledTableCell>${row.deposit_amount/100}</StyledTableCell>
-                      </Hidden>
-                      <StyledTableCell>${row.monthly_amount/100}</StyledTableCell>
-                      <Hidden smDown>
-                        <StyledTableCell>{row.start_date ? moment(row.start_date, "YYYY-MM-DD").format("ddd MMM DD YYYY") : '-'}</StyledTableCell>
-                      </Hidden>
+                      <StyledTableCell>
+                        {row.renter_names}
+                      </StyledTableCell>
                       <StyledTableCell>{row.end_date ? moment(row.end_date, "YYYY-MM-DD").format("ddd MMM DD YYYY") : '-'}</StyledTableCell>
+                      <StyledTableCell>
+                        {row.requires_attention_reason}
+                      </StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
-
-            <Box marginTop={4}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => history.push(RouteConstants.addLease)}
-              >
-                Add lease
-              </Button>
-            </Box>
           </Grid>
+          }
         </Grid>
       </div>
     </CardBase>
   );
 };
 
-Leases.propTypes = {
+Pending.propTypes = {
   /**
    * External classes
    */
   className: PropTypes.string,
 };
 
-export default Leases;
+export default Pending;

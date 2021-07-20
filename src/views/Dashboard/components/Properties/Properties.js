@@ -21,6 +21,7 @@ import {useHistory} from "react-router-dom";
 import StyledTableCell from '../../../../components/StyledTableCell'
 import StyledTableRow from '../../../../components/StyledTableRow'
 import moment from "moment";
+import {CardBase} from "../../../../components/organisms";
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -41,55 +42,57 @@ const Properties = props => {
   });
 
   return (
-    <div className={className} {...rest}>
-      <Grid container spacing={isMd ? 4 : 2}>
-        <Grid item xs={12}>
-          <Typography variant="h5" color="textPrimary">
-            Properties <WidthFixer/>
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-              <TableHead>
-                <TableRow >
-                  <StyledTableCell>Name</StyledTableCell>
-                  <Hidden smDown>
-                    <StyledTableCell>Address</StyledTableCell>
-                  </Hidden>
-                  <StyledTableCell>Advertised</StyledTableCell>
-                  <StyledTableCell>Leased until</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {properties.map((row) => (
-                  <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editProperty + row.id)}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
+    <CardBase withShadow align="left">
+      <div className={className} {...rest}>
+        <Grid container spacing={isMd ? 4 : 2}>
+          <Grid item xs={12}>
+            <Typography variant="h5" color="textPrimary">
+              Properties <WidthFixer/>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow >
+                    <StyledTableCell>Name</StyledTableCell>
                     <Hidden smDown>
-                      <StyledTableCell>{row.address}</StyledTableCell>
+                      <StyledTableCell>Address</StyledTableCell>
                     </Hidden>
-                    <StyledTableCell>{row.advertised ? "Yes" : "No"}</StyledTableCell>
-                    <StyledTableCell>{row.leased_until ?  moment(row.leased_until, "YYYY-MM-DD").format("ddd MMM DD YYYY") : 'Vacant'}</StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                    <StyledTableCell>Advertised</StyledTableCell>
+                    <StyledTableCell>Leased until</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {properties.map((row) => (
+                    <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editProperty + row.id)}>
+                      <StyledTableCell component="th" scope="row">
+                        {row.name}
+                      </StyledTableCell>
+                      <Hidden smDown>
+                        <StyledTableCell>{row.address}</StyledTableCell>
+                      </Hidden>
+                      <StyledTableCell>{row.advertised ? "Yes" : "No"}</StyledTableCell>
+                      <StyledTableCell>{row.leased_until ?  moment(row.leased_until, "YYYY-MM-DD").format("ddd MMM DD YYYY") : 'Vacant'}</StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-          <Box marginTop={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => history.push(RouteConstants.addProperty)}
-            >
-              Add property
-            </Button>
-          </Box>
+            <Box marginTop={4}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push(RouteConstants.addProperty)}
+              >
+                Add property
+              </Button>
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
+      </div>
+    </CardBase>
   );
 };
 

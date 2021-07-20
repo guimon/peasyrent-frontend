@@ -22,6 +22,7 @@ import {openSnackbar} from "../../../../components/Notifier";
 import PropertyImages from "../PropertyImages/PropertyImages";
 import {Controller, useForm} from "react-hook-form";
 import {StripeAccountsContext} from "../../../../stores/StripeAccountsStore";
+import {CardBase} from "../../../../components/organisms";
 
 const useStyles = makeStyles(theme => ({
   inputTitle: {
@@ -60,89 +61,90 @@ const PropertyForm = props => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-      <div className={className} {...rest}>
-        <Grid container spacing={isMd ? 4 : 2}>
-          <Grid item xs={12}>
-            <Typography variant="h5" color="textPrimary">
-              { property.name || "Add new property"}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <FieldLabel label={"Name"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FieldText
-                  field={field}
-                  errorState={error}
-                  name="name"
-                  placeholder="Nickname for this property"
-                />
-              }
-              name="name"
-              rules={{ required: true }}
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          <Grid item xs={12} sm={9}>
-            <FieldLabel label={"Street address"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FieldText
-                  field={field}
-                  errorState={error}
-                  name="street_address"
-                  placeholder="Street address"
-                />
-              }
-              name="street_address"
-              rules={{ required: true }}
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <FieldLabel label={"Complement"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FieldText
-                  field={field}
-                  errorState={error}
-                  name="address_complement"
-                  placeholder="Complement"
-                />
-              }
-              name="address_complement"
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12} sm={5}>
-            <FieldLabel label={"City"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FieldText
-                  field={field}
-                  errorState={error}
-                  name="city"
-                  placeholder="City"
-                />
-              }
-              name="city"
-              rules={{ required: true }}
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FieldLabel label={"State"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FormControl variant="outlined" className={classes.formControl} error={!!error}>
-                  <Select
+    <CardBase withShadow align="left">
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+        <div className={className} {...rest}>
+          <Grid container spacing={isMd ? 4 : 2}>
+            <Grid item xs={12}>
+              <Typography variant="h5" color="textPrimary">
+                { property.name || "Add new property"}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <FieldLabel label={"Name"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FieldText
+                    field={field}
+                    errorState={error}
+                    name="name"
+                    placeholder="Nickname for this property"
+                  />
+                }
+                name="name"
+                rules={{ required: true }}
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
+            <Grid item xs={12} sm={9}>
+              <FieldLabel label={"Street address"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FieldText
+                    field={field}
+                    errorState={error}
+                    name="street_address"
+                    placeholder="Street address"
+                  />
+                }
+                name="street_address"
+                rules={{ required: true }}
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <FieldLabel label={"Complement"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FieldText
+                    field={field}
+                    errorState={error}
+                    name="address_complement"
+                    placeholder="Complement"
+                  />
+                }
+                name="address_complement"
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12} sm={5}>
+              <FieldLabel label={"City"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FieldText
+                    field={field}
+                    errorState={error}
+                    name="city"
+                    placeholder="City"
+                  />
+                }
+                name="city"
+                rules={{ required: true }}
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <FieldLabel label={"State"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FormControl variant="outlined" className={classes.formControl} error={!!error}>
+                    <Select
                       placeholder="State"
                       name="state"
-                      value={field.value}
+                      value={field.value || ''}
                       onChange={field.onChange}
                     >
                       <MenuItem value="AL">Alabama</MenuItem>
@@ -197,189 +199,189 @@ const PropertyForm = props => {
                       <MenuItem value="WI">Wisconsin</MenuItem>
                       <MenuItem value="WY">Wyoming</MenuItem>
                     </Select>
-                </FormControl>
-              }
-              name="state"
-              rules={{ required: true }}
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <FieldLabel label={"Zip Code"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FieldText
-                  field={field}
-                  errorState={error}
-                  placeholder="Zip code"
-                  name="zip_code"
-                />
-              }
-              name="zip_code"
-              rules={{ required: true }}
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FieldLabel label={"Beds"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FieldText
-                  field={field}
-                  errorState={error}
-                  type="number"
-                  placeholder="# of bedrooms"
-                  name="beds"
-                />
-              }
-              name="beds"
-              rules={{ required: true }}
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FieldLabel label={"Baths"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FieldText
-                  field={field}
-                  errorState={error}
-                  type="number"
-                  placeholder="# of baths"
-                  name="baths"
-                />
-              }
-              name="baths"
-              rules={{ required: true }}
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FieldLabel label={"Parking spots"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FieldText
-                  field={field}
-                  errorState={error}
-                  type="number"
-                  placeholder="# of parking spots"
-                  name="parking_spots"
-                />
-              }
-              name="parking_spots"
-              rules={{ required: true }}
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FieldLabel label={"Square feet"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FieldText
-                  field={field}
-                  errorState={error}
-                  type="number"
-                  placeholder="634"
-                  name="square_footage"
-                />
-              }
-              name="square_footage"
-              rules={{ required: true }}
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FieldLabel label={"Price / Month"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FieldText
-                  field={field}
-                  errorState={error}
-                  type="number"
-                  placeholder="800"
-                  name="price"
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                  }}
-                />
-              }
-              name="price"
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FieldLabel label={"Advertised"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FormControl variant="outlined" className={classes.formControl} error={!!error}>
-                  <Select
-                    placeholder="Active"
-                    value={field.value}
-                    onChange={field.onChange}
-                    name="advertised"
-                  >
-                    <MenuItem value={"true"}>Yes</MenuItem>
-                    <MenuItem value={"false"}>No</MenuItem>
-                  </Select>
-                </FormControl>
-              }
-              name="advertised"
-              rules={{ required: true }}
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          <Grid item xs={12}>
-            <FieldLabel label={"Description"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FieldText
-                  field={field}
-                  errorState={error}
-                  placeholder="Describe the property"
-                  name="description"
-                  rows={4}
-                  multiline={true}
-                />
-              }
-              name="description"
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FieldLabel label={"Stripe account to receive rent"}/>
-            <Controller
-              render={({ field,  fieldState: { error } }) =>
-                <FormControl variant="outlined" className={classes.formControl} error={!!error}>
-                  <Select
-                    placeholder="Stripe account"
-                    name="stripe_account_id"
-                    value={field.value}
-                    onChange={field.onChange}
-                  >
-                    {stripeAccounts.map((stripeAccount) => (
-                      <MenuItem key={`stripe-account-${stripeAccount.id}`} value={stripeAccount.id}>{stripeAccount.name}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              }
-              name="stripe_account_id"
-              rules={{ required: true }}
-              control={control}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          { property.id &&
+                  </FormControl>
+                }
+                name="state"
+                rules={{ required: true }}
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <FieldLabel label={"Zip Code"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FieldText
+                    field={field}
+                    errorState={error}
+                    placeholder="Zip code"
+                    name="zip_code"
+                  />
+                }
+                name="zip_code"
+                rules={{ required: true }}
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <FieldLabel label={"Beds"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FieldText
+                    field={field}
+                    errorState={error}
+                    type="number"
+                    placeholder="# of bedrooms"
+                    name="beds"
+                  />
+                }
+                name="beds"
+                rules={{ required: true }}
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <FieldLabel label={"Baths"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FieldText
+                    field={field}
+                    errorState={error}
+                    type="number"
+                    placeholder="# of baths"
+                    name="baths"
+                  />
+                }
+                name="baths"
+                rules={{ required: true }}
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <FieldLabel label={"Parking spots"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FieldText
+                    field={field}
+                    errorState={error}
+                    type="number"
+                    placeholder="# of parking spots"
+                    name="parking_spots"
+                  />
+                }
+                name="parking_spots"
+                rules={{ required: true }}
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <FieldLabel label={"Square feet"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FieldText
+                    field={field}
+                    errorState={error}
+                    type="number"
+                    placeholder="634"
+                    name="square_footage"
+                  />
+                }
+                name="square_footage"
+                rules={{ required: true }}
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <FieldLabel label={"Price / Month"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FieldText
+                    field={field}
+                    errorState={error}
+                    type="number"
+                    placeholder="800"
+                    name="price"
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    }}
+                  />
+                }
+                name="price"
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <FieldLabel label={"Advertised"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FormControl variant="outlined" className={classes.formControl} error={!!error}>
+                    <Select
+                      placeholder="Active"
+                      value={field.value || ''}
+                      onChange={field.onChange}
+                      name="advertised"
+                    >
+                      <MenuItem value={"true"}>Yes</MenuItem>
+                      <MenuItem value={"false"}>No</MenuItem>
+                    </Select>
+                  </FormControl>
+                }
+                name="advertised"
+                rules={{ required: true }}
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
+            <Grid item xs={12}>
+              <FieldLabel label={"Description"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FieldText
+                    field={field}
+                    errorState={error}
+                    placeholder="Describe the property"
+                    name="description"
+                    rows={4}
+                    multiline={true}
+                  />
+                }
+                name="description"
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <FieldLabel label={"Stripe account to receive rent"}/>
+              <Controller
+                render={({ field,  fieldState: { error } }) =>
+                  <FormControl variant="outlined" className={classes.formControl} error={!!error}>
+                    <Select
+                      placeholder="Stripe account"
+                      name="stripe_account_id"
+                      value={field.value || ''}
+                      onChange={field.onChange}
+                    >
+                      {stripeAccounts.map((stripeAccount) => (
+                        <MenuItem key={`stripe-account-${stripeAccount.id}`} value={stripeAccount.id}>{stripeAccount.name}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                }
+                name="stripe_account_id"
+                rules={{ required: true }}
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
+            { property.id &&
             <>
               <Grid item xs={12}>
                 <FieldLabel label={"Pictures"}/>
@@ -389,34 +391,34 @@ const PropertyForm = props => {
                 <Divider />
               </Grid>
             </>
-          }
-          <Grid item container justify="flex-start" xs={8}>
-            <Box marginRight={2}>
-              <Button
-                variant="outlined"
-                type="button"
-                color="primary"
-                size="large"
-                name="back"
-                onClick={() => history.push(RouteConstants.properties)}
-              >
-                back
-              </Button>
-            </Box>
-            <Box>
-              <Button
-                variant="contained"
-                type="submit"
-                color="primary"
-                size="large"
-                name="save"
-              >
-                save
-              </Button>
-            </Box>
-          </Grid>
-          {property.id &&
-            <Grid item container justify="flex-end" xs={4}>
+            }
+            <Grid item container justifyContent="flex-start" xs={8}>
+              <Box marginRight={2}>
+                <Button
+                  variant="outlined"
+                  type="button"
+                  color="primary"
+                  size="large"
+                  name="back"
+                  onClick={() => history.push(RouteConstants.properties)}
+                >
+                  back
+                </Button>
+              </Box>
+              <Box>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  color="primary"
+                  size="large"
+                  name="save"
+                >
+                  save
+                </Button>
+              </Box>
+            </Grid>
+            {property.id &&
+            <Grid item container justifyContent="flex-end" xs={4}>
               <Box>
                 <Button
                   variant="outlined"
@@ -429,10 +431,11 @@ const PropertyForm = props => {
                 </Button>
               </Box>
             </Grid>
-          }
-        </Grid>
-      </div>
-    </form>
+            }
+          </Grid>
+        </div>
+      </form>
+    </CardBase>
   );
 };
 
