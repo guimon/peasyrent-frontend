@@ -4,8 +4,9 @@ import { parse } from 'query-string';
 import { makeStyles } from '@material-ui/core/styles';
 import {Box, List, ListItem, Grid, Typography, Hidden} from '@material-ui/core';
 import { SectionAlternate, CardBase } from '../../components/organisms';
-import { Hero, Properties, PropertyForm, Leases, LeaseForm, StripeAccounts, StripeAccountForm } from './components';
+import { Hero, Properties, PropertyForm, Leases, StripeAccounts, StripeAccountForm } from './components';
 import Pending from "./components/Pending";
+import LeaseForm from "./components/LeaseForm"
 import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
 import PropertiesStore from "../../stores/PropertiesStore";
 import LeasesStore from "../../stores/LeasesStore";

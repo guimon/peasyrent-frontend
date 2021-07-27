@@ -12,12 +12,12 @@ import {
   TableRow,
   TableBody
 } from '@material-ui/core';
-import {SingleLeaseContext} from "../../../../stores/SingleLeaseStore";
-import StyledTableCell from "../../../../components/StyledTableCell";
-import StyledTableRow from "../../../../components/StyledTableRow";
-import {openSnackbar} from "../../../../components/Notifier";
+import {SingleLeaseContext} from "../../../stores/SingleLeaseStore";
+import StyledTableCell from "../../../components/StyledTableCell";
+import StyledTableRow from "../../../components/StyledTableRow";
+import {openSnackbar} from "../../../components/Notifier";
 import {Controller, useForm} from "react-hook-form";
-import FieldText from "../../../../components/FieldText";
+import FieldText from "../../../components/FieldText";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -29,13 +29,13 @@ const useStyles = makeStyles(theme => ({
   form: {
     marginTop: 16
   },
-  renterInput: {
+  billInput: {
     minWidth: 110,
   }
 }));
 
-const Renters = props => {
-  const { lease, deleteRenter, saveRenter } = useContext(SingleLeaseContext);
+const Bills = props => {
+  const { lease, deleteBill, saveBill } = useContext(SingleLeaseContext);
   const { handleSubmit, control, reset } = useForm();
 
   const classes = useStyles();
@@ -45,7 +45,7 @@ const Renters = props => {
   });
 
   const onSubmit = (data) => {
-    saveRenter(lease.id, data, openSnackbar, reset);
+    saveBill(lease.id, data, openSnackbar, reset);
   };
 
   return (
@@ -56,22 +56,27 @@ const Renters = props => {
             <Table>
               <TableHead>
                 <TableRow >
-                  <StyledTableCell>First name</StyledTableCell>
-                  <StyledTableCell>Last Name</StyledTableCell>
-                  <StyledTableCell>Email</StyledTableCell>
+                  <StyledTableCell>Description</StyledTableCell>
+                  <StyledTableCell>Amount</StyledTableCell>
+                  <StyledTableCell>Due on</StyledTableCell>
+                  <StyledTableCell>Paid on</StyledTableCell>
                   <StyledTableCell></StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {lease.renters.map((renter, i) => (
-                  <StyledTableRow key={`renter-${renter.id}`}>
+                {lease.bills.map((bill, i) => (
+                  <StyledTableRow key={`bill-${bill.id}`}>
                     <StyledTableCell component="th" scope="row">
-                      {renter.user.name}
+                      {bill.description}
                     </StyledTableCell>
                     <StyledTableCell component="th" scope="row">
-                      {renter.user.last_name}
+                      {bill.amount}
                     </StyledTableCell>
-                    <StyledTableCell>{renter.user.email}
+                    <StyledTableCell>
+                      {bill.due_on}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      {bill.paid_on}
                     </StyledTableCell>
                     <StyledTableCell>
                       <Box className={classes.actionButton}>
@@ -80,28 +85,38 @@ const Renters = props => {
                           type="submit"
                           color="secondary"
                           size="small"
-                          name={`delete-renter-${renter.id}`}
-                          onClick={() => deleteRenter(lease.id, renter.id, openSnackbar, reset)}
+                          name={`delete-bill-${bill.id}`}
+                          onClick={() => deleteBill(lease.id, bill.id)}
                         >
-                          delete renter
+                          delete
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          type="submit"
+                          color="secondary"
+                          size="small"
+                          name={`update-bill-${bill.id}`}
+                          onClick={() => saveBill(lease.id, bill)}
+                        >
+                          save
                         </Button>
                       </Box>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
-                <StyledTableRow key="new-renter">
+                <StyledTableRow key="new-bill">
                   <StyledTableCell component="th" scope="row">
                     <Controller
                       render={({ field,  fieldState: { error } }) =>
                         <FieldText
                           field={field}
                           errorState={error}
-                          name="name"
-                          placeholder="First name"
-                          className={classes.renterInput}
+                          name="description"
+                          placeholder="Description"
+                          className={classes.billInput}
                         />
                       }
-                      name="name"
+                      name="description"
                       rules={{ required: true }}
                       control={control}
                     />
@@ -112,12 +127,12 @@ const Renters = props => {
                         <FieldText
                           field={field}
                           errorState={error}
-                          name="last_name"
-                          placeholder="Last name"
-                          className={classes.renterInput}
+                          name="amount"
+                          placeholder="amount"
+                          className={classes.billInput}
                         />
                       }
-                      name="last_name"
+                      name="amount"
                       rules={{ required: true }}
                       control={control}
                     />
@@ -128,12 +143,31 @@ const Renters = props => {
                         <FieldText
                           field={field}
                           errorState={error}
-                          name="email"
-                          placeholder="E-mail"
-                          className={classes.renterInput}
+                          name="due_on"
+                          placeholder="Due on"
+                          className={classes.billInput}
                         />
                       }
-                      name="email"
+                      name="due_on"
+                      rules={{
+                        required: true,
+                        pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i }
+                      }}
+                      control={control}
+                    />
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <Controller
+                      render={({ field,  fieldState: { error } }) =>
+                        <FieldText
+                          field={field}
+                          errorState={error}
+                          name="paid_on"
+                          placeholder="Paid on"
+                          className={classes.billInput}
+                        />
+                      }
+                      name="paid_on"
                       rules={{
                         required: true,
                         pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i }
@@ -149,7 +183,7 @@ const Renters = props => {
                         color="primary"
                         size="small"
                       >
-                        Add renter
+                        Add bill
                       </Button>
                     </Box>
                   </StyledTableCell>
@@ -163,8 +197,8 @@ const Renters = props => {
   );
 };
 
-Renters.propTypes = {
+Bills.propTypes = {
 
 };
 
-export default Renters;
+export default Bills;

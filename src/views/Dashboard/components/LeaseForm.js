@@ -13,18 +13,19 @@ import {
   InputAdornment
 } from '@material-ui/core';
 import {useHistory} from "react-router-dom";
-import RouteConstants from "../../../../RouteConstants";
-import FieldLabel from "../../../../components/FieldLabel";
-import FieldText from "../../../../components/FieldText";
-import {SingleLeaseContext} from "../../../../stores/SingleLeaseStore";
-import {openSnackbar} from "../../../../components/Notifier";
-import LeaseFiles from "../LeaseFiles/LeaseFiles";
-import Renters from "../Renters/Renters";
+import RouteConstants from "../../../RouteConstants";
+import FieldLabel from "../../../components/FieldLabel";
+import FieldText from "../../../components/FieldText";
+import {SingleLeaseContext} from "../../../stores/SingleLeaseStore";
+import {openSnackbar} from "../../../components/Notifier";
+import LeaseFiles from "./LeaseFiles/LeaseFiles";
+import Renters from "./Renters";
 import {Controller, useForm} from "react-hook-form";
-import {PropertiesContext} from "../../../../stores/PropertiesStore";
-import {CardBase} from "../../../../components/organisms";
-import MessageContainer from "../../../RenterDashboard/components/MessageContainer";
-import MessagesStore from "../../../../stores/MessagesStore";
+import {PropertiesContext} from "../../../stores/PropertiesStore";
+import {CardBase} from "../../../components/organisms/index";
+import MessageContainer from "../../RenterDashboard/components/MessageContainer";
+import MessagesStore from "../../../stores/MessagesStore";
+import Bills from "./Bills"
 
 const useStyles = makeStyles(theme => ({
   inputTitle: {
@@ -167,6 +168,28 @@ const LeaseForm = props => {
                     control={control}
                   />
                 </Grid>
+                <Grid item xs={12} sm={4}>
+                  <FieldLabel label={"Due day of month"}/>
+                  <Controller
+                    render={({ field,  fieldState: { error } }) =>
+                      <FormControl variant="outlined" className={classes.wide} error={!!error}>
+                        <Select
+                          placeholder="1"
+                          value={field.value || ''}
+                          onChange={field.onChange}
+                          name="day_of_billing"
+                        >
+                          { Array.from({length: 28}, (_, index) => (
+                            <MenuItem key={`day_of_billing_${index+1}`} value={index+1}>{index+1}</MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    }
+                    name="day_of_billing"
+                    rules={{ required: true }}
+                    control={control}
+                  />
+                </Grid>
                 <Grid item container justifyContent="flex-start" xs={8}>
                   <Box>
                     <Button
@@ -202,6 +225,16 @@ const LeaseForm = props => {
         </CardBase>
         { lease.id &&
         <>
+          <CardBase withShadow align="left" style={{marginTop: 24}}>
+            <Grid item xs={12}>
+              <Typography variant="h5" color="textPrimary">
+                Bills
+              </Typography>
+            </Grid>
+            <Grid item xs={12} className={classes.wide}>
+              <Bills />
+            </Grid>
+          </CardBase>
           <CardBase withShadow align="left" style={{marginTop: 24}}>
             <Grid item xs={12}>
               <Typography variant="h5" color="textPrimary">

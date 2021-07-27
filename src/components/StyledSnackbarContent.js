@@ -22,16 +22,16 @@ const variantIcon = {
 
 const styles = theme => ({
   success: {
-    backgroundColor: green[600],
+    backgroundColor: `${green[600]}!important`,
   },
   error: {
-    backgroundColor: theme.palette.error.dark,
+    backgroundColor: `${theme.palette.error.dark} !important`,
   },
   info: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: `${theme.palette.primary.main} !important`,
   },
   warning: {
-    backgroundColor: amber[900],
+    backgroundColor: `${amber[900]} !important`,
   },
   icon: {
     fontSize: 24,

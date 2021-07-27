@@ -27,7 +27,8 @@ export default function SingleLeaseStore(props) {
     if (monthly_amount) { monthly_amount = monthly_amount * 100 }
     if (deposit_amount) { deposit_amount = deposit_amount * 100 }
 
-    return {...lease, monthly_amount, deposit_amount };
+    const {id, property_id, deposit_account_id, start_date, end_date, active, day_of_billing} = lease;
+    return {id, property_id, deposit_account_id, start_date, end_date, active, day_of_billing, monthly_amount, deposit_amount };
   };
 
   useEffect(() => {
@@ -112,7 +113,27 @@ export default function SingleLeaseStore(props) {
     });
   };
 
-  const store = { lease, deserializeLease, saveLease, updateLease, deleteLease, saveFile, deleteFile, saveRenter, deleteRenter };
+  const deleteBill = (leaseId, billId, openSnackbar, finishedCallback) => {
+    LeaseService.deleteBill(leaseId, billId).then(response => {
+      deserializeLease(response);
+      openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
+      finishedCallback();
+    }).catch(error => {
+      ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
+    });
+  };
+
+  const saveBill = (leaseId, bill, openSnackbar, finishedCallback) => {
+    LeaseService.saveBill(leaseId, bill).then(response => {
+      deserializeLease(response);
+      openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
+      finishedCallback();
+    }).catch(error => {
+      ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
+    });
+  };
+
+  const store = { lease, deserializeLease, saveLease, updateLease, deleteLease, saveFile, deleteFile, saveRenter, deleteRenter, deleteBill, saveBill };
 
   return <SingleLeaseContext.Provider value={store}>{lease && children}</SingleLeaseContext.Provider>
 }
