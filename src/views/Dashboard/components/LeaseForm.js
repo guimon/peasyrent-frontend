@@ -79,7 +79,7 @@ const LeaseForm = props => {
                   <FieldLabel label={"Property"}/>
                   <Controller
                     render={({ field,  fieldState: { error } }) =>
-                      <FormControl variant="outlined" className={classes.wide} error={!!error}>
+                      <FormControl variant="outlined" className={classes.wide} error={!!error} size="small">
                         <Select
                           placeholder="Property"
                           value={field.value || ''}
@@ -172,7 +172,7 @@ const LeaseForm = props => {
                   <FieldLabel label={"Due day of month"}/>
                   <Controller
                     render={({ field,  fieldState: { error } }) =>
-                      <FormControl variant="outlined" className={classes.wide} error={!!error}>
+                      <FormControl variant="outlined" className={classes.wide} error={!!error} size="small">
                         <Select
                           placeholder="1"
                           value={field.value || ''}
@@ -200,7 +200,8 @@ const LeaseForm = props => {
                       name="save"
                       form={"leases-form"}
                     >
-                      save
+                      { !lease && "save" }
+                      { lease.id && "update lease" }
                     </Button>
                   </Box>
                 </Grid>

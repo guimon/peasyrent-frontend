@@ -14,7 +14,7 @@ const StyledTableRow = props => {
   const { children, ...rest } = props;
   const classes = useStyles(props);
 
-  return (<TableRow classes={{root: classes.root}} {...rest}>{children}</TableRow>);
+  return (<TableRow component="div" classes={{root: classes.root}} {...rest}>{children}</TableRow>);
 };
 
 export default StyledTableRow;

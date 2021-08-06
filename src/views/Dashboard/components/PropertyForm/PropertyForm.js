@@ -140,7 +140,7 @@ const PropertyForm = props => {
               <FieldLabel label={"State"}/>
               <Controller
                 render={({ field,  fieldState: { error } }) =>
-                  <FormControl variant="outlined" className={classes.formControl} error={!!error}>
+                  <FormControl variant="outlined" className={classes.formControl} error={!!error} size="small">
                     <Select
                       placeholder="State"
                       name="state"
@@ -316,7 +316,7 @@ const PropertyForm = props => {
               <FieldLabel label={"Advertised"}/>
               <Controller
                 render={({ field,  fieldState: { error } }) =>
-                  <FormControl variant="outlined" className={classes.formControl} error={!!error}>
+                  <FormControl variant="outlined" className={classes.formControl} error={!!error} size="small">
                     <Select
                       placeholder="Active"
                       value={field.value || ''}
@@ -360,7 +360,7 @@ const PropertyForm = props => {
               <FieldLabel label={"Stripe account to receive rent"}/>
               <Controller
                 render={({ field,  fieldState: { error } }) =>
-                  <FormControl variant="outlined" className={classes.formControl} error={!!error}>
+                  <FormControl variant="outlined" className={classes.formControl} error={!!error} size="small">
                     <Select
                       placeholder="Stripe account"
                       name="stripe_account_id"

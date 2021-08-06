@@ -7,10 +7,6 @@ import {
   Grid,
   Typography,
   TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
   Paper,
   Box,
 } from '@material-ui/core';
@@ -19,7 +15,10 @@ import RouteConstants from "../../../RouteConstants";
 import {useHistory} from "react-router-dom";
 import StyledTableCell from '../../../components/StyledTableCell'
 import StyledTableRow from '../../../components/StyledTableRow'
+import StyledTableBody from '../../../components/StyledTableBody'
 import {CardBase} from "../../../components/organisms";
+import StyledTableHead from "../../../components/StyledTableHead";
+import StyledTable from "../../../components/StyledTable";
 
 const useStyles = makeStyles(theme => ({
   wide: {
@@ -64,19 +63,19 @@ const Pending = props => {
               </Typography>
             </Box>
             <TableContainer component={Paper}>
-              <Table className={classes.wide}>
-                <TableHead>
-                  <TableRow >
+              <StyledTable className={classes.wide}>
+                <StyledTableHead>
+                  <StyledTableRow >
                     <StyledTableCell>Property</StyledTableCell>
                     <StyledTableCell>Renters</StyledTableCell>
                     <StyledTableCell>End date</StyledTableCell>
                     <StyledTableCell>Reason</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
+                  </StyledTableRow>
+                </StyledTableHead>
+                <StyledTableBody>
                   {leases.map((row) => (
                     <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editLease + row.id)}>
-                      <StyledTableCell component="th" scope="row">
+                      <StyledTableCell>
                         {row.property.name}
                       </StyledTableCell>
                       <StyledTableCell>
@@ -88,8 +87,8 @@ const Pending = props => {
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
-                </TableBody>
-              </Table>
+                </StyledTableBody>
+              </StyledTable>
             </TableContainer>
           </Grid>
           }

@@ -14,11 +14,32 @@ export default function SingleLeaseStore(props) {
   function removeEmpty(obj) {
     return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
   }
+
+  const deserializeBillsResponse = useCallback((prevLease, response) => {
+    let updatedBills =  deserializeBills(response.data.data.map((hash) => {return hash.attributes}));
+    setLease({ ...prevLease, bills: updatedBills });
+  }, []);
+
+  const deserializeBills = (bills) => {
+    return bills.map((bill) => {
+      let { amount } = bill;
+      if (amount) { amount = amount / 100 }
+      return { ...bill, amount }
+    });
+  };
+
+  const serializeBill = (bill) => {
+    let { amount } = bill;
+    if (amount) { amount = amount * 100 }
+
+    return { ...bill, amount };
+  };
+
   const deserializeLease = useCallback((response) => {
-    let { monthly_amount, deposit_amount } = response.data.data.attributes;
+    let { monthly_amount, deposit_amount, bills } = response.data.data.attributes;
     if (monthly_amount) { monthly_amount = monthly_amount / 100 }
     if (deposit_amount) { deposit_amount = deposit_amount / 100 }
-    let updatedLease = {...removeEmpty(response.data.data.attributes), monthly_amount, deposit_amount};
+    let updatedLease = {...removeEmpty(response.data.data.attributes), monthly_amount, deposit_amount, bills: deserializeBills(bills) };
     setLease(updatedLease);
   }, []);
 
@@ -27,8 +48,7 @@ export default function SingleLeaseStore(props) {
     if (monthly_amount) { monthly_amount = monthly_amount * 100 }
     if (deposit_amount) { deposit_amount = deposit_amount * 100 }
 
-    const {id, property_id, deposit_account_id, start_date, end_date, active, day_of_billing} = lease;
-    return {id, property_id, deposit_account_id, start_date, end_date, active, day_of_billing, monthly_amount, deposit_amount };
+    return { ...lease, monthly_amount, deposit_amount };
   };
 
   useEffect(() => {
@@ -113,9 +133,9 @@ export default function SingleLeaseStore(props) {
     });
   };
 
-  const deleteBill = (leaseId, billId, openSnackbar, finishedCallback) => {
-    LeaseService.deleteBill(leaseId, billId).then(response => {
-      deserializeLease(response);
+  const deleteBill = (lease, billId, openSnackbar, finishedCallback) => {
+    LeaseService.deleteBill(lease.id, billId).then(response => {
+      deserializeBillsResponse(lease, response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
       finishedCallback();
     }).catch(error => {
@@ -123,9 +143,9 @@ export default function SingleLeaseStore(props) {
     });
   };
 
-  const saveBill = (leaseId, bill, openSnackbar, finishedCallback) => {
-    LeaseService.saveBill(leaseId, bill).then(response => {
-      deserializeLease(response);
+  const saveBill = (lease, bill, openSnackbar, finishedCallback) => {
+    LeaseService.saveBill(lease.id, serializeBill(bill)).then(response => {
+      deserializeBillsResponse(lease, response);
       openSnackbar({message: "Success!", variant: 'success', timeout: 3000});
       finishedCallback();
     }).catch(error => {

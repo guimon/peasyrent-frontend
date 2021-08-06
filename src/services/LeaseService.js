@@ -58,7 +58,7 @@ function deleteRenter(leaseId, renterId) {
 }
 
 function saveBill(leaseId, bill) {
-  let payload = { bill };
+  let payload = { ...bill };
   return axios.post(Base.apiLocation() + "/leases/" + leaseId + "/bills", payload, Base.getFullHeaders());
 }
 

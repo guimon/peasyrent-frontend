@@ -6,10 +6,6 @@ import {
   Grid,
   Typography,
   TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
   Paper,
   Button,
   Box, Hidden,
@@ -20,8 +16,11 @@ import RouteConstants from "../../../../RouteConstants";
 import {useHistory} from "react-router-dom";
 import StyledTableCell from '../../../../components/StyledTableCell'
 import StyledTableRow from '../../../../components/StyledTableRow'
+import StyledTableBody from '../../../../components/StyledTableBody'
 import moment from "moment";
 import {CardBase} from "../../../../components/organisms";
+import StyledTableHead from "../../../../components/StyledTableHead";
+import StyledTable from "../../../../components/StyledTable";
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -52,21 +51,21 @@ const Properties = props => {
           </Grid>
           <Grid item xs={12}>
             <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                  <TableRow >
+              <StyledTable className={classes.table}>
+                <StyledTableHead>
+                  <StyledTableRow>
                     <StyledTableCell>Name</StyledTableCell>
                     <Hidden smDown>
                       <StyledTableCell>Address</StyledTableCell>
                     </Hidden>
                     <StyledTableCell>Advertised</StyledTableCell>
                     <StyledTableCell>Leased until</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
+                  </StyledTableRow>
+                </StyledTableHead>
+                <StyledTableBody>
                   {properties.map((row) => (
                     <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editProperty + row.id)}>
-                      <StyledTableCell component="th" scope="row">
+                      <StyledTableCell>
                         {row.name}
                       </StyledTableCell>
                       <Hidden smDown>
@@ -76,8 +75,8 @@ const Properties = props => {
                       <StyledTableCell>{row.leased_until ?  moment(row.leased_until, "YYYY-MM-DD").format("ddd MMM DD YYYY") : 'Vacant'}</StyledTableCell>
                     </StyledTableRow>
                   ))}
-                </TableBody>
-              </Table>
+                </StyledTableBody>
+              </StyledTable>
             </TableContainer>
 
             <Box marginTop={4}>

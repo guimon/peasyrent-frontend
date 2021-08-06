@@ -18,7 +18,7 @@ function FieldText(props){
   return (
     <TextField
       variant="outlined"
-      size="medium"
+      size="small"
       fullWidth
       value={value || ''}
       onChange={field.onChange}

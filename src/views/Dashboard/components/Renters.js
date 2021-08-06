@@ -7,24 +7,20 @@ import {
   Button,
   TableContainer,
   Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody
 } from '@material-ui/core';
 import {SingleLeaseContext} from "../../../stores/SingleLeaseStore";
 import StyledTableCell from "../../../components/StyledTableCell";
 import StyledTableRow from "../../../components/StyledTableRow";
+import StyledTableBody from '../../../components/StyledTableBody'
 import {openSnackbar} from "../../../components/Notifier";
 import {Controller, useForm} from "react-hook-form";
 import FieldText from "../../../components/FieldText";
+import StyledTableHead from "../../../components/StyledTableHead";
+import StyledTable from "../../../components/StyledTable";
 
 const useStyles = makeStyles(theme => ({
   container: {
     width: '100%',
-  },
-  actionButton: {
-    paddingTop: 12
   },
   form: {
     marginTop: 16
@@ -53,28 +49,28 @@ const Renters = props => {
       <Grid item xs={12}>
         <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
           <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow >
+            <StyledTable>
+              <StyledTableHead>
+                <StyledTableRow>
                   <StyledTableCell>First name</StyledTableCell>
                   <StyledTableCell>Last Name</StyledTableCell>
                   <StyledTableCell>Email</StyledTableCell>
-                  <StyledTableCell></StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
+                  <StyledTableCell/>
+                </StyledTableRow>
+              </StyledTableHead>
+              <StyledTableBody>
                 {lease.renters.map((renter, i) => (
                   <StyledTableRow key={`renter-${renter.id}`}>
-                    <StyledTableCell component="th" scope="row">
+                    <StyledTableCell>
                       {renter.user.name}
                     </StyledTableCell>
-                    <StyledTableCell component="th" scope="row">
+                    <StyledTableCell>
                       {renter.user.last_name}
                     </StyledTableCell>
                     <StyledTableCell>{renter.user.email}
                     </StyledTableCell>
                     <StyledTableCell>
-                      <Box className={classes.actionButton}>
+                      <Box>
                         <Button
                           variant="outlined"
                           type="submit"
@@ -90,7 +86,7 @@ const Renters = props => {
                   </StyledTableRow>
                 ))}
                 <StyledTableRow key="new-renter">
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell>
                     <Controller
                       render={({ field,  fieldState: { error } }) =>
                         <FieldText
@@ -106,7 +102,7 @@ const Renters = props => {
                       control={control}
                     />
                   </StyledTableCell>
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell>
                     <Controller
                       render={({ field,  fieldState: { error } }) =>
                         <FieldText
@@ -154,8 +150,8 @@ const Renters = props => {
                     </Box>
                   </StyledTableCell>
                 </StyledTableRow>
-              </TableBody>
-            </Table>
+              </StyledTableBody>
+            </StyledTable>
           </TableContainer>
         </form>
       </Grid>

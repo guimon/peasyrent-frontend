@@ -47,7 +47,7 @@ function MessageLeasePicker(props){
           {leases.length > 1 &&
           <>
             <FieldLabel label={"Lease"}/>
-            <FormControl variant="outlined" fullWidth>
+            <FormControl variant="outlined" fullWidth size="small">
               <Select
                 name="lease"
                 value={leaseId}

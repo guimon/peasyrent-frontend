@@ -4,21 +4,19 @@ import {
   Grid,
   TableContainer,
   Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody, Box, makeStyles,
+  Box,
+  makeStyles,
 } from '@material-ui/core';
 import {SingleLeaseContext} from "../../../../stores/SingleLeaseStore";
 import {openSnackbar} from "../../../../components/Notifier";
 import Uploader from "../../../../components/Uploader";
 import StyledTableCell from "../../../../components/StyledTableCell";
 import StyledTableRow from "../../../../components/StyledTableRow";
+import StyledTableBody from '../../../../components/StyledTableBody'
+import StyledTableHead from "../../../../components/StyledTableHead";
+import StyledTable from "../../../../components/StyledTable";
 
 const useStyles = makeStyles(theme => ({
-  actionButton: {
-    paddingTop: 12
-  },
   marginTop: {
     marginTop: 16
   }
@@ -35,21 +33,21 @@ const LeaseFiles = props => {
     <Grid container>
       <Grid item xs={12}>
         <TableContainer component={Paper} className={classes.marginTop}>
-          <Table>
-            <TableHead>
-              <TableRow >
+          <StyledTable>
+            <StyledTableHead>
+              <StyledTableRow>
                 <StyledTableCell>File</StyledTableCell>
-                <StyledTableCell></StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
+                <StyledTableCell/>
+              </StyledTableRow>
+            </StyledTableHead>
+            <StyledTableBody>
             {lease && lease.files.map((file, i) => (
               <StyledTableRow key={`lease-file-${file.id}`}>
-                <StyledTableCell component="th" scope="row">
+                <StyledTableCell>
                   {file.description}
                 </StyledTableCell>
                 <StyledTableCell>
-                  <Box className={classes.actionButton}>
+                  <Box>
                     <Button
                       variant="outlined"
                       type="submit"
@@ -65,14 +63,14 @@ const LeaseFiles = props => {
               </StyledTableRow>
               ))}
               <StyledTableRow key={`new-lease-file`}>
-                <StyledTableCell component="th" scope="row">
+                <StyledTableCell>
                   <Uploader displayStyle={"button"} label={"Upload file"} mimeType={"application/pdf"} callback={persistFile} />
                 </StyledTableCell>
                 <StyledTableCell>
                 </StyledTableCell>
               </StyledTableRow>
-            </TableBody>
-          </Table>
+            </StyledTableBody>
+          </StyledTable>
         </TableContainer>
       </Grid>
     </Grid>

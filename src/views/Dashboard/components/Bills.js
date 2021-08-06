@@ -7,10 +7,7 @@ import {
   Button,
   TableContainer,
   Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody
+  InputAdornment
 } from '@material-ui/core';
 import {SingleLeaseContext} from "../../../stores/SingleLeaseStore";
 import StyledTableCell from "../../../components/StyledTableCell";
@@ -18,19 +15,25 @@ import StyledTableRow from "../../../components/StyledTableRow";
 import {openSnackbar} from "../../../components/Notifier";
 import {Controller, useForm} from "react-hook-form";
 import FieldText from "../../../components/FieldText";
+import StyledTableBody from "../../../components/StyledTableBody";
+import StyledTableHead from "../../../components/StyledTableHead";
+import StyledTable from "../../../components/StyledTable";
 
 const useStyles = makeStyles(theme => ({
   container: {
     width: '100%',
   },
   actionButton: {
-    paddingTop: 12
+    whiteSpace: 'nowrap'
   },
   form: {
     marginTop: 16
   },
   billInput: {
     minWidth: 110,
+  },
+  padding: {
+    marginRight: 8
   }
 }));
 
@@ -45,7 +48,7 @@ const Bills = props => {
   });
 
   const onSubmit = (data) => {
-    saveBill(lease.id, data, openSnackbar, reset);
+    saveBill(lease, data, openSnackbar, reset);
   };
 
   return (
@@ -53,23 +56,23 @@ const Bills = props => {
       <Grid item xs={12}>
         <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
           <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow >
+            <StyledTable>
+              <StyledTableHead>
+                <StyledTableRow>
                   <StyledTableCell>Description</StyledTableCell>
                   <StyledTableCell>Amount</StyledTableCell>
                   <StyledTableCell>Due on</StyledTableCell>
                   <StyledTableCell>Paid on</StyledTableCell>
-                  <StyledTableCell></StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
+                  <StyledTableCell/>
+                </StyledTableRow>
+              </StyledTableHead>
+              <StyledTableBody>
                 {lease.bills.map((bill, i) => (
                   <StyledTableRow key={`bill-${bill.id}`}>
-                    <StyledTableCell component="th" scope="row">
+                    <StyledTableCell>
                       {bill.description}
                     </StyledTableCell>
-                    <StyledTableCell component="th" scope="row">
+                    <StyledTableCell>
                       {bill.amount}
                     </StyledTableCell>
                     <StyledTableCell>
@@ -83,29 +86,31 @@ const Bills = props => {
                         <Button
                           variant="outlined"
                           type="submit"
-                          color="secondary"
+                          color="primary"
                           size="small"
-                          name={`delete-bill-${bill.id}`}
-                          onClick={() => deleteBill(lease.id, bill.id)}
+                          className={classes.padding}
+                          name={`update-bill-${bill.id}`}
+                          onClick={() => saveBill(lease, bill)}
+                          style={{paddingRight: 10}}
                         >
-                          delete
+                          save
                         </Button>
                         <Button
                           variant="outlined"
                           type="submit"
                           color="secondary"
                           size="small"
-                          name={`update-bill-${bill.id}`}
-                          onClick={() => saveBill(lease.id, bill)}
+                          name={`delete-bill-${bill.id}`}
+                          onClick={() => deleteBill(lease, bill.id, openSnackbar, reset)}
                         >
-                          save
+                          delete
                         </Button>
                       </Box>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
                 <StyledTableRow key="new-bill">
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell>
                     <Controller
                       render={({ field,  fieldState: { error } }) =>
                         <FieldText
@@ -121,15 +126,19 @@ const Bills = props => {
                       control={control}
                     />
                   </StyledTableCell>
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell>
                     <Controller
                       render={({ field,  fieldState: { error } }) =>
                         <FieldText
                           field={field}
                           errorState={error}
+                          type="number"
+                          placeholder="800"
                           name="amount"
-                          placeholder="amount"
                           className={classes.billInput}
+                          InputProps={{
+                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                          }}
                         />
                       }
                       name="amount"
@@ -145,13 +154,13 @@ const Bills = props => {
                           errorState={error}
                           name="due_on"
                           placeholder="Due on"
+                          type="date"
                           className={classes.billInput}
                         />
                       }
                       name="due_on"
                       rules={{
                         required: true,
-                        pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i }
                       }}
                       control={control}
                     />
@@ -164,14 +173,11 @@ const Bills = props => {
                           errorState={error}
                           name="paid_on"
                           placeholder="Paid on"
+                          type="date"
                           className={classes.billInput}
                         />
                       }
                       name="paid_on"
-                      rules={{
-                        required: true,
-                        pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i }
-                      }}
                       control={control}
                     />
                   </StyledTableCell>
@@ -188,8 +194,8 @@ const Bills = props => {
                     </Box>
                   </StyledTableCell>
                 </StyledTableRow>
-              </TableBody>
-            </Table>
+              </StyledTableBody>
+            </StyledTable>
           </TableContainer>
         </form>
       </Grid>
