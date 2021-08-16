@@ -12,6 +12,7 @@ export const LeaseService = {
   saveRenter,
   deleteRenter,
   saveBill,
+  updateBill,
   deleteBill,
 };
 
@@ -60,6 +61,11 @@ function deleteRenter(leaseId, renterId) {
 function saveBill(leaseId, bill) {
   let payload = { ...bill };
   return axios.post(Base.apiLocation() + "/leases/" + leaseId + "/bills", payload, Base.getFullHeaders());
+}
+
+function updateBill(leaseId, bill) {
+  let payload = { ...bill };
+  return axios.patch(Base.apiLocation() + "/leases/" + leaseId + "/bills/" + bill.id , payload, Base.getFullHeaders());
 }
 
 function deleteBill(leaseId, billId) {

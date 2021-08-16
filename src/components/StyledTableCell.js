@@ -8,6 +8,7 @@ const useStyles = makeStyles(theme => ({
   },
   body: {
     fontSize: 15,
+    verticalAlign: 'middle',
   }
 }));
 
