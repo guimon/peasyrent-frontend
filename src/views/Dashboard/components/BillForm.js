@@ -45,7 +45,7 @@ const BillForm = props => {
   };
 
   return (
-    <StyledTableRow key={bill ? `bill-${bill.id}` : 'new-bill'}>
+    <StyledTableRow key={bill ? `bill-${bill.id}` : 'new-bill'} id={bill ? `bill-${bill.id}` : 'new-bill'}>
       <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
         <StyledTableCell>
           <Controller
@@ -153,7 +153,7 @@ const BillForm = props => {
               color="primary"
               size="small"
             >
-              Add bill
+              add bill
             </Button>
           </Box>
           }

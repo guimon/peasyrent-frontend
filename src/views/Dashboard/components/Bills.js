@@ -44,7 +44,7 @@ const Bills = props => {
                 <StyledTableCell/>
               </StyledTableRow>
             </StyledTableHead>
-            <StyledTableBody>
+            <StyledTableBody id={"bills-table"}>
               {lease.bills.map((bill) => (
                 <BillForm key={`billform-${bill.id}`} bill={bill} />
               ))}
