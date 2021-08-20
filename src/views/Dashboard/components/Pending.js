@@ -37,6 +37,14 @@ const Pending = props => {
     defaultMatches: true,
   });
 
+  const focus = (lease) => {
+    if (lease.payment_overdue) {
+      return "&focus=bills"
+    } else if (lease.new_tenant_message) {
+      return "&focus=messages"
+    }
+  };
+
   return (
     <CardBase withShadow align="left">
       <div  className={classes.wide}>
@@ -74,7 +82,7 @@ const Pending = props => {
                 </StyledTableHead>
                 <StyledTableBody>
                   {leases.map((row) => (
-                    <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editLease + row.id + "&focus=messages")}>
+                    <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editLease + row.id + focus(row))}>
                       <StyledTableCell>
                         {row.property.name}
                       </StyledTableCell>

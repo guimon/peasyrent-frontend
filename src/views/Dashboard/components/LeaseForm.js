@@ -232,6 +232,7 @@ const LeaseForm = props => {
         <>
           <CardBase withShadow align="left" style={{marginTop: 24}}>
             <Grid item xs={12}>
+              { focus === 'bills' && <ScrollTo /> }
               <Typography variant="h5" color="textPrimary">
                 Bills
               </Typography>
