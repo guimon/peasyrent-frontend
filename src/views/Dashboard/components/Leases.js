@@ -11,16 +11,16 @@ import {
   Button,
   Box, Hidden,
 } from '@material-ui/core';
-import WidthFixer from "../../../../components/WidthFixer";
-import {LeasesContext} from "../../../../stores/LeasesStore";
-import RouteConstants from "../../../../RouteConstants";
+import WidthFixer from "../../../components/WidthFixer";
+import {LeasesContext} from "../../../stores/LeasesStore";
+import RouteConstants from "../../../RouteConstants";
 import {useHistory} from "react-router-dom";
-import StyledTableCell from '../../../../components/StyledTableCell'
-import StyledTableRow from '../../../../components/StyledTableRow'
-import StyledTableBody from '../../../../components/StyledTableBody'
-import {CardBase} from "../../../../components/organisms";
-import StyledTableHead from "../../../../components/StyledTableHead";
-import StyledTable from "../../../../components/StyledTable";
+import StyledTableCell from '../../../components/StyledTableCell'
+import StyledTableRow from '../../../components/StyledTableRow'
+import StyledTableBody from '../../../components/StyledTableBody'
+import {CardBase} from "../../../components/organisms/index";
+import StyledTableHead from "../../../components/StyledTableHead";
+import StyledTable from "../../../components/StyledTable";
 
 const useStyles = makeStyles(theme => ({
   table: {

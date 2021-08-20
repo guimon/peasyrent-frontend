@@ -18,6 +18,7 @@ import FieldLabel from "../../../components/FieldLabel";
 import FieldText from "../../../components/FieldText";
 import {SingleLeaseContext} from "../../../stores/SingleLeaseStore";
 import {openSnackbar} from "../../../components/Notifier";
+import ScrollTo from "../../../components/ScrollTo";
 import LeaseFiles from "./LeaseFiles/LeaseFiles";
 import Renters from "./Renters";
 import {Controller, useForm} from "react-hook-form";
@@ -26,6 +27,7 @@ import {CardBase} from "../../../components/organisms/index";
 import MessageContainer from "../../RenterDashboard/components/MessageContainer";
 import MessagesStore from "../../../stores/MessagesStore";
 import Bills from "./Bills"
+import {parse} from "query-string";
 
 const useStyles = makeStyles(theme => ({
   inputTitle: {
@@ -40,6 +42,8 @@ const useStyles = makeStyles(theme => ({
 const LeaseForm = props => {
   const { className, ...rest } = props;
   const classes = useStyles();
+  let focus = parse(window.location.search).focus;
+
   const { lease, saveLease, updateLease, deleteLease } = useContext(SingleLeaseContext);
   const { properties } = useContext(PropertiesContext);
   const { handleSubmit, control } = useForm({ defaultValues: lease });
@@ -265,6 +269,7 @@ const LeaseForm = props => {
             <Grid item xs={12} className={classes.wide}>
               <MessagesStore lease_id={lease.id}>
                 <MessageContainer/>
+                { focus === 'messages' && <ScrollTo /> }
               </MessagesStore>
             </Grid>
           </CardBase>

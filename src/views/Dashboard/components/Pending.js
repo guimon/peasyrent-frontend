@@ -74,7 +74,7 @@ const Pending = props => {
                 </StyledTableHead>
                 <StyledTableBody>
                   {leases.map((row) => (
-                    <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editLease + row.id)}>
+                    <StyledTableRow key={row.id} hover onClick={() => history.push(RouteConstants.editLease + row.id + "&focus=messages")}>
                       <StyledTableCell>
                         {row.property.name}
                       </StyledTableCell>
