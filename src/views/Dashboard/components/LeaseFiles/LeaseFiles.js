@@ -5,7 +5,7 @@ import {
   TableContainer,
   Paper,
   Box,
-  makeStyles,
+  makeStyles, Link,
 } from '@material-ui/core';
 import {SingleLeaseContext} from "../../../../stores/SingleLeaseStore";
 import {openSnackbar} from "../../../../components/Notifier";
@@ -44,7 +44,9 @@ const LeaseFiles = props => {
             {lease && lease.files.map((file, i) => (
               <StyledTableRow key={`lease-file-${file.id}`}>
                 <StyledTableCell>
-                  {file.description}
+                  <Link href={file.url} target={"_blank"}>
+                    {file.description}
+                  </Link>
                 </StyledTableCell>
                 <StyledTableCell>
                   <Box>

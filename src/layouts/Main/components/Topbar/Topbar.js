@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,6 +15,7 @@ import { Image } from '../../../../components/atoms';
 import AuthService from "../../../../services/AuthService";
 import { useHistory, useLocation } from "react-router-dom";
 import RouteConstants from "../../../../RouteConstants";
+import UserService from "../../../../services/UserService";
 
 const useStyles = makeStyles(theme => ({
   flexGrow: {
@@ -120,14 +121,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Topbar = ({ onSidebarOpen, className, ...rest }) => {
-  const [loggedIn, setLoggedIn] = useState('');
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
 
-  useEffect(() => {
-    setLoggedIn(AuthService.loggedIn());
-  }, []);
+  const loggedIn = () => AuthService.loggedIn();
+
+  const logout = () => {
+    AuthService.logout();
+    history.push(RouteConstants.root);
+  };
 
   return (
     <Toolbar disableGutters className={classes.toolbar} {...rest}>
@@ -144,7 +147,7 @@ const Topbar = ({ onSidebarOpen, className, ...rest }) => {
       <Hidden smDown>
         <List disablePadding className={classes.navigationContainer}>
           <ListItem className={clsx(classes.listItem, 'menu-item--no-dropdown')}>
-            {!loggedIn &&
+            {!loggedIn() &&
               <Button
                 variant="contained"
                 color="primary"
@@ -155,7 +158,7 @@ const Topbar = ({ onSidebarOpen, className, ...rest }) => {
                 Login
               </Button>
             }
-            {loggedIn && location.pathname === RouteConstants.root &&
+            {loggedIn() && location.pathname === RouteConstants.root &&
               <Button
                 variant="contained"
                 color="primary"
@@ -164,6 +167,16 @@ const Topbar = ({ onSidebarOpen, className, ...rest }) => {
               >
                 Dashboard
               </Button>
+            }
+            {loggedIn() && location.pathname !== RouteConstants.root && UserService.getUser().is_renter &&
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.listItemButton}
+              onClick={() => logout()}
+            >
+              Logout
+            </Button>
             }
           </ListItem>
         </List>

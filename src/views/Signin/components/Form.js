@@ -80,14 +80,10 @@ const Form = () => {
       AuthService.login(email, password).then(response => {
         store2.set('email', email);
         if (response.data.data.attributes.is_admin) {
-          console.log('admin');
           history.push(RouteConstants.adminDashboard);
         } else if (response.data.data.attributes.is_renter) {
-          console.log('renter');
-          console.log(RouteConstants.renterDashboard);
           history.push(RouteConstants.renterDashboard);
         } else {
-          console.log('owner');
           history.push(RouteConstants.dashboard);
         }
       }).catch(error => {

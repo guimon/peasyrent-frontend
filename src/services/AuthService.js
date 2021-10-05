@@ -17,7 +17,7 @@ export const AuthService = {
 export default AuthService;
 
 function loggedIn() {
-  return !!Base.getAuthToken();
+  return Base.getAuthToken() != null && UserService.getUser() != null;
 }
 
 function login(email, password) {

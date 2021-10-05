@@ -43,12 +43,13 @@ const useStyles = makeStyles(theme => ({
   sent: {
     clear: 'both',
     float: 'right',
-    backgroundColor: '#ddffdd',
+    backgroundColor: '#ccffcc',
     marginRight: 20,
     borderRadius: '5px 0px 5px 5px',
+    alignSelf: 'flex-end',
     '&::after': {
       borderWidth: '0px 0 10px 10px',
-      borderColor: `transparent transparent transparent #ddffdd`,
+      borderColor: `transparent transparent transparent #ccffcc`,
       borderStyle: 'solid',
       position: 'absolute',
       top: 0,

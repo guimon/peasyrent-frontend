@@ -8,6 +8,7 @@ import { Hero, Properties, PropertyForm, Leases, StripeAccounts, StripeAccountFo
 import Pending from "./components/Pending";
 import LeaseForm from "./components/LeaseForm"
 import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
+import useEnsuredUserIsManager from "../../hooks/useEnsuredUserIsManager";
 import PropertiesStore from "../../stores/PropertiesStore";
 import LeasesStore from "../../stores/LeasesStore";
 import StripeAccountsStore from "../../stores/StripeAccountsStore";
@@ -109,6 +110,7 @@ const TabPanel = props => {
 
 const Dashboard = (props = {}) => {
   useEnsuredLoggedInUser();
+  useEnsuredUserIsManager();
   const classes = useStyles();
   const history = useHistory();
   let pageId = parse(window.location.search).pid || 'dashboard';

@@ -1,16 +1,23 @@
-import React from 'react';
-import clsx from 'clsx';
-import { parse } from 'query-string';
-import { makeStyles } from '@material-ui/core/styles';
-import {Box, List, ListItem, Grid, Typography, Hidden} from '@material-ui/core';
+import React, {useContext, useEffect, useState} from 'react';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
+import {
+  Link,
+  Grid,
+  Typography,
+  useMediaQuery
+} from '@material-ui/core';
 import { SectionAlternate, CardBase } from '../../components/organisms';
 import Hero from './Hero';
 import useEnsuredLoggedInUser from "../../hooks/useEnsuredLoggedInUser";
 import RouteConstants from "../../RouteConstants";
-import AuthService from "../../services/AuthService";
-import {useHistory} from "react-router-dom";
-import MessageLeasePicker from "./components/MessageLeasePicker"
-import LeasesStore from "../../stores/LeasesStore";
+import LeasePicker from "./components/LeasePicker"
+import LeaseDetails from "./components/LeaseDetails";
+import LeasesStore, {LeasesContext} from "../../stores/LeasesStore";
+import UserService from "../../services/UserService";
+import MessagesStore from "../../stores/MessagesStore";
+import MessageContainer from "./components/MessageContainer";
+import SingleLeaseStore from "../../stores/SingleLeaseStore";
+import RenterBills from "./components/RenterBills";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -86,98 +93,112 @@ export const subPages = [
   },
 ];
 
-const TabPanel = props => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Box component="div" hidden={value !== index} {...other}>
-      {value === index && children}
-    </Box>
-  );
-};
-
-
 const RenterDashboard = (props = {}) => {
   useEnsuredLoggedInUser();
   const classes = useStyles();
-  const history = useHistory();
-  let pageId = parse(window.location.search).pid || 'dashboard';
-  let groupId = parse(window.location.search).gid || pageId;
-
-  const logout = () => {
-    AuthService.logout();
-    history.push(RouteConstants.root);
-  };
 
   return (
     <div className={classes.root}>
       <Hero />
       <SectionAlternate className={classes.section}>
-        <Grid container spacing={4}>
-          <Hidden smDown>
-            <Grid item xs={12} md={3}>
-              <CardBase withShadow align="left" className={classes.menu}>
-                <List disablePadding className={classes.list}>
-                  {subPages.map((item, index) => (
-                    <ListItem
-                      button
-                      onClick={() => history.push(item.href)}
-                      key={index}
-                      className={clsx(
-                        classes.listItem,
-                        groupId === item.id ? classes.listItemActive : {},
-                      )}
-                      disableGutters
-                    >
-                      <Typography
-                        variant="subtitle1"
-                        noWrap
-                        color="textSecondary"
-                        className="menu__item"
-                      >
-                        {item.title}
-                      </Typography>
-                    </ListItem>
-                  ))}
-                  <ListItem
-                    key={"logout"}
-                    className={classes.listItem}
-                    button
-                    onClick={logout}
-                    disableGutters
-                  >
-                    <Typography
-                      variant="subtitle1"
-                      noWrap
-                      color="textSecondary"
-                      className="menu__item"
-                    >
-                      Logout
-                    </Typography>
-                  </ListItem>
-                </List>
-              </CardBase>
-            </Grid>
-          </Hidden>
-          <Grid item xs={12} md={9}>
-            <CardBase withShadow align="left">
-              <TabPanel value={pageId} index={'dashboard'}>
-               Renter dashboard
-              </TabPanel>
-              <TabPanel value={pageId} index={'messages'}>
-                <LeasesStore>
-                  <MessageLeasePicker />
-                </LeasesStore>
-              </TabPanel>
-              <TabPanel value={pageId} index={'payment_methods'}>
-                Payment methods
-              </TabPanel>
-
-            </CardBase>
-          </Grid>
+        <Grid item xs={12}>
+          <LeasesStore>
+            <RenterDashboardContents/>
+          </LeasesStore>
         </Grid>
       </SectionAlternate>
     </div>
+  );
+};
+
+const RenterDashboardContents = (props = {}) => {
+  const [lease, setLease] = useState();
+  const { leases } = useContext(LeasesContext);
+
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.up('md'), {
+    defaultMatches: true,
+  });
+
+  const user = UserService.getUser();
+
+  useEffect(() => {
+    if (leases && leases.length === 1) {
+      setLease(leases[0]);
+    }
+  }, [leases]);
+
+  console.log(lease);
+  return (
+    <>
+      <CardBase withShadow align="left">
+        <Grid container spacing={isMd ? 4 : 2}>
+          {user && <Grid item xs={12}>
+            <Typography variant="h5" color="textPrimary">
+              Welcome{user.last_sign_in_at ? " back" : ""}, {user.name}!
+            </Typography>
+          </Grid>
+          }
+          <Grid item xs={12}>
+            <LeasePicker lease={lease} setLease={setLease}/>
+          </Grid>
+        </Grid>
+      </CardBase>
+      {lease && <>
+        <SingleLeaseStore id={lease.id}>
+          <CardBase withShadow align="left" style={{marginTop: 24}}>
+            <Grid container spacing={isMd ? 4 : 2}>
+              <Grid item xs={12}>
+                <Typography variant="h5" color="textPrimary">
+                  Lease details
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <LeaseDetails />
+              </Grid>
+            </Grid>
+          </CardBase>
+          <CardBase withShadow align="left" style={{marginTop: 24}}>
+            <Grid item xs={12}>
+              <Typography variant="h5" color="textPrimary">
+                Bills
+              </Typography>
+            </Grid>
+            <Grid item xs={12} style={{width: '100%'}}>
+              <RenterBills />
+            </Grid>
+          </CardBase>
+          <CardBase withShadow align="left" style={{marginTop: 24}}>
+            <Grid item xs={12}>
+              <Typography variant="h5" color="textPrimary">
+                Messages
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <MessagesStore lease_id={lease.id}>
+                <MessageContainer/>
+              </MessagesStore>
+            </Grid>
+          </CardBase>
+          <CardBase withShadow align="left" style={{marginTop: 24}}>
+            <Grid item xs={12}>
+              <Typography variant="h5" color="textPrimary">
+                Lease files
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              {lease.files.map((file, i) => (
+                <Link href={file.url} target={"_blank"} key={`lease-file-${file.id}`} style={{margin: 12}}>
+                  <Typography>
+                    {file.description}
+                  </Typography>
+                </Link>
+              ))}
+            </Grid>
+          </CardBase>
+        </SingleLeaseStore>
+      </>}
+    </>
   );
 };
 

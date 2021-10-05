@@ -12,5 +12,5 @@ export default function useEnsuredLoggedInUser() {
       history.push(RouteConstants.login);
     }
     // let it go
-  });
+  }, [history]);
 }
