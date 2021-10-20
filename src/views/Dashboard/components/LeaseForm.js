@@ -194,6 +194,47 @@ const LeaseForm = props => {
                     control={control}
                   />
                 </Grid>
+                <Grid item xs={12} sm={4}>
+                  <FieldLabel label={"Minimum notice to vacate in days"}/>
+                  <Controller
+                    render={({ field,  fieldState: { error } }) =>
+                      <FormControl variant="outlined" className={classes.wide} error={!!error} size="small">
+                        <FieldText
+                          field={field}
+                          errorState={error}
+                          type="number"
+                          placeholder="30"
+                          name="required_notice_days"
+                          inputProps={{ min: 0, max: 90 }}
+                        />
+                      </FormControl>
+                    }
+                    name="required_notice_days"
+                    rules={{ required: true }}
+                    control={control}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <FieldLabel label={"Coverts to month to month?"}/>
+                  <Controller
+                    render={({ field,  fieldState: { error } }) =>
+                      <FormControl variant="outlined" className={classes.wide} error={!!error} size="small">
+                        <Select
+                          placeholder="Active"
+                          value={field.value || ''}
+                          onChange={field.onChange}
+                          name="converts_to_month_over_month"
+                        >
+                          <MenuItem value={"true"}>Yes</MenuItem>
+                          <MenuItem value={"false"}>No</MenuItem>
+                        </Select>
+                      </FormControl>
+                    }
+                    name="converts_to_month_over_month"
+                    rules={{ required: true }}
+                    control={control}
+                  />
+                </Grid>
                 <Grid item container justifyContent="flex-start" xs={8}>
                   <Box>
                     <Button

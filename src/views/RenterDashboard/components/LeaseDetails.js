@@ -61,6 +61,14 @@ function LeaseDetails(props){
         Due day of month
         <FieldLabel label={dueDayCardinal()}/>
       </Grid>
+      <Grid item xs={12} sm={4}>
+        Minimum notice to vacate in days
+        <FieldLabel label={lease.required_notice_days}/>
+      </Grid>
+      <Grid item xs={12} sm={4}>
+        Converts to month to month?
+        <FieldLabel label={lease.converts_to_month_over_month ? "Yes" : "No"}/>
+      </Grid>
     </Grid>
   )
 }

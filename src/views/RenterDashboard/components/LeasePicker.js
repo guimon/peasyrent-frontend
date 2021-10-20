@@ -10,6 +10,9 @@ import FieldLabel from "../../../components/FieldLabel";
 import moment from "moment";
 import RouteConstants from "../../../RouteConstants";
 
+/**
+ * @return {null}
+ */
 function LeasePicker(props){
   const { lease } = props;
   const { leases } = useContext(LeasesContext);
@@ -26,28 +29,26 @@ function LeasePicker(props){
     return l.property.name + dates + reason;
   };
 
-  return (
-    <Grid container spacing={isMd ? 4 : 2}>
+  if (leases.length > 1) {
+    return (
       <Grid item xs={12}>
-        {leases.length > 1 &&
-        <>
-          <FieldLabel label={"Please select a lease"}/>
-          <FormControl variant="outlined" fullWidth size="small">
-            <Select
-              name="lease"
-              value={(lease && lease.id) || ''}
-              onChange={(e) => history.push(RouteConstants.renterDashboard + "?leaseId=" + e.target.value)}
-            >
-              {leases.map((l) => (
-                <MenuItem value={l.id} key={`key-${l.id}`}>{formatLeaseLabel(l)}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </>
-        }
+        <FieldLabel label={"Please select a lease"}/>
+        <FormControl variant="outlined" fullWidth size="small">
+          <Select
+            name="lease"
+            value={(lease && lease.id) || ''}
+            onChange={(e) => history.push(RouteConstants.renterDashboard + "?leaseId=" + e.target.value)}
+          >
+            {leases.map((l) => (
+              <MenuItem value={l.id} key={`key-${l.id}`}>{formatLeaseLabel(l)}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Grid>
-    </Grid>
-  )
+    )
+  }
+
+  return null;
 }
 
 export default LeasePicker;

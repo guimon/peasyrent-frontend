@@ -124,7 +124,6 @@ const RenterDashboardContents = (props = {}) => {
   const user = UserService.getUser();
   let leaseId = parse(window.location.search).leaseId;
 
-
   useEffect(() => {
     if (leases && leases.length === 1) {
       setLease(leases[0]);
@@ -143,9 +142,7 @@ const RenterDashboardContents = (props = {}) => {
             </Typography>
           </Grid>
           }
-          <Grid item xs={12}>
-            <LeasePicker lease={lease} setLease={setLease}/>
-          </Grid>
+          <LeasePicker lease={lease} setLease={setLease}/>
         </Grid>
       </CardBase>
       {lease && <>
