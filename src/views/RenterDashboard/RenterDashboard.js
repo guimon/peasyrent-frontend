@@ -18,6 +18,7 @@ import MessagesStore from "../../stores/MessagesStore";
 import MessageContainer from "./components/MessageContainer";
 import SingleLeaseStore from "../../stores/SingleLeaseStore";
 import RenterBills from "./components/RenterBills";
+import {parse} from "query-string";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -121,14 +122,17 @@ const RenterDashboardContents = (props = {}) => {
   });
 
   const user = UserService.getUser();
+  let leaseId = parse(window.location.search).leaseId;
+
 
   useEffect(() => {
     if (leases && leases.length === 1) {
       setLease(leases[0]);
+    } else if (leaseId) {
+      setLease(leases.find((l) => l.id.toString() === leaseId));
     }
-  }, [leases]);
+  }, [leases, leaseId]);
 
-  console.log(lease);
   return (
     <>
       <CardBase withShadow align="left">

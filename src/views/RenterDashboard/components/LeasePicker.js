@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import {useHistory} from "react-router-dom";
 
 import {useTheme} from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid/Grid";
@@ -7,11 +8,13 @@ import {Select, MenuItem, useMediaQuery, FormControl} from "@material-ui/core";
 import {LeasesContext} from "../../../stores/LeasesStore";
 import FieldLabel from "../../../components/FieldLabel";
 import moment from "moment";
+import RouteConstants from "../../../RouteConstants";
 
 function LeasePicker(props){
-  const { lease, setLease } = props;
+  const { lease } = props;
   const { leases } = useContext(LeasesContext);
 
+  const history = useHistory();
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up('md'), {
     defaultMatches: true,
@@ -33,7 +36,7 @@ function LeasePicker(props){
             <Select
               name="lease"
               value={(lease && lease.id) || ''}
-              onChange={(e) => setLease(leases.find((l) => l.id === e.target.value))}
+              onChange={(e) => history.push(RouteConstants.renterDashboard + "?leaseId=" + e.target.value)}
             >
               {leases.map((l) => (
                 <MenuItem value={l.id} key={`key-${l.id}`}>{formatLeaseLabel(l)}</MenuItem>
