@@ -143,6 +143,14 @@ export default function SingleLeaseStore(props) {
     });
   };
 
+  const setupPayment = (bill, openSnackbar) => {
+    LeaseService.setupPayment(bill).then(response => {
+      window.location = response.data.redirect_url;
+    }).catch(error => {
+      ErrorHandlerHelper(error, history, openSnackbar, "Request failed, please try again later!")
+    });
+  };
+
   const saveBill = (lease, bill, openSnackbar, finishedCallback) => {
     LeaseService.saveBill(lease.id, serializeBill(bill)).then(response => {
       deserializeBillsResponse(lease, response);
@@ -163,7 +171,7 @@ export default function SingleLeaseStore(props) {
     });
   };
 
-  const store = { lease, deserializeLease, saveLease, updateLease, deleteLease, saveFile, deleteFile, saveRenter, deleteRenter, deleteBill, saveBill, updateBill };
+  const store = { lease, deserializeLease, saveLease, updateLease, deleteLease, saveFile, deleteFile, saveRenter, deleteRenter, deleteBill, saveBill, updateBill, setupPayment };
 
   return <SingleLeaseContext.Provider value={store}>{lease && children}</SingleLeaseContext.Provider>
 }

@@ -17,6 +17,7 @@ import {
 } from './views';
 import RenterDashboard from './views/RenterDashboard/RenterDashboard'
 import AdminDashboard from './views/AdminDashboard/AdminDashboard'
+import PaymentComplete from './views/RenterDashboard/PaymentComplete'
 import RouteConstants from "./RouteConstants";
 
 const Routes = () => {
@@ -128,6 +129,17 @@ const Routes = () => {
           <WithLayout
             {...matchProps}
             component={RenterDashboard}
+            layout={Main}
+          />
+        )}
+      />
+      <Route
+        exact
+        path={RouteConstants.paymentComplete}
+        render={matchProps => (
+          <WithLayout
+            {...matchProps}
+            component={PaymentComplete}
             layout={Main}
           />
         )}

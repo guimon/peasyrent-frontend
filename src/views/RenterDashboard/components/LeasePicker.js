@@ -1,10 +1,9 @@
 import React, {useContext} from 'react';
 import {useHistory} from "react-router-dom";
 
-import {useTheme} from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid/Grid";
 
-import {Select, MenuItem, useMediaQuery, FormControl} from "@material-ui/core";
+import {Select, MenuItem, FormControl} from "@material-ui/core";
 import {LeasesContext} from "../../../stores/LeasesStore";
 import FieldLabel from "../../../components/FieldLabel";
 import moment from "moment";
@@ -18,10 +17,6 @@ function LeasePicker(props){
   const { leases } = useContext(LeasesContext);
 
   const history = useHistory();
-  const theme = useTheme();
-  const isMd = useMediaQuery(theme.breakpoints.up('md'), {
-    defaultMatches: true,
-  });
 
   const formatLeaseLabel = (l) => {
     let reason = l.requires_attention ? " ------ "+ l.requires_attention_reason  : "";

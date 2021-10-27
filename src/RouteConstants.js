@@ -26,6 +26,7 @@ export const RouteConstants = {
   addPaymentMethod: '/renter/?pid=add_payment_method&gid=payment_methods',
   renterMessages: '/renter/?pid=messages',
   adminDashboard: '/admin',
+  paymentComplete: '/payment-complete'
 };
 
 export default RouteConstants;

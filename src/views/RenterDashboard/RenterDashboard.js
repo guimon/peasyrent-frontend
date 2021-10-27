@@ -138,7 +138,7 @@ const RenterDashboardContents = (props = {}) => {
         <Grid container spacing={isMd ? 4 : 2}>
           {user && <Grid item xs={12}>
             <Typography variant="h5" color="textPrimary">
-              Welcome{user.last_sign_in_at ? " back" : ""}, {user.name}!
+              Welcome, {user.name}!
             </Typography>
           </Grid>
           }

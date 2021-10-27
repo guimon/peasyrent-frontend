@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import AppBar from "@material-ui/core/AppBar";
 
 import Routes from "../Routes";
-import Colors from "../constants/Colors";
 
 const useStyles = makeStyles(theme => ({
   appBar: {

@@ -14,6 +14,8 @@ export const LeaseService = {
   saveBill,
   updateBill,
   deleteBill,
+  setupPayment,
+  verifyPayment,
 };
 
 export default LeaseService;
@@ -70,4 +72,14 @@ function updateBill(leaseId, bill) {
 
 function deleteBill(leaseId, billId) {
   return axios.delete(Base.apiLocation() + "/leases/" + leaseId + "/bills/" + billId , { ...Base.getFullHeaders() });
+}
+
+function setupPayment(bill) {
+  let payload = { bill_id: bill.id };
+  return axios.post(Base.apiLocation() + "/setup_payment/", payload, Base.getFullHeaders());
+}
+
+function verifyPayment(billId) {
+  let payload = { bill_id: billId };
+  return axios.post(Base.apiLocation() + "/verify_payment/", payload, Base.getFullHeaders());
 }
